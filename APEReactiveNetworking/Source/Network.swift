@@ -11,7 +11,7 @@ import Foundation
 import ReactiveCocoa
 
 
-enum NetworkError : ErrorType {
+public enum NetworkError : ErrorType {
     case ParseFailure
     case MissingData
     case MissingResponse
@@ -22,7 +22,7 @@ enum NetworkError : ErrorType {
 
 // TODO: Consider customisable data, download, upload tasks
 
-struct Network {
+public struct Network {
 
     //FIXME in future versions perhaps the caller should be able to inject its own retry-handler (eg exponential backoff)
     let retryCount : Int = 2

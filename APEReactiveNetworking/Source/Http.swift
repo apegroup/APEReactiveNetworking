@@ -8,10 +8,10 @@
 
 import Foundation
 
-typealias HttpHeaders = [String: String]
+public typealias HttpHeaders = [String: String]
 
 
-enum HttpMethod: String {
+public enum HttpMethod: String {
     case GET
     case PUT
     case POST
@@ -28,7 +28,7 @@ enum HttpMethod: String {
 }
 
 
-enum HttpContentType {
+public enum HttpContentType {
     case ApplicationJson
     case TextPlain
     case ImageJpeg
@@ -36,7 +36,7 @@ enum HttpContentType {
 }
 
 extension HttpContentType : CustomStringConvertible {
-    var description : String {
+    public var description : String {
         switch self {
         case ApplicationJson:
             return "application/json; charset=utf-8"
@@ -52,7 +52,7 @@ extension HttpContentType : CustomStringConvertible {
 
 
 //Thanks https://github.com/rhodgkins/SwiftHTTPStatusCodes/blob/master/HTTPStatusCodes.swift
-enum HttpStatusCode: Int {
+public enum HttpStatusCode: Int {
 
     // Informational
     case Continue = 100

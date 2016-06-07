@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol Endpoint {
+public protocol Endpoint {
     var httpMethod: HttpMethod { get }
     var absoluteUrl: String { get }
 }

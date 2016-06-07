@@ -9,7 +9,7 @@
 import Foundation
 
 
-protocol HttpResponseCodeValidator {
+public protocol HttpResponseCodeValidator {
     func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool
 }
 

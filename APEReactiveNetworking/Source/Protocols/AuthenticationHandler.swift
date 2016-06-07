@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol AuthenticationHandler {
+public protocol AuthenticationHandler {
     var authHeader: String? { get }
     func handleAuthTokenReceived(token: String) -> ()
 }

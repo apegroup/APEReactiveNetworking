@@ -10,7 +10,7 @@ import Foundation
 
 
 
-protocol HttpRequestBuilder {
+public protocol HttpRequestBuilder {
 
     init(endpoint: Endpoint)
 
@@ -29,18 +29,18 @@ extension HttpRequestBuilder {
 
     // MARK: Regular
 
-    func setBody(json json: [String:AnyObject]) -> HttpRequestBuilder {
+    public func setBody(json json: [String:AnyObject]) -> HttpRequestBuilder {
         guard let rawData = try? NSJSONSerialization.dataWithJSONObject(json, options: []) else {
             preconditionFailure("Json dictionary could not be converted to NSData")
         }
         return setBody(rawData: rawData, contentType: .ApplicationJson)
     }
 
-    func setBody(rawData rawData: NSData, contentType: HttpContentType) -> HttpRequestBuilder {
+    public func setBody(rawData rawData: NSData, contentType: HttpContentType) -> HttpRequestBuilder {
         return setBody(rawData: rawData, contentType: contentType)
     }
 
-    func setBody(text text: String) -> HttpRequestBuilder {
+    public func setBody(text text: String) -> HttpRequestBuilder {
         guard let rawData = text.dataUsingEncoding(NSUTF8StringEncoding) else {
             preconditionFailure("Plain text could not be encoded to NSData")
         }
