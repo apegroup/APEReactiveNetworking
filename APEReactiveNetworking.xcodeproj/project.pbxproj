@@ -24,7 +24,6 @@
 		6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9631D081B5500D4191F /* Locksmith.framework */; };
 		6708E9681D081B5500D4191F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9641D081B5500D4191F /* ReactiveCocoa.framework */; };
 		6708E9691D081B5500D4191F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9651D081B5500D4191F /* Result.framework */; };
-		6708E96A1D081B5500D4191F /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9661D081B5500D4191F /* Unbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,7 +57,6 @@
 		6708E9631D081B5500D4191F /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
 		6708E9641D081B5500D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		6708E9651D081B5500D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
-		6708E9661D081B5500D4191F /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +67,6 @@
 				6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */,
 				6708E9681D081B5500D4191F /* ReactiveCocoa.framework in Frameworks */,
 				6708E9691D081B5500D4191F /* Result.framework in Frameworks */,
-				6708E96A1D081B5500D4191F /* Unbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,7 +167,6 @@
 				6708E9631D081B5500D4191F /* Locksmith.framework */,
 				6708E9641D081B5500D4191F /* ReactiveCocoa.framework */,
 				6708E9651D081B5500D4191F /* Result.framework */,
-				6708E9661D081B5500D4191F /* Unbox.framework */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
@@ -488,6 +484,7 @@
 				6708E9231D06FFDC00D4191F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6708E9241D06FFDC00D4191F /* Build configuration list for PBXNativeTarget "APEReactiveNetworkingTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +493,7 @@
 				6708E9261D06FFDC00D4191F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

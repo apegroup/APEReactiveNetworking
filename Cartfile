@@ -1,5 +1,4 @@
 # External dependencies
-github "johnsundell/unbox" == 1.7
 github "matthewpalmer/Locksmith" == 2.0.8 
 github "ReactiveCocoa/ReactiveCocoa" == 4.2.0 
 
