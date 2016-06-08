@@ -15,7 +15,7 @@ public struct ApeResponseCodeValidator : HttpResponseCodeValidator {
     public  func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool {
         switch httpMethod {
         case .GET:
-            return responseCode == .NotFound
+            return responseCode == .OK
         case .PUT:
             return responseCode == .OK || responseCode == .Created
         case .POST:
