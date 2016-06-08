@@ -8,10 +8,10 @@
 
 import Foundation
 
-struct ApeJwtAuthenticationHandler : AuthenticationHandler {
+public struct ApeJwtAuthenticationHandler : AuthenticationHandler {
 
     ///Returns a formatted HTTP Authorization header value
-    var authHeader: String? {
+    public var authHeader: String? {
         guard let token = KeychainManager.jwtToken() else {
             return nil
         }
@@ -19,7 +19,7 @@ struct ApeJwtAuthenticationHandler : AuthenticationHandler {
     }
 
     ///Saves the received token to the Keychain
-    func handleAuthTokenReceived(token: String) {
+    public  func handleAuthTokenReceived(token: String) {
         let saved = KeychainManager.saveJwtToken(token)
         precondition(saved, "Error occurred when saving http auth token")
     }

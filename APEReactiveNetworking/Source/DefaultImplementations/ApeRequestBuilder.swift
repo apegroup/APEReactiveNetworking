@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ApeRequestBuilder: HttpRequestBuilder {
+public class ApeRequestBuilder: HttpRequestBuilder {
 
     private let endpoint : Endpoint
     private var authHeader: String?
@@ -19,17 +19,17 @@ class ApeRequestBuilder: HttpRequestBuilder {
 
     // MARK: Public
 
-    required init(endpoint: Endpoint) {
+    required public init(endpoint: Endpoint) {
         self.endpoint = endpoint
     }
     
-    func addHeaders(headers: HttpHeaders) -> HttpRequestBuilder {
+    public func addHeaders(headers: HttpHeaders) -> HttpRequestBuilder {
         self.additionalHeaders = headers
         return self
     }
 
 
-    func setBody(rawData rawData: NSData,
+    public func setBody(rawData rawData: NSData,
                          contentType: HttpContentType) -> HttpRequestBuilder {
 
         self.contentTypeHeader = contentType
@@ -38,13 +38,13 @@ class ApeRequestBuilder: HttpRequestBuilder {
     }
 
 
-    func addAuthHandler(authHandler: AuthenticationHandler) -> HttpRequestBuilder {
+    public func addAuthHandler(authHandler: AuthenticationHandler) -> HttpRequestBuilder {
         self.authHeader = authHandler.authHeader
         return self
     }
 
     ///Builds a NSURLRequest with the provided components
-    func build() -> NSURLRequest {
+    public  func build() -> NSURLRequest {
         let headers = generateHeaders()
         let request = generateRequest(headers, body: bodyData)
         return request

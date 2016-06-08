@@ -8,9 +8,9 @@
 
 import Foundation
 
-struct ApeResponseCodeValidator : HttpResponseCodeValidator {
+public  struct ApeResponseCodeValidator : HttpResponseCodeValidator {
 
-    func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool {
+    public  func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool {
         switch httpMethod {
         case .GET:
             return responseCode == .NotFound
