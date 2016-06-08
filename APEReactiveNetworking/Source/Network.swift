@@ -47,7 +47,7 @@ public struct Network {
      
      - returns: A SignalProducer that will begin the network request when started
      */
-    func send<T>(request: NSURLRequest,
+    public func send<T>(request: NSURLRequest,
               responseCodeValidator: HttpResponseCodeValidator = ApeResponseCodeValidator(),
               session: NSURLSession = NSURLSession.sharedSession(),
               scheduler: SchedulerType = UIScheduler(),
