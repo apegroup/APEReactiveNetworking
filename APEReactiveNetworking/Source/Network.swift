@@ -25,11 +25,8 @@ public enum NetworkError : ErrorType {
 
 public struct Network {
 
-    //FIXME in future versions perhaps the caller should be able to inject its own retry-handler (eg exponential backoff)
-    let retryCount : Int = 2
-
-    //FIXME in future versions perhaps the caller should be able to set its own timeout tolerance
-    let timeoutTolerance : NSTimeInterval = 20
+    static let retryCount : Int = 2
+    static let timeoutTolerance : NSTimeInterval = 20
 
 
     //MARK: Public
@@ -51,16 +48,19 @@ public struct Network {
               responseCodeValidator: HttpResponseCodeValidator = ApeResponseCodeValidator(),
               session: NSURLSession = NSURLSession.sharedSession(),
               scheduler: SchedulerType = UIScheduler(),
+              retry: Int = retryCount,
+              timeout: NSTimeInterval = timeoutTolerance,
               parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
-        
-        return session
-            .dataTaskSignalProducer(
-                request: request,
-                responseCodeValidator: responseCodeValidator,
-                parseDataBlock: parseDataBlock)
+
+
+        let producer = session.dataTaskSignalProducer(request: request,
+                                                      responseCodeValidator: responseCodeValidator,
+                                                      parseDataBlock: parseDataBlock)
+
+        return producer
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
-            .retry(retryCount)
-//            .timeoutWithError(.TimedOut, afterInterval: timeoutTolerance, onScheduler: QueueScheduler())
+            .retry(retry) //FIXME: add a delay between each retry
+            .timeoutWithError(.TimedOut, afterInterval: timeout, onScheduler: QueueScheduler())
             .observeOn(scheduler)
     }
 }
