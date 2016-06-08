@@ -20,11 +20,11 @@
 		6708E93B1D0701BD00D4191F /* AuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E93A1D0701BD00D4191F /* AuthenticationHandler.swift */; };
 		6708E93D1D0701EC00D4191F /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E93C1D0701EC00D4191F /* HttpRequestBuilder.swift */; };
 		6708E93F1D07022700D4191F /* HttpResponseCodeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E93E1D07022700D4191F /* HttpResponseCodeValidator.swift */; };
-		6708E9441D07103C00D4191F /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9401D07103C00D4191F /* Locksmith.framework */; };
-		6708E9451D07103C00D4191F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9411D07103C00D4191F /* ReactiveCocoa.framework */; };
-		6708E9461D07103C00D4191F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9421D07103C00D4191F /* Result.framework */; };
-		6708E9471D07103C00D4191F /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9431D07103C00D4191F /* Unbox.framework */; };
 		6708E94A1D0710B700D4191F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E9491D0710B700D4191F /* KeychainManager.swift */; };
+		6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9631D081B5500D4191F /* Locksmith.framework */; };
+		6708E9681D081B5500D4191F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9641D081B5500D4191F /* ReactiveCocoa.framework */; };
+		6708E9691D081B5500D4191F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9651D081B5500D4191F /* Result.framework */; };
+		6708E96A1D081B5500D4191F /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9661D081B5500D4191F /* Unbox.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,11 +54,11 @@
 		6708E93A1D0701BD00D4191F /* AuthenticationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHandler.swift; sourceTree = "<group>"; };
 		6708E93C1D0701EC00D4191F /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
 		6708E93E1D07022700D4191F /* HttpResponseCodeValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponseCodeValidator.swift; sourceTree = "<group>"; };
-		6708E9401D07103C00D4191F /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
-		6708E9411D07103C00D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
-		6708E9421D07103C00D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
-		6708E9431D07103C00D4191F /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
 		6708E9491D0710B700D4191F /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		6708E9631D081B5500D4191F /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
+		6708E9641D081B5500D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
+		6708E9651D081B5500D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		6708E9661D081B5500D4191F /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,10 +66,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6708E9441D07103C00D4191F /* Locksmith.framework in Frameworks */,
-				6708E9451D07103C00D4191F /* ReactiveCocoa.framework in Frameworks */,
-				6708E9461D07103C00D4191F /* Result.framework in Frameworks */,
-				6708E9471D07103C00D4191F /* Unbox.framework in Frameworks */,
+				6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */,
+				6708E9681D081B5500D4191F /* ReactiveCocoa.framework in Frameworks */,
+				6708E9691D081B5500D4191F /* Result.framework in Frameworks */,
+				6708E96A1D081B5500D4191F /* Unbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,10 +87,7 @@
 		6708E9031D06FFDC00D4191F = {
 			isa = PBXGroup;
 			children = (
-				6708E9401D07103C00D4191F /* Locksmith.framework */,
-				6708E9411D07103C00D4191F /* ReactiveCocoa.framework */,
-				6708E9421D07103C00D4191F /* Result.framework */,
-				6708E9431D07103C00D4191F /* Unbox.framework */,
+				6708E96B1D081B6700D4191F /* Dependencies */,
 				6708E90F1D06FFDC00D4191F /* APEReactiveNetworking */,
 				6708E91B1D06FFDC00D4191F /* APEReactiveNetworkingTests */,
 				6708E90E1D06FFDC00D4191F /* Products */,
@@ -167,6 +164,17 @@
 			path = Persistance;
 			sourceTree = "<group>";
 		};
+		6708E96B1D081B6700D4191F /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				6708E9631D081B5500D4191F /* Locksmith.framework */,
+				6708E9641D081B5500D4191F /* ReactiveCocoa.framework */,
+				6708E9651D081B5500D4191F /* Result.framework */,
+				6708E9661D081B5500D4191F /* Unbox.framework */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -189,6 +197,7 @@
 				6708E9091D06FFDC00D4191F /* Frameworks */,
 				6708E90A1D06FFDC00D4191F /* Headers */,
 				6708E90B1D06FFDC00D4191F /* Resources */,
+				6708E96C1D081B8B00D4191F /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -269,6 +278,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6708E96C1D081B8B00D4191F /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Locksmith.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Unbox.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6708E9081D06FFDC00D4191F /* Sources */ = {
@@ -412,6 +442,7 @@
 				);
 				INFOPLIST_FILE = APEReactiveNetworking/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APEReactiveNetworking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -432,6 +463,7 @@
 				);
 				INFOPLIST_FILE = APEReactiveNetworking/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APEReactiveNetworking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
