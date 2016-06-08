@@ -40,7 +40,9 @@ public struct Network {
      - parameter responseCodeValidator: An http status code validator that asserts that the received response code matches the expected response code. Defaults to 'ApeResponseCodeValidator'
      - parameter session:               The NSURLSession to be used. Defaults to the shared session
      - parameter scheduler:             The scheduler to which the returned SignalProducer will forward events to
-     - parameter maybeParseDataBlock:   If response data is expected you should provide this parameter as a means to parse the data to the expected data type.
+     - parameter retry:                 Number of retries before giving up. Default value is 2
+     - parameter timeout:               Number of seconds to wait until timing out. Default value is 20
+     - parameter parseDataBlock:   If response data is expected you should provide this parameter as a means to parse the data to the expected data type.
      
      - returns: A SignalProducer that will begin the network request when started
      */
