@@ -17,6 +17,7 @@ public enum NetworkError : ErrorType {
     case MissingResponse
     case ErrorResponse (httpCode: HttpStatusCode, reason: String)
     case RequestFailure (reason: NSError)
+    case TimedOut
 }
 
 
@@ -27,8 +28,14 @@ public struct Network {
     //FIXME in future versions perhaps the caller should be able to inject its own retry-handler (eg exponential backoff)
     let retryCount : Int = 2
 
+    //FIXME in future versions perhaps the caller should be able to set its own timeout tolerance
+    let timeoutTolerance : NSTimeInterval = 20
+
+
     //MARK: Public
-    
+
+    public init() {}
+
     /**
      Sends a request over the network
      
@@ -53,8 +60,8 @@ public struct Network {
                 parseDataBlock: parseDataBlock)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retry(retryCount)
+//            .timeoutWithError(.TimedOut, afterInterval: timeoutTolerance, onScheduler: QueueScheduler())
             .observeOn(scheduler)
-
     }
 }
 

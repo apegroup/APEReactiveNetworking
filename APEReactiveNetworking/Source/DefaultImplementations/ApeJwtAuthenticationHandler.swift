@@ -18,8 +18,10 @@ public struct ApeJwtAuthenticationHandler : AuthenticationHandler {
         return "Bearer \(token)"
     }
 
+    public init() {}
+
     ///Saves the received token to the Keychain
-    public  func handleAuthTokenReceived(token: String) {
+    public func handleAuthTokenReceived(token: String) {
         let saved = KeychainManager.saveJwtToken(token)
         precondition(saved, "Error occurred when saving http auth token")
     }
