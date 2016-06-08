@@ -193,6 +193,7 @@
 				6708E9091D06FFDC00D4191F /* Frameworks */,
 				6708E90A1D06FFDC00D4191F /* Headers */,
 				6708E90B1D06FFDC00D4191F /* Resources */,
+				67A741B01D0846F700B04F65 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -273,6 +274,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		67A741B01D0846F700B04F65 /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Locksmith.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6708E9081D06FFDC00D4191F /* Sources */ = {

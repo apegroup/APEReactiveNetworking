@@ -1,0 +1,9 @@
+{
+    "userId": "12345678",
+    "firstname": "ApeDennis",
+    "lastname": "Binary",
+    "gender": "male",
+    "createdAt": "2016-04-28T12:48:15+00:00",
+    "birthyear": 1980,
+    "avatarUrl": "https://api.sandbox.snapback.com/users/0727001988/avatar.jpg"
+}

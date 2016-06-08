@@ -1,0 +1,12 @@
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0NjI2NTQyNjYsImV4cCI6MTQ2Mjc0MDY2NiwiaXNzIjoiY29tLnNuYXBiYWNrLWFwcC5qd3QtaXNzdWVyIiwic3ViIjo1NzI0MTYwNjEzNDE2OTYwfQ.vngqLPLMC632WoH2BqLSzYqvXqvaAQUAnyUjS8fw7Gc",
+    "user": {
+        "userId": "12345678",
+        "firstname": "ApeDennis",
+        "lastname": "Binary",
+        "gender": "male",
+        "createdAt": "2016-04-28T12:48:15+00:00",
+        "birthyear": 1980,
+        "avatarUrl": "https://api.sandbox.snapback.com/users/0727001988/avatar.jpg"
+    }
+}

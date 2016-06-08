@@ -1,0 +1,21 @@
+# Uncomment the lines below you want to change by removing the # in the beginning
+
+devices([
+    "iPhone 6",
+    "iPhone 6 Plus",
+    "iPhone 5",
+    "iPhone 4s",
+    "iPad Retina",
+    "iPad Pro"
+])
+
+languages([
+  "en-US",
+  "sv",
+])
+
+
+#Available languages
+#no, en-US, en-CA, fi, ru, zh-Hans, nl-NL, zh-Hant, en-AU, id, de-DE, sv, ko, ms, pt-BR, el, es-ES, it, fr-CA, es-MX, pt-PT, vi, th, ja, fr-FR, da, tr, en-GB
+
+clear_previous_screenshots true

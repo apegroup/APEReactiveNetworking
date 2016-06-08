@@ -1,0 +1,7 @@
+app_identifier "com.apegroup.architecture" # The bundle identifier of your app
+team_name "apegroup AB"
+team_id "Q48PCXNS55"
+
+# To select a team for iTunes Connect use
+# itc_team_name "Company Name"
+# itc_team_id "18742801
