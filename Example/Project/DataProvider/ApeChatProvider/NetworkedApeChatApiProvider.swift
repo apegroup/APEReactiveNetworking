@@ -33,8 +33,28 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
         let request: NSURLRequest = builder.setBody(json: jsonDict).build()
 
         //The URLSession to use
-        let session: NSURLSession = NSURLSession.sharedSession()
-        
+        let URLCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024,
+                                  diskCapacity: 20 * 1024 * 1024,
+                                  diskPath: "URLCache")
+
+        let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
+        sessionConfig.URLCache = URLCache
+        //customize sessionConfig even more... (eg cookies etc)
+
+        let session = NSURLSession(configuration: sessionConfig)
+
+
+        //Alternative way of setting the cache but try avoid using this since its not recomended by Apple
+        //Add the code block in your AppDelegate, didFinishLaunchingWithOptions() method
+        /*
+        let URLCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024,
+                                    diskCapacity: 20 * 1024 * 1024,
+                                    diskPath: "URLCache")
+
+        NSURLCache.setSharedURLCache(URLCache)
+        */
+
+
         //Block for transforming NSData --> AuthenticateUserResponse
         let parseDataBlock: (data:NSData) -> AuthResponse? = { data in
             guard let authResponse = try? Unbox(data) as AuthResponse else {
