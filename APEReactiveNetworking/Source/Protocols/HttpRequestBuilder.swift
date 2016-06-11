@@ -36,10 +36,6 @@ extension HttpRequestBuilder {
         return setBody(rawData: rawData, contentType: .ApplicationJson)
     }
 
-    public func setBody(rawData rawData: NSData, contentType: HttpContentType) -> HttpRequestBuilder {
-        return setBody(rawData: rawData, contentType: contentType)
-    }
-
     public func setBody(text text: String) -> HttpRequestBuilder {
         guard let rawData = text.dataUsingEncoding(NSUTF8StringEncoding) else {
             preconditionFailure("Plain text could not be encoded to NSData")

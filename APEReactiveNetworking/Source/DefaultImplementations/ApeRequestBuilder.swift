@@ -30,7 +30,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
 
     public func setBody(rawData rawData: NSData,
-                         contentType: HttpContentType) -> HttpRequestBuilder {
+                                contentType: HttpContentType) -> HttpRequestBuilder {
 
         self.contentTypeHeader = contentType
         self.bodyData = rawData

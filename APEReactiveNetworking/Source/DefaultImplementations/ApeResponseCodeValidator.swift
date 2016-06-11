@@ -12,19 +12,15 @@ public struct ApeResponseCodeValidator : HttpResponseCodeValidator {
 
     public init() {}
 
-    public  func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool {
-        switch httpMethod {
-        case .GET:
-            return responseCode == .OK
-        case .PUT:
-            return responseCode == .OK || responseCode == .Created
-        case .POST:
-            return responseCode == .Created
-        case .DELETE:
-            return responseCode == .NoContent
-        case .PATCH:
-            return responseCode == .OK
-        }
-
+    /**
+     Determines if the received response code is acceptable given the received http method
+     
+     - parameter responseCode: The http response code to validate
+     - parameter httpMethod:   The associated http method
+     
+     - returns: true if the response code is within the 200-range, else false
+     */
+    public func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool {
+        return (HttpStatusCode.OK.rawValue..<HttpStatusCode.MultipleChoices.rawValue).contains(responseCode.rawValue)
     }
 }
