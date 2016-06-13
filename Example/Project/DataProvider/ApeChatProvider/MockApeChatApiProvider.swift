@@ -24,34 +24,15 @@ struct MockApeChatApiProvider: ApeChatApi {
         return signalProducer()
     }
     
-    func getUser(id: String) -> SignalProducer<User, NetworkError> {
-        return signalProducer()
-    }
-    
+
     func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<User, NetworkError> {
         return signalProducer()
     }
 
-    
-    func updateUser(userId: String, userChanges: AuthResponse) -> SignalProducer<User, NetworkError> {
-        return signalProducer()
-    }
-    
-    func deleteUser(userId: String) -> SignalProducer<Void, NetworkError> {
-        return SignalProducer.empty
-    }
-    
-    func getDevices(userId: String) -> SignalProducer<[Device], NetworkError> {
-        return signalProducer()
-    }
-    
-    func addDevice(userId: String, device: Device) -> SignalProducer<Device, NetworkError> {
-        return signalProducer()
-    }
-    
-    func removeDevice(userId: String, vendorId: String) -> SignalProducer<Void, NetworkError> {
-        return SignalProducer.empty
-    }
+
+
+
+
     
     //MARK: Private
     

@@ -21,33 +21,17 @@ enum ApeChatApiEndpoints : Endpoint {
 
     private enum Paths : String {
         case users = "/users/"
-        case devices = "/devices/"
-        case friends = "/friends/"
         case messages = "/messages/"
     }
 
     //User Resources
     case AuthUser
     case GetAllUsers
-    case GetUser (userId: String)
     case UpdateUserAvatar (userId: String)
-    case UpdateUser (userId: String)
-    case DeleteUser (userId: String)
 
-    //Device Resources
-    case GetDevices (userId: String)
-    case AddDevice (userId: String)
-    case RemoveDevice (userId: String, vendorId: String)
-    
-    //Friend Resources
-    case GetFriends (userId: String)
-    case AddFriend (userId: String, friendId: String)
-    case RemoveFriend (userId: String, friendId: String)
-    
     //Message Resources
     case GetMessages (since: NSDate?, status: MessageStatus?, senderId: String?, receiverId: String?)
     case DeleteMessage (messageId: String)
-    case SendMessage
 
 
     private var path: String {
@@ -58,41 +42,12 @@ enum ApeChatApiEndpoints : Endpoint {
         case let UpdateUserAvatar(userId):
             return Paths.users.rawValue + userId + "/avatar/"
 
-        case let GetUser(userId):
-            return Paths.users.rawValue + userId
-
-        case let UpdateUser(userId):
-            return Paths.users.rawValue + userId
-
-        case let DeleteUser(userId):
-            return Paths.users.rawValue + userId
-
-        case let GetDevices(userId):
-            return Paths.users.rawValue + userId + Paths.devices.rawValue
-        
-        case let AddDevice(userId):
-            return Paths.users.rawValue + userId + Paths.devices.rawValue
-        
-        case let RemoveDevice(userId, vendorId):
-            return Paths.users.rawValue + userId + Paths.devices.rawValue + vendorId
-
-        case let GetFriends(userId):
-            return Paths.users.rawValue + userId + Paths.friends.rawValue
-            
-        case let AddFriend(userId, friendId):
-            return Paths.users.rawValue + userId + Paths.friends.rawValue + friendId
-            
-        case let RemoveFriend(userId, friendId):
-            return Paths.users.rawValue + userId + Paths.friends.rawValue + friendId
-            
         case let GetMessages(since, status, senderId, receiverId):
-            return buildGetMessagePath(since, status: status, senderId: senderId, receiverId: receiverId)
+            return buildGetMessagesPath(since, status: status, senderId: senderId, receiverId: receiverId)
 
         case let DeleteMessage(messageId):
             return Paths.messages.rawValue + messageId
 
-        case SendMessage:
-            return Paths.messages.rawValue
         }
     }
 
@@ -102,13 +57,10 @@ enum ApeChatApiEndpoints : Endpoint {
 
     var httpMethod : HttpMethod {
         switch self {
-        case AuthUser, UpdateUserAvatar, AddDevice, AddFriend, .SendMessage:
+        case AuthUser, UpdateUserAvatar:
             return .POST
 
-        case UpdateUser:
-            return .PATCH
-
-        case DeleteUser, DeleteMessage, RemoveDevice, RemoveFriend:
+        case DeleteMessage:
             return .DELETE
 
         default:
@@ -116,7 +68,7 @@ enum ApeChatApiEndpoints : Endpoint {
         }
     }
     
-    private func buildGetMessagePath(since: NSDate?, status: MessageStatus?, senderId: String?, receiverId: String?) -> String {
+    private func buildGetMessagesPath(since: NSDate?, status: MessageStatus?, senderId: String?, receiverId: String?) -> String {
         let params = [(paramName: "since", paramValue: since?.iso8601string()),
                       (paramName: "status", paramValue: status?.rawValue),
                       (paramName: "senderId", paramValue: senderId),

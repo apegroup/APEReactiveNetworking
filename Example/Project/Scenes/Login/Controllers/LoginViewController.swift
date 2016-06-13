@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
 
                         switch event {
                         case .Next(let authResponse):
-                            self?.getUser(authResponse)
+                            self?.getAllUsers(authResponse)
 
                         case .Failed(let error):
                             print("received error: \(error)")
@@ -47,15 +47,15 @@ class LoginViewController: UIViewController {
     }
 
 
-    private func getUser(authResponse: AuthResponse) {
+    private func getAllUsers(authResponse: AuthResponse) {
 
-        let producer = self.apeChatApi.getUser(authResponse.user.userId)
+        let producer = self.apeChatApi.getAllUsers()
 
         producer.start { event in
 
             switch event {
-            case .Next(let user):
-                print("received user: \(user)")
+            case .Next(let users):
+                print("received user: \(users)")
 
             case .Failed(let error):
                 print("received error: \(error)")

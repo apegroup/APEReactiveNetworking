@@ -15,28 +15,20 @@ protocol ApeChatApi {
     //since data is not necessarilly fetched from the network 
     //(e.g. canned data from file, from database, etc)
 
+    // MARK: User
+
     func authenticateUser(username: String,
                           password: String) -> SignalProducer<AuthResponse, NetworkError>
 
-    // MARK: User
     func getAllUsers() -> SignalProducer<[User], NetworkError>
 
-    func getUser(id: String) -> SignalProducer<User, NetworkError>
-    
     func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<User, NetworkError>
     
-    func updateUser(userId: String, userChanges: AuthResponse) -> SignalProducer<User, NetworkError>
+
+    // MARK: Messages
+
     
-    func deleteUser(userId: String) -> SignalProducer<Void, NetworkError>
-    
-    // MARK: Device
-  
-    func getDevices(userId: String) -> SignalProducer<[Device], NetworkError>
-    
-    func addDevice(userId: String, device: Device) -> SignalProducer<Device, NetworkError>
-    
-    func removeDevice(userId: String, vendorId: String) -> SignalProducer<Void, NetworkError>
-    
+
     
 }
 
@@ -46,7 +38,7 @@ struct ApeChatApiFactory {
     
     static func create(environment: Environment = AppConfiguration.environment) -> ApeChatApi {
         switch environment {
-        case .Debug:    return NetworkedApeChatApiProvider() //FIXME
+        case .Debug:    return MockApeChatApiProvider() 
         default:        return NetworkedApeChatApiProvider()
         }
     }
