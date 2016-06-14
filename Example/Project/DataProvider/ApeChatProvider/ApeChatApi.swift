@@ -37,6 +37,9 @@ protocol ApeChatApi {
 struct ApeChatApiFactory {
     
     static func create(environment: Environment = AppConfiguration.environment) -> ApeChatApi {
+        //FIXME: Remove hard coded value
+        return NetworkedApeChatApiProvider()
+        
         switch environment {
         case .Debug:    return MockApeChatApiProvider() 
         default:        return NetworkedApeChatApiProvider()

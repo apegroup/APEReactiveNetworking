@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1D82ABFF1CFD87B300EB2A0D /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D82ABFE1CFD87B300EB2A0D /* Device.swift */; };
 		22F317311C242D1E007EA50C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F316F31C242D1E007EA50C /* AppDelegate.swift */; };
-		22F317341C242D1E007EA50C /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F317001C242D1E007EA50C /* SecondViewController.swift */; };
 		22F317541C243970007EA50C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22F317531C243970007EA50C /* Assets.xcassets */; };
 		22F317571C28086B007EA50C /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F317131C242D1E007EA50C /* ExampleUITests.swift */; };
 		22F317691C282ED7007EA50C /* ItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F317681C282ED7007EA50C /* ItemTests.swift */; };
@@ -22,6 +21,9 @@
 		5F10A5F41CFC35FC00D14ADC /* AuthResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F10A5F31CFC35FC00D14ADC /* AuthResponse.json */; };
 		5F10A5F61CFC406300D14ADC /* User.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F10A5F51CFC406300D14ADC /* User.json */; };
 		5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F17A5081CDB4E6500D32AF9 /* AppConfiguration.swift */; };
+		5F8E78F91D100B9700D2A5EA /* SignalProducer+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E78F81D100B9700D2A5EA /* SignalProducer+Authentication.swift */; };
+		5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */; };
+		5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8E79021D1094CA00D2A5EA /* User.storyboard */; };
 		6708E95E1D08182C00D4191F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9571D08182C00D4191F /* ReactiveCocoa.framework */; };
 		6708E95F1D08182C00D4191F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9581D08182C00D4191F /* Result.framework */; };
 		6708E9601D08182C00D4191F /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9591D08182C00D4191F /* Unbox.framework */; };
@@ -75,7 +77,6 @@
 		1D82ABFE1CFD87B300EB2A0D /* Device.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		22F316F31C242D1E007EA50C /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Project/Application/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		22F316F41C242D1E007EA50C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Project/Application/Info.plist; sourceTree = SOURCE_ROOT; };
-		22F317001C242D1E007EA50C /* SecondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SecondViewController.swift; path = Project/Scenes/Second/Controllers/SecondViewController.swift; sourceTree = SOURCE_ROOT; };
 		22F3170D1C242D1E007EA50C /* SDD.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SDD.md; sourceTree = SOURCE_ROOT; };
 		22F3170E1C242D1E007EA50C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		22F317111C242D1E007EA50C /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Tests/UI/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -95,6 +96,9 @@
 		5F10A5F31CFC35FC00D14ADC /* AuthResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AuthResponse.json; path = Mock/AuthResponse.json; sourceTree = "<group>"; };
 		5F10A5F51CFC406300D14ADC /* User.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = User.json; path = Mock/User.json; sourceTree = "<group>"; };
 		5F17A5081CDB4E6500D32AF9 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		5F8E78F81D100B9700D2A5EA /* SignalProducer+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+Authentication.swift"; sourceTree = "<group>"; };
+		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
+		5F8E79021D1094CA00D2A5EA /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
 		6708E9571D08182C00D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		6708E9581D08182C00D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		6708E9591D08182C00D4191F /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
@@ -166,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				958335771CF3B4D300F2B34F /* NSDateExtension.swift */,
+				5F8E78F81D100B9700D2A5EA /* SignalProducer+Authentication.swift */,
 			);
 			name = Helpers;
 			path = Project/Helpers;
@@ -185,48 +190,12 @@
 		22F316F81C242D1E007EA50C /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				5F8E78FF1D1094CA00D2A5EA /* User */,
 				5F10A5E11CFC312B00D14ADC /* Login */,
-				22F316FE1C242D1E007EA50C /* Second */,
 				22F317031C242D1E007EA50C /* Shared */,
 			);
 			name = Scenes;
 			path = Project/Scenes;
-			sourceTree = SOURCE_ROOT;
-		};
-		22F316FE1C242D1E007EA50C /* Second */ = {
-			isa = PBXGroup;
-			children = (
-				22F316FF1C242D1E007EA50C /* Controllers */,
-				22F317011C242D1E007EA50C /* Models */,
-				22F317021C242D1E007EA50C /* Views */,
-			);
-			name = Second;
-			path = Project/Scenes/Second;
-			sourceTree = SOURCE_ROOT;
-		};
-		22F316FF1C242D1E007EA50C /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				22F317001C242D1E007EA50C /* SecondViewController.swift */,
-			);
-			name = Controllers;
-			path = Project/Scenes/Second/Controllers;
-			sourceTree = SOURCE_ROOT;
-		};
-		22F317011C242D1E007EA50C /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Models;
-			path = Project/Scenes/Second/Models;
-			sourceTree = SOURCE_ROOT;
-		};
-		22F317021C242D1E007EA50C /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
-			path = Project/Scenes/Second/Views;
 			sourceTree = SOURCE_ROOT;
 		};
 		22F317031C242D1E007EA50C /* Shared */ = {
@@ -378,6 +347,23 @@
 			);
 			name = DataProviders;
 			path = DataProvider;
+			sourceTree = "<group>";
+		};
+		5F8E78FF1D1094CA00D2A5EA /* User */ = {
+			isa = PBXGroup;
+			children = (
+				5F8E79001D1094CA00D2A5EA /* Controllers */,
+				5F8E79021D1094CA00D2A5EA /* User.storyboard */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		5F8E79001D1094CA00D2A5EA /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 		64ADCB2CF59BC56EDB5258D3 /* Frameworks */ = {
@@ -568,6 +554,7 @@
 				22F317541C243970007EA50C /* Assets.xcassets in Resources */,
 				5F10A5F41CFC35FC00D14ADC /* AuthResponse.json in Resources */,
 				5F10A5E91CFC312B00D14ADC /* Login.storyboard in Resources */,
+				5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,16 +602,17 @@
 			files = (
 				5F10A5E81CFC312B00D14ADC /* LoginViewController.swift in Sources */,
 				9522313C1CEDF06E005B085D /* MockApeChatApiProvider.swift in Sources */,
-				22F317341C242D1E007EA50C /* SecondViewController.swift in Sources */,
 				952231391CEDF06E005B085D /* ApeChatApi.swift in Sources */,
 				5F10A5F11CFC326700D14ADC /* User.swift in Sources */,
 				9522313A1CEDF06E005B085D /* ApeChatApiEndpoints.swift in Sources */,
 				5F10A5F01CFC326700D14ADC /* AuthResponse.swift in Sources */,
 				1D82ABFF1CFD87B300EB2A0D /* Device.swift in Sources */,
 				22F317311C242D1E007EA50C /* AppDelegate.swift in Sources */,
+				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,
 				5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */,
 				958335781CF3B4D300F2B34F /* NSDateExtension.swift in Sources */,
 				9522313B1CEDF06E005B085D /* NetworkedApeChatApiProvider.swift in Sources */,
+				5F8E78F91D100B9700D2A5EA /* SignalProducer+Authentication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
