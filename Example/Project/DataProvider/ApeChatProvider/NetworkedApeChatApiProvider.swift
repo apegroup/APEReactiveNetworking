@@ -78,7 +78,7 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
     
     
     func getAllUsers() -> SignalProducer<[User], NetworkError> {
-        let request: NSURLRequest = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.GetAllUsers)
+        let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.GetAllUsers)
             .addAuthHandler(authHandler)
             .build()
         return sendAuthenticatedRequest(request) { try? Unbox($0) }
@@ -86,7 +86,6 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
     
     
     func updateUserAvatar(userId: String, avatar: UIImage) -> SignalProducer<User, NetworkError> {
-        
         let avatarRawData = UIImageJPEGRepresentation(avatar, 0.9)!
         
         let request: NSURLRequest = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.UpdateUserAvatar(userId: userId))
@@ -101,7 +100,8 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
     //MARK: Custom authentication
     
     ///This is a test method that tests the authentication flow (since we don't have a backend to test it against). All API methods which require authentication send their requests through this method
-    private func sendAuthenticatedRequest<T>(request: NSURLRequest, parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
+    private func sendAuthenticatedRequest<T>(request: NSURLRequest,
+                                          parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
         
         //'failUnlessAuthenticatedSignal' is a signal that will fail unless we are marked as authenticated.
         //The failure-event contains a specific Http Status code which signifies that an Authentication error has occurred.

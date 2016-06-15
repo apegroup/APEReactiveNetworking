@@ -40,9 +40,9 @@ struct ApeChatApiFactory {
         //FIXME: Remove hard coded value
         return NetworkedApeChatApiProvider()
         
-        switch environment {
-        case .Debug:    return MockApeChatApiProvider() 
-        default:        return NetworkedApeChatApiProvider()
-        }
+//        switch environment {
+//        case .Debug:    return MockApeChatApiProvider() 
+//        default:        return NetworkedApeChatApiProvider()
+//        }
     }
 }

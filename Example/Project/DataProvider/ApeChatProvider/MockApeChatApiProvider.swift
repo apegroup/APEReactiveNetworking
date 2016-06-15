@@ -11,7 +11,7 @@ import ReactiveCocoa
 import Unbox
 import APEReactiveNetworking
 
-struct MockApeChatApiProvider: ApeChatApi {
+struct MockApeChatApiProvider { //: ApeChatApi {
     
     //MARK: ApeChatApi
     

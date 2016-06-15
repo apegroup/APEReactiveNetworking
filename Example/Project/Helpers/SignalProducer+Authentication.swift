@@ -22,8 +22,7 @@ extension SignalProducer {
      
      - returns: 'Self', i.e. the same SignalProducer
      */
-    func injectAuthorizationSideEffect(presentingViewController: UIViewController,
-                                       loginCompletionHandler: LoginCompletionHandler? = nil) -> SignalProducer<Value, Error> {
+    private func injectAuthorizationSideEffect(loginCompletionHandler: LoginCompletionHandler? = nil) -> SignalProducer<Value, Error> {
         
         func presentLoginViewController(presentingViewController: UIViewController,
                                         _: LoginCompletionHandler? = nil) {
@@ -45,11 +44,17 @@ extension SignalProducer {
         
         return on(failed: { error in
             //Check if failure is due to user not being authenticated
-            if let error = error as? NetworkError,
+            if let rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController,
+                error = error as? NetworkError,
                 case .ErrorResponse(httpCode: .Forbidden, reason: _) = error {
                 print("NOT AUTHENTICATED: Received an error with http status code '403 Forbidden' - presenting login")
-                presentLoginViewController(presentingViewController, loginCompletionHandler)
+                
+                presentLoginViewController(rootViewController.currentlyPresentedViewController(), loginCompletionHandler)
             }
         })
+    }
+    
+    func startWithAuthentication() {
+        injectAuthorizationSideEffect().start()
     }
 }

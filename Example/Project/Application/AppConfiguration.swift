@@ -20,7 +20,7 @@ struct AppConfiguration {
             environment = .Preview
         #endif
         
-        print("Application is built with configuration: '\(environment)'")
+//        print("Application is built with configuration: '\(environment)'")
         return environment
     }()
     

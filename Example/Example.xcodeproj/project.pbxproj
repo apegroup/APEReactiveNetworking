@@ -21,6 +21,9 @@
 		5F10A5F41CFC35FC00D14ADC /* AuthResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F10A5F31CFC35FC00D14ADC /* AuthResponse.json */; };
 		5F10A5F61CFC406300D14ADC /* User.json in Resources */ = {isa = PBXBuildFile; fileRef = 5F10A5F51CFC406300D14ADC /* User.json */; };
 		5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F17A5081CDB4E6500D32AF9 /* AppConfiguration.swift */; };
+		5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB161D119A49005A1D3F /* UserCell.swift */; };
+		5F25CB191D119A7D005A1D3F /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */; };
+		5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */; };
 		5F8E78F91D100B9700D2A5EA /* SignalProducer+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E78F81D100B9700D2A5EA /* SignalProducer+Authentication.swift */; };
 		5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */; };
 		5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8E79021D1094CA00D2A5EA /* User.storyboard */; };
@@ -96,6 +99,9 @@
 		5F10A5F31CFC35FC00D14ADC /* AuthResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = AuthResponse.json; path = Mock/AuthResponse.json; sourceTree = "<group>"; };
 		5F10A5F51CFC406300D14ADC /* User.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = User.json; path = Mock/User.json; sourceTree = "<group>"; };
 		5F17A5081CDB4E6500D32AF9 /* AppConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConfiguration.swift; sourceTree = "<group>"; };
+		5F25CB161D119A49005A1D3F /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
+		5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
+		5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Presentation.swift"; sourceTree = "<group>"; };
 		5F8E78F81D100B9700D2A5EA /* SignalProducer+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducer+Authentication.swift"; sourceTree = "<group>"; };
 		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		5F8E79021D1094CA00D2A5EA /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
@@ -171,6 +177,8 @@
 			children = (
 				958335771CF3B4D300F2B34F /* NSDateExtension.swift */,
 				5F8E78F81D100B9700D2A5EA /* SignalProducer+Authentication.swift */,
+				5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */,
+				5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */,
 			);
 			name = Helpers;
 			path = Project/Helpers;
@@ -201,20 +209,11 @@
 		22F317031C242D1E007EA50C /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				22F317041C242D1E007EA50C /* Controllers */,
+				5F25CB151D119A34005A1D3F /* Views */,
 				22F317051C242D1E007EA50C /* Models */,
-				22F317061C242D1E007EA50C /* Views */,
 			);
 			name = Shared;
 			path = Project/Scenes/Shared;
-			sourceTree = SOURCE_ROOT;
-		};
-		22F317041C242D1E007EA50C /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Controllers;
-			path = Project/Scenes/Shared/Controllers;
 			sourceTree = SOURCE_ROOT;
 		};
 		22F317051C242D1E007EA50C /* Models */ = {
@@ -226,14 +225,6 @@
 			);
 			name = Models;
 			path = Project/Scenes/Shared/Models;
-			sourceTree = SOURCE_ROOT;
-		};
-		22F317061C242D1E007EA50C /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Views;
-			path = Project/Scenes/Shared/Views;
 			sourceTree = SOURCE_ROOT;
 		};
 		22F3170F1C242D1E007EA50C /* Tests */ = {
@@ -347,6 +338,14 @@
 			);
 			name = DataProviders;
 			path = DataProvider;
+			sourceTree = "<group>";
+		};
+		5F25CB151D119A34005A1D3F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5F25CB161D119A49005A1D3F /* UserCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		5F8E78FF1D1094CA00D2A5EA /* User */ = {
@@ -602,10 +601,13 @@
 			files = (
 				5F10A5E81CFC312B00D14ADC /* LoginViewController.swift in Sources */,
 				9522313C1CEDF06E005B085D /* MockApeChatApiProvider.swift in Sources */,
+				5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */,
 				952231391CEDF06E005B085D /* ApeChatApi.swift in Sources */,
 				5F10A5F11CFC326700D14ADC /* User.swift in Sources */,
 				9522313A1CEDF06E005B085D /* ApeChatApiEndpoints.swift in Sources */,
 				5F10A5F01CFC326700D14ADC /* AuthResponse.swift in Sources */,
+				5F25CB191D119A7D005A1D3F /* TableViewDataSource.swift in Sources */,
+				5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */,
 				1D82ABFF1CFD87B300EB2A0D /* Device.swift in Sources */,
 				22F317311C242D1E007EA50C /* AppDelegate.swift in Sources */,
 				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,

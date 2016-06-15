@@ -22,6 +22,17 @@
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7KD-pg-kqd">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserCell" id="3M7-qK-311" customClass="UserCell" customModule="Example" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3M7-qK-311" id="KwX-ah-1wT">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <sections/>
                                     </tableView>
                                 </subviews>
                             </stackView>
@@ -39,6 +50,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="getUsersButton" destination="nAH-Cj-odz" id="5jW-YJ-Fai"/>
+                        <outlet property="tableView" destination="7KD-pg-kqd" id="Mrd-qy-7cI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7cD-a5-SpZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
