@@ -24,6 +24,7 @@
 		5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB161D119A49005A1D3F /* UserCell.swift */; };
 		5F25CB191D119A7D005A1D3F /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */; };
 		5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */; };
+		5F86D5D51D133F3F005859CF /* DataValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F86D5D41D133F3E005859CF /* DataValidator.swift */; };
 		5F8E78F91D100B9700D2A5EA /* SignalProducerType+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */; };
 		5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */; };
 		5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8E79021D1094CA00D2A5EA /* User.storyboard */; };
@@ -102,6 +103,7 @@
 		5F25CB161D119A49005A1D3F /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Presentation.swift"; sourceTree = "<group>"; };
+		5F86D5D41D133F3E005859CF /* DataValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataValidator.swift; sourceTree = "<group>"; };
 		5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducerType+Authentication.swift"; sourceTree = "<group>"; };
 		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		5F8E79021D1094CA00D2A5EA /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 				5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */,
 				5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */,
 				5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */,
+				5F86D5D41D133F3E005859CF /* DataValidator.swift */,
 			);
 			name = Helpers;
 			path = Project/Helpers;
@@ -610,6 +613,7 @@
 				5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */,
 				1D82ABFF1CFD87B300EB2A0D /* Device.swift in Sources */,
 				22F317311C242D1E007EA50C /* AppDelegate.swift in Sources */,
+				5F86D5D51D133F3F005859CF /* DataValidator.swift in Sources */,
 				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,
 				5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */,
 				958335781CF3B4D300F2B34F /* NSDateExtension.swift in Sources */,
