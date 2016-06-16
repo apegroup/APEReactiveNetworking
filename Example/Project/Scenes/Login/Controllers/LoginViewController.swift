@@ -53,7 +53,7 @@ class LoginViewController: UIViewController {
                         switch event {
                         case .Next(let authResponse):
                             //This is a POC - mark the global "authenticated" state that we are authenticated
-                            Authenticated.authed = true
+                            DummyState.authed = true
                             
                             self?.handleLoginSuccess(authResponse)
                         case .Failed(let error):
@@ -67,9 +67,6 @@ class LoginViewController: UIViewController {
     private func handleLoginSuccess(authResponse: AuthResponse) {
         authHandler.handleAuthTokenReceived(authResponse.accessToken)
         loginCompletionHandler?(authResponse)
-        dispatch_async(dispatch_get_main_queue()) {
-            self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-        }
     }
     
     private func handleLoginError(error: NetworkError) {

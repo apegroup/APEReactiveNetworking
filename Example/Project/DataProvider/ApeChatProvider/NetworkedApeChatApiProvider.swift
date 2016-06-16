@@ -81,7 +81,7 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
         let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.GetAllUsers)
             .addAuthHandler(authHandler)
             .build()
-        return sendAuthenticatedRequest(request) { try? Unbox($0) }
+        return Network().send(request) { try? Unbox($0) }
     }
     
     
@@ -93,47 +93,6 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
             .setBody(rawData: avatarRawData, contentType: .ImageJpeg)
             .build()
         
-        return sendAuthenticatedRequest(request) { try? Unbox($0) }
+        return Network().send(request) { try? Unbox($0) }
     }
-    
-    
-    //MARK: Custom authentication
-    
-    ///This is a test method that tests the authentication flow (since we don't have a backend to test it against). All API methods which require authentication send their requests through this method
-    private func sendAuthenticatedRequest<T>(request: NSURLRequest,
-                                          parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
-        
-        //'failUnlessAuthenticatedSignal' is a signal that will fail unless we are marked as authenticated.
-        //The failure-event contains a specific Http Status code which signifies that an Authentication error has occurred.
-        let failUnlessAuthenticatedSignal = SignalProducer<T, NetworkError>(){ observer, _disposable in
-            guard Authenticated.authed else {
-                return observer.sendFailed(.ErrorResponse(httpCode: .Forbidden,reason: "Not authenticated!"))
-            }
-            observer.sendCompleted()
-        }
-        
-        //'requestSignal' is the actual network-request signal
-        let requestSignal = Network().send(request, parseDataBlock: parseDataBlock)
-        
-        //We create a signal producer of these two signal producers
-        let signal = SignalProducer<SignalProducer<T, NetworkError>, Result.NoError>() { observer, _ in
-            observer.sendNext(failUnlessAuthenticatedSignal)
-            observer.sendNext(requestSignal)
-            observer.sendCompleted()
-        }
-        
-        //Finally we concat these two signal producers into a wrapper-signal producer and return it.
-        //The wrapper-signal producer will fail when not authenticated (due to the 'failUnlessAuthenticatedSignal') - thus simulating a 'not authenticated' scenario
-        //However, if we are authenticated then the 'requestSignal' will be performed.
-        
-        //This is convenient since we are able to replay the signal! E.g:
-        //1) Execute the wrapper signal, which fails since we are not authenticated
-        //2) Listen to auth-failures from this signal and authenticate if a failure occurrs
-        //3) After authenticating - simply replay the signal!
-        return signal.flatten(.Concat)
-    }
-}
-
-struct Authenticated {
-    static var authed = false
 }
