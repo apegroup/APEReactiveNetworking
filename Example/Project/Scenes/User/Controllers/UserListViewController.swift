@@ -34,13 +34,12 @@ class UserListViewController: UIViewController {
         
         ///Assosicate the UIBarButtonItem with a RACCommand that starts a signal when the button is tapped
         //The UIBarButtonItem is disabled while the RACCommand is executing
-        getUsersButton.rac_command = RACCommand { [weak self] _ ->  RACSignal! in
-            guard let strongSelf = self else { return RACSignal.empty() }
+        getUsersButton.rac_command = RACCommand { [unowned self] _ ->  RACSignal! in
             
             //The outer RACSignal starts an inner 'get-all-users' signal and completes when the inner signal terminates.
             //When the outer RACCommand signal completes the UIBarButtonItem becomes enabled again
             return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
-                strongSelf.getAllUsers()
+                self.getAllUsers()
                     .on(terminated: { subscriber.sendCompleted() })
                     .startWithAuthentication()
                 

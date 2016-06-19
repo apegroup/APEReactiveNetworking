@@ -83,9 +83,9 @@ extension SignalProducerType where Error == NetworkError {
         let navCtrl = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as! UINavigationController
         let loginVc = navCtrl.topViewController as! LoginViewController
         
-        loginVc.loginCompletionHandler = { _authResponse in
+        loginVc.loginCompletionHandler = { [unowned loginVc] _authResponse in
             dispatch_async(dispatch_get_main_queue()) {
-                loginVc.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+                loginVc.dismissViewControllerAnimated(true, completion: nil)
             }
             
             self.start()

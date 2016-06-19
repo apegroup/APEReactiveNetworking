@@ -51,27 +51,27 @@ class LoginViewController: UIViewController {
             .map { text in DataValidator().isValidPassword(text as! String) }
         
         //Mark textfields as green when input is valid
-        usernameSignal.startWithNext { valid in
+        usernameSignal.startWithNext { [unowned self] valid in
             let color = valid ? UIColor.greenColor() : UIColor.clearColor()
             self.usernameTextField.layer.borderColor = color.CGColor
         }
-        
-        passwordSignal.startWithNext { valid in
+
+        passwordSignal.startWithNext { [unowned self] valid in
             let color = valid ? UIColor.greenColor() : UIColor.clearColor()
             self.passwordTextField.layer.borderColor = color.CGColor
         }
-        
+
         //Enable/disable login button according to input
         usernameSignal
             .combineLatestWith(passwordSignal)
             .map { (valid: (username:Bool, password:Bool)) in
                 valid.username && valid.password
             }
-            .startWithNext { self.loginButton.enabled = $0 }
+            .startWithNext { [unowned self] valid in
+                self.loginButton.enabled = valid
+        }
         
-        
-        
-        dismissButton.rac_command = RACCommand { _ ->  RACSignal! in
+        dismissButton.rac_command = RACCommand { [unowned self] _ ->  RACSignal! in
             return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
                 self.dismissViewControllerAnimated(true, completion: nil)
                 return RACDisposable()
@@ -79,23 +79,21 @@ class LoginViewController: UIViewController {
                 .deliverOnMainThread()
         }
         
-        
         loginButton
             .rac_signalForControlEvents(.TouchUpInside)
             .throttle(0.2)
-            .subscribeNext { _sender in
-                
+            .subscribeNext { [unowned self] _sender in
                 self.apeChatApi
                     .authenticateUser(self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
-                    .start { [weak self] event in
+                    .start { event in
                         switch event {
                         case .Next(let authResponse):
                             //This is a POC - mark the global "authenticated" state that we are authenticated
                             DummyState.authed = true
                             
-                            self?.handleLoginSuccess(authResponse)
+                            self.handleLoginSuccess(authResponse)
                         case .Failed(let error):
-                            self?.handleLoginError(error)
+                            self.handleLoginError(error)
                         default: break
                         }
                 }
