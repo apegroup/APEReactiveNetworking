@@ -9,6 +9,9 @@
 
 import Foundation
 import ReactiveCocoa
+import enum Result.NoError
+
+
 
 
 public enum NetworkError : ErrorType {
@@ -24,15 +27,16 @@ public enum NetworkError : ErrorType {
 // TODO: Consider customisable data, download, upload tasks
 
 public struct Network {
-
-    static let retryCount : Int = 2
-    static let timeoutTolerance : NSTimeInterval = 20
-
-
+    
+    /// The TOTAL number of seconds to wait before aborting the entire operation.
+    static let operationTimeoutSeconds : NSTimeInterval = 20
+    private static let retryCount = 10
+    
+    
     //MARK: Public
-
+    
     public init() {}
-
+    
     /**
      Sends a request over the network
      
@@ -40,35 +44,50 @@ public struct Network {
      - parameter responseCodeValidator: An http status code validator that asserts that the received response code matches the expected response code. Defaults to 'ApeResponseCodeValidator'
      - parameter session:               The NSURLSession to be used. Defaults to the shared session
      - parameter scheduler:             The scheduler to which the returned SignalProducer will forward events to
-     - parameter retry:                 Number of retries before giving up. Default value is 2
-     - parameter timeout:               Number of seconds to wait until timing out. Default value is 20
+     - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent
      - parameter parseDataBlock:   If response data is expected you should provide this parameter as a means to parse the data to the expected data type.
      
      - returns: A SignalProducer that will begin the network request when started
      */
     public func send<T>(request: NSURLRequest,
-              responseCodeValidator: HttpResponseCodeValidator = ApeResponseCodeValidator(),
-              session: NSURLSession = NSURLSession.sharedSession(),
-              scheduler: SchedulerType = UIScheduler(),
-              retry: Int = retryCount,
-              timeout: NSTimeInterval = timeoutTolerance,
-              parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
-
-
-        let producer = session.dataTaskSignalProducer(request: request,
-                                                      responseCodeValidator: responseCodeValidator,
-                                                      parseDataBlock: parseDataBlock)
-
-        return producer
+                     responseCodeValidator: HttpResponseCodeValidator = ApeResponseCodeValidator(),
+                     session: NSURLSession = NSURLSession.sharedSession(),
+                     scheduler: SchedulerType = UIScheduler(),
+                     abortAfter: NSTimeInterval = operationTimeoutSeconds,
+                     parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
+        
+        
+        /// Create a SignalProducer that will fail after 'timeout' seconds
+        var timeoutObserver: Observer<T, NetworkError>?
+        let timeoutProducer = SignalProducer<T, NetworkError> { observer, _disposable in
+            timeoutObserver = observer
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(abortAfter * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                timeoutObserver?.sendFailed(NetworkError.TimedOut)
+            }
+        }
+        
+        /// Create a SignalProducer that will perform the actual operation
+        let operationProducer = session.dataTaskSignalProducer(request: request,
+            responseCodeValidator: responseCodeValidator,
+            parseDataBlock: parseDataBlock)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
-            .retry(retry) //FIXME: add a delay between each retry
-            .timeoutWithError(.TimedOut, afterInterval: timeout, onScheduler: QueueScheduler())
-            .observeOn(scheduler)
+            .retry(Network.retryCount) //FIXME: add a delay between each retry
+            .on(completed: {
+                //Complete and invalidate the Timeout-SignalProducer when the operation is completed, in order to complete the merged SignalProducer below
+                timeoutObserver?.sendCompleted()
+                timeoutObserver = nil
+                })
+        
+        
+        /// Merge the Timeout-SignalProducer and the Operation-SignalProducer
+        let mergedProducer: SignalProducer<T, NetworkError> =
+            SignalProducer<SignalProducer<T, NetworkError>, NoError> (values: [timeoutProducer, operationProducer])
+                .flatten(.Merge)
+                .observeOn(scheduler)
+        
+        return mergedProducer
     }
 }
-
-
-
 
 //MARK: NSURLSession + ReactiveCocoa
 
@@ -82,7 +101,7 @@ private extension NSURLSession {
             return SignalProducer<T, NetworkError>(){ observer, disposable in
                 
                 let task = self.dataTaskWithRequest(request) { data, response, error in
-
+                    
                     guard error == nil else {
                         return observer.sendFailed(.RequestFailure(reason: error!))
                     }
@@ -95,7 +114,7 @@ private extension NSURLSession {
                     guard let method = HttpMethod(value: request.HTTPMethod),
                         statusCode = HttpStatusCode(rawValue: httpResponse.statusCode)
                         where responseCodeValidator.isResponseCodeValid(statusCode, httpMethod: method) else {
-
+                            
                             let httpCode = HttpStatusCode(value: httpResponse.statusCode)
                             let reason = NSHTTPURLResponse.localizedStringForStatusCode(httpResponse.statusCode)
                             return observer.sendFailed(.ErrorResponse(httpCode: httpCode, reason: reason))

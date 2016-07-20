@@ -40,6 +40,8 @@ extension SignalProducerType where Error == NetworkError {
             preconditionFailure("'injectAuthorizationSideEffect' must be called on a 'SignalProducer' and not another SignalProducerType'")
         }
         
+        //TODO: Remove signal-merge-logic when a real backend is in place
+        
         //Create a signal that will fail unless we are marked as authenticated.
         //The failure-event contains a specific Http status code (401) which signifies that an Authentication error has occurred.
         let failUnlessAuthenticatedSignal = SignalProducer<Value, Error>() { observer, _disposable in

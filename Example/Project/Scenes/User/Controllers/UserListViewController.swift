@@ -50,10 +50,21 @@ class UserListViewController: UIViewController {
     
     private func getAllUsers() -> SignalProducer<[User], NetworkError> {
         return apeChatApi.getAllUsers().on(
+            started : {
+                print("users started")
+            },
             failed: { error in
-                print("failed fetching users: \(error)")
-            }, next: { users in
-                print("received users: \(users)")
+                print("users failed fetching: \(error)")
+                
+            },
+            completed: {
+                print("users completed")
+            },
+            terminated: {
+                print("users terminated")
+            },
+            next: { users in
+                print("users received: \(users)")
                 self.dataSource.elements = users
                 self.tableView.reloadData()
         })

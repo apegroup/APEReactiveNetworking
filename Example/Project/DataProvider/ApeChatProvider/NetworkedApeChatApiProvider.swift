@@ -71,8 +71,7 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
                               responseCodeValidator: validator,
                               session: session,
                               scheduler: scheduler,
-                              retry: 3,
-                              timeout: 20,
+                              abortAfter: 20,
                               parseDataBlock: parseDataBlock)
     }
     
