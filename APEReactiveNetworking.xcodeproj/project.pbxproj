@@ -16,6 +16,8 @@
 		5FF05A981D40F69F0082575A /* HttpResponseCodeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A921D40F69F0082575A /* HttpResponseCodeValidator.swift */; };
 		5FF05A9A1D40F6E10082575A /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A991D40F6E10082575A /* Endpoint.swift */; };
 		5FF05A9C1D40F73A0082575A /* ExponentialSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A9B1D40F73A0082575A /* ExponentialSequence.swift */; };
+		5FF05A9E1D4105BE0082575A /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF05A9D1D4105BE0082575A /* ReactiveCocoa.framework */; };
+		5FF05AA01D4105C10082575A /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FF05A9F1D4105C10082575A /* Result.framework */; };
 		6708E9111D06FFDC00D4191F /* APEReactiveNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6708E9101D06FFDC00D4191F /* APEReactiveNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6708E9181D06FFDC00D4191F /* APEReactiveNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E90D1D06FFDC00D4191F /* APEReactiveNetworking.framework */; };
 		6708E91D1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E91C1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift */; };
@@ -47,6 +49,8 @@
 		5FF05A921D40F69F0082575A /* HttpResponseCodeValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponseCodeValidator.swift; sourceTree = "<group>"; };
 		5FF05A991D40F6E10082575A /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		5FF05A9B1D40F73A0082575A /* ExponentialSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExponentialSequence.swift; sourceTree = "<group>"; };
+		5FF05A9D1D4105BE0082575A /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Example/Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
+		5FF05A9F1D4105C10082575A /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Example/Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		6708E90D1D06FFDC00D4191F /* APEReactiveNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APEReactiveNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6708E9101D06FFDC00D4191F /* APEReactiveNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APEReactiveNetworking.h; sourceTree = "<group>"; };
 		6708E9121D06FFDC00D4191F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -77,6 +81,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6708E9181D06FFDC00D4191F /* APEReactiveNetworking.framework in Frameworks */,
+				5FF05A9E1D4105BE0082575A /* ReactiveCocoa.framework in Frameworks */,
+				5FF05AA01D4105C10082575A /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,6 +127,8 @@
 		6708E9031D06FFDC00D4191F = {
 			isa = PBXGroup;
 			children = (
+				5FF05A9F1D4105C10082575A /* Result.framework */,
+				5FF05A9D1D4105BE0082575A /* ReactiveCocoa.framework */,
 				6708E96B1D081B6700D4191F /* Dependencies */,
 				6708E90F1D06FFDC00D4191F /* APEReactiveNetworking */,
 				6708E91B1D06FFDC00D4191F /* APEReactiveNetworkingTests */,
@@ -222,6 +230,7 @@
 				6708E9131D06FFDC00D4191F /* Sources */,
 				6708E9141D06FFDC00D4191F /* Frameworks */,
 				6708E9151D06FFDC00D4191F /* Resources */,
+				5F26DC131D410B550023F8DC /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -287,6 +296,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5F26DC131D410B550023F8DC /* Carthage */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+			);
+			name = Carthage;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 		67A741B01D0846F700B04F65 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -481,6 +506,10 @@
 		6708E9251D06FFDC00D4191F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Example/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = APEReactiveNetworkingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APEReactiveNetworkingTests;
@@ -491,6 +520,10 @@
 		6708E9261D06FFDC00D4191F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Example/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = APEReactiveNetworkingTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APEReactiveNetworkingTests;
