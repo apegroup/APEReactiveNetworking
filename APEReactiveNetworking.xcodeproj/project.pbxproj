@@ -7,20 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5FF05A891D40F5690082575A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A881D40F5690082575A /* KeychainManager.swift */; };
+		5FF05A931D40F69F0082575A /* ApeJwtAuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8B1D40F69F0082575A /* ApeJwtAuthenticationHandler.swift */; };
+		5FF05A941D40F69F0082575A /* AuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8C1D40F69F0082575A /* AuthenticationHandler.swift */; };
+		5FF05A951D40F69F0082575A /* ApeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8E1D40F69F0082575A /* ApeRequestBuilder.swift */; };
+		5FF05A961D40F69F0082575A /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8F1D40F69F0082575A /* HttpRequestBuilder.swift */; };
+		5FF05A971D40F69F0082575A /* ApeResponseCodeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A911D40F69F0082575A /* ApeResponseCodeValidator.swift */; };
+		5FF05A981D40F69F0082575A /* HttpResponseCodeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A921D40F69F0082575A /* HttpResponseCodeValidator.swift */; };
+		5FF05A9A1D40F6E10082575A /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A991D40F6E10082575A /* Endpoint.swift */; };
+		5FF05A9C1D40F73A0082575A /* ExponentialSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A9B1D40F73A0082575A /* ExponentialSequence.swift */; };
 		6708E9111D06FFDC00D4191F /* APEReactiveNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 6708E9101D06FFDC00D4191F /* APEReactiveNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6708E9181D06FFDC00D4191F /* APEReactiveNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E90D1D06FFDC00D4191F /* APEReactiveNetworking.framework */; };
 		6708E91D1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E91C1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift */; };
-		6708E9301D0700D200D4191F /* ApeJwtAuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E9291D0700D200D4191F /* ApeJwtAuthenticationHandler.swift */; };
-		6708E9311D0700D200D4191F /* ApeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92A1D0700D200D4191F /* ApeRequestBuilder.swift */; };
-		6708E9321D0700D200D4191F /* ApeResponseCodeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92B1D0700D200D4191F /* ApeResponseCodeValidator.swift */; };
 		6708E9331D0700D200D4191F /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92C1D0700D200D4191F /* Http.swift */; };
 		6708E9341D0700D200D4191F /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92D1D0700D200D4191F /* Network.swift */; };
 		6708E9351D0700D200D4191F /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92E1D0700D200D4191F /* NetworkActivityIndicator.swift */; };
-		6708E9391D0701A000D4191F /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E9381D0701A000D4191F /* Endpoint.swift */; };
-		6708E93B1D0701BD00D4191F /* AuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E93A1D0701BD00D4191F /* AuthenticationHandler.swift */; };
-		6708E93D1D0701EC00D4191F /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E93C1D0701EC00D4191F /* HttpRequestBuilder.swift */; };
-		6708E93F1D07022700D4191F /* HttpResponseCodeValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E93E1D07022700D4191F /* HttpResponseCodeValidator.swift */; };
-		6708E94A1D0710B700D4191F /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E9491D0710B700D4191F /* KeychainManager.swift */; };
 		6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9631D081B5500D4191F /* Locksmith.framework */; };
 		6708E9681D081B5500D4191F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9641D081B5500D4191F /* ReactiveCocoa.framework */; };
 		6708E9691D081B5500D4191F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9651D081B5500D4191F /* Result.framework */; };
@@ -37,23 +38,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5FF05A881D40F5690082575A /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		5FF05A8B1D40F69F0082575A /* ApeJwtAuthenticationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeJwtAuthenticationHandler.swift; sourceTree = "<group>"; };
+		5FF05A8C1D40F69F0082575A /* AuthenticationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHandler.swift; sourceTree = "<group>"; };
+		5FF05A8E1D40F69F0082575A /* ApeRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeRequestBuilder.swift; sourceTree = "<group>"; };
+		5FF05A8F1D40F69F0082575A /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
+		5FF05A911D40F69F0082575A /* ApeResponseCodeValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeResponseCodeValidator.swift; sourceTree = "<group>"; };
+		5FF05A921D40F69F0082575A /* HttpResponseCodeValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponseCodeValidator.swift; sourceTree = "<group>"; };
+		5FF05A991D40F6E10082575A /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		5FF05A9B1D40F73A0082575A /* ExponentialSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExponentialSequence.swift; sourceTree = "<group>"; };
 		6708E90D1D06FFDC00D4191F /* APEReactiveNetworking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = APEReactiveNetworking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6708E9101D06FFDC00D4191F /* APEReactiveNetworking.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APEReactiveNetworking.h; sourceTree = "<group>"; };
 		6708E9121D06FFDC00D4191F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6708E9171D06FFDC00D4191F /* APEReactiveNetworkingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = APEReactiveNetworkingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6708E91C1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APEReactiveNetworkingTests.swift; sourceTree = "<group>"; };
 		6708E91E1D06FFDC00D4191F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6708E9291D0700D200D4191F /* ApeJwtAuthenticationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeJwtAuthenticationHandler.swift; sourceTree = "<group>"; };
-		6708E92A1D0700D200D4191F /* ApeRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeRequestBuilder.swift; sourceTree = "<group>"; };
-		6708E92B1D0700D200D4191F /* ApeResponseCodeValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeResponseCodeValidator.swift; sourceTree = "<group>"; };
 		6708E92C1D0700D200D4191F /* Http.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Http.swift; sourceTree = "<group>"; };
 		6708E92D1D0700D200D4191F /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		6708E92E1D0700D200D4191F /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicator.swift; sourceTree = "<group>"; };
-		6708E9381D0701A000D4191F /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
-		6708E93A1D0701BD00D4191F /* AuthenticationHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHandler.swift; sourceTree = "<group>"; };
-		6708E93C1D0701EC00D4191F /* HttpRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpRequestBuilder.swift; sourceTree = "<group>"; };
-		6708E93E1D07022700D4191F /* HttpResponseCodeValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpResponseCodeValidator.swift; sourceTree = "<group>"; };
-		6708E9491D0710B700D4191F /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		6708E9631D081B5500D4191F /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
 		6708E9641D081B5500D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		6708E9651D081B5500D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
@@ -81,6 +83,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5FF05A871D40F5690082575A /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				5FF05A881D40F5690082575A /* KeychainManager.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		5FF05A8A1D40F69F0082575A /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				5FF05A8B1D40F69F0082575A /* ApeJwtAuthenticationHandler.swift */,
+				5FF05A8C1D40F69F0082575A /* AuthenticationHandler.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		5FF05A8D1D40F69F0082575A /* RequestBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				5FF05A8E1D40F69F0082575A /* ApeRequestBuilder.swift */,
+				5FF05A8F1D40F69F0082575A /* HttpRequestBuilder.swift */,
+			);
+			path = RequestBuilder;
+			sourceTree = "<group>";
+		};
+		5FF05A901D40F69F0082575A /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+				5FF05A911D40F69F0082575A /* ApeResponseCodeValidator.swift */,
+				5FF05A921D40F69F0082575A /* HttpResponseCodeValidator.swift */,
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
 		6708E9031D06FFDC00D4191F = {
 			isa = PBXGroup;
 			children = (
@@ -122,43 +159,17 @@
 		6708E9271D0700D200D4191F /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				6708E9481D0710B700D4191F /* Persistance */,
-				6708E9371D07014B00D4191F /* Protocols */,
-				6708E9281D0700D200D4191F /* DefaultImplementations */,
+				5FF05A8A1D40F69F0082575A /* Authentication */,
+				5FF05A991D40F6E10082575A /* Endpoint.swift */,
+				5FF05A9B1D40F73A0082575A /* ExponentialSequence.swift */,
 				6708E92C1D0700D200D4191F /* Http.swift */,
 				6708E92D1D0700D200D4191F /* Network.swift */,
 				6708E92E1D0700D200D4191F /* NetworkActivityIndicator.swift */,
+				5FF05A871D40F5690082575A /* Persistence */,
+				5FF05A8D1D40F69F0082575A /* RequestBuilder */,
+				5FF05A901D40F69F0082575A /* Validation */,
 			);
 			path = Source;
-			sourceTree = "<group>";
-		};
-		6708E9281D0700D200D4191F /* DefaultImplementations */ = {
-			isa = PBXGroup;
-			children = (
-				6708E9291D0700D200D4191F /* ApeJwtAuthenticationHandler.swift */,
-				6708E92A1D0700D200D4191F /* ApeRequestBuilder.swift */,
-				6708E92B1D0700D200D4191F /* ApeResponseCodeValidator.swift */,
-			);
-			path = DefaultImplementations;
-			sourceTree = "<group>";
-		};
-		6708E9371D07014B00D4191F /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				6708E9381D0701A000D4191F /* Endpoint.swift */,
-				6708E93A1D0701BD00D4191F /* AuthenticationHandler.swift */,
-				6708E93C1D0701EC00D4191F /* HttpRequestBuilder.swift */,
-				6708E93E1D07022700D4191F /* HttpResponseCodeValidator.swift */,
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		6708E9481D0710B700D4191F /* Persistance */ = {
-			isa = PBXGroup;
-			children = (
-				6708E9491D0710B700D4191F /* KeychainManager.swift */,
-			);
-			path = Persistance;
 			sourceTree = "<group>";
 		};
 		6708E96B1D081B6700D4191F /* Dependencies */ = {
@@ -300,17 +311,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6708E93D1D0701EC00D4191F /* HttpRequestBuilder.swift in Sources */,
-				6708E93B1D0701BD00D4191F /* AuthenticationHandler.swift in Sources */,
-				6708E93F1D07022700D4191F /* HttpResponseCodeValidator.swift in Sources */,
+				5FF05A951D40F69F0082575A /* ApeRequestBuilder.swift in Sources */,
 				6708E9341D0700D200D4191F /* Network.swift in Sources */,
-				6708E9391D0701A000D4191F /* Endpoint.swift in Sources */,
+				5FF05A981D40F69F0082575A /* HttpResponseCodeValidator.swift in Sources */,
+				5FF05A941D40F69F0082575A /* AuthenticationHandler.swift in Sources */,
+				5FF05A931D40F69F0082575A /* ApeJwtAuthenticationHandler.swift in Sources */,
+				5FF05A961D40F69F0082575A /* HttpRequestBuilder.swift in Sources */,
 				6708E9351D0700D200D4191F /* NetworkActivityIndicator.swift in Sources */,
-				6708E94A1D0710B700D4191F /* KeychainManager.swift in Sources */,
-				6708E9311D0700D200D4191F /* ApeRequestBuilder.swift in Sources */,
+				5FF05A891D40F5690082575A /* KeychainManager.swift in Sources */,
+				5FF05A9C1D40F73A0082575A /* ExponentialSequence.swift in Sources */,
 				6708E9331D0700D200D4191F /* Http.swift in Sources */,
-				6708E9321D0700D200D4191F /* ApeResponseCodeValidator.swift in Sources */,
-				6708E9301D0700D200D4191F /* ApeJwtAuthenticationHandler.swift in Sources */,
+				5FF05A9A1D40F6E10082575A /* Endpoint.swift in Sources */,
+				5FF05A971D40F69F0082575A /* ApeResponseCodeValidator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
