@@ -12,7 +12,6 @@ import ReactiveCocoa
 import enum Result.NoError
 
 
-
 public enum NetworkError : ErrorType {
     case ParseFailure
     case MissingData
@@ -27,10 +26,10 @@ public enum NetworkError : ErrorType {
 public struct Network {
     
     /// The TOTAL number of seconds to wait before aborting the entire operation.
-    static let operationTimeoutSeconds : NSTimeInterval = 20
+    static let operationTimeoutSeconds: NSTimeInterval = 10
     
     /// The max number of retries before aborting the entire operation
-    static let retryCount = 10
+    static let maxRetryCount = 10
     
     
     //MARK: Public
@@ -38,9 +37,7 @@ public struct Network {
     public init() {}
     
     /**
-     Sends a request over the network. 
-     
-     Aborts and fails the operation after 'abortAfter' seconds.
+     Sends a request over the network.
      
      - parameter request:               The request to be sent
      
@@ -64,55 +61,41 @@ public struct Network {
                      session: NSURLSession = NSURLSession.sharedSession(),
                      scheduler: SchedulerType = UIScheduler(),
                      abortAfter: NSTimeInterval = operationTimeoutSeconds,
-                     maxRetries: Int = retryCount,
+                     maxRetries: Int = maxRetryCount,
                      parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
         
-        
-        /// Create a SignalProducer that will fail after 'abortAfter' seconds
-        var timeoutObserver: Observer<T, NetworkError>?
-        let timeoutProducer = SignalProducer<T, NetworkError> { observer, _disposable in
-            timeoutObserver = observer
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(abortAfter * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue()) {
-                timeoutObserver?.sendFailed(NetworkError.TimedOut)
-            }
-        }
-        
-        /// Create a SignalProducer that will perform the actual operation
         let operationProducer = session.dataTaskSignalProducer(request: request,
             responseCodeValidator: responseCodeValidator,
             parseDataBlock: parseDataBlock)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxRetries)
-            .on(completed: {
-                //Complete and invalidate the Timeout-SignalProducer when the operation is completed, in order to complete the merged SignalProducer below
-                timeoutObserver?.sendCompleted()
-                timeoutObserver = nil
-            })
         
         
-        /* Merge the Timeout-SignalProducer and the Operation-SignalProducer.
-         * The Merged-SignalProducer will:
-         *      - fail if one of the inner SignalProducers fail,
-         *      or
-         *      - complete if both inner SignalProducers complete
+        /* In order to implement 'entire-operation-timeout' (rather than 'timeout-per-retry') we merge the
+         * Operation-SignalProducer with an empty SignalProducer and apply the timeout to the merged/outer SignalProducer.
+         *
+         * The Merged-SignalProducer will fail if:
+         *      - the inner Operation-SignalProducers fails,
+         *      or if
+         *      - the inner Operation-SignalProducer doesn't complete withhin 'abortAfter' seconds
          *
          * Whichever occurs first.
          */
-        return SignalProducer<SignalProducer<T, NetworkError>, NoError> (values: [timeoutProducer, operationProducer])
+        return SignalProducer<SignalProducer<T, NetworkError>, NoError> (values: [SignalProducer.empty, operationProducer])
             .flatten(.Merge)
+            .timeoutWithError(.TimedOut, afterInterval: abortAfter, onScheduler: QueueScheduler())
             .observeOn(scheduler)
             .on (
                 started: {
-                    print("# NetworkOperationSignal started")
+                    print("# NetworkOperation started")
                 }, failed: { error in
-                    print("# NetworkOperationSignal failed: \(error)")
+                    print("# NetworkOperation failed: \(error)")
                 }, completed: {
-                    print("# NetworkOperationSignal completed")
+                    print("# NetworkOperation completed")
                 }, interrupted: {
-                    print("# NetworkOperationSignal interrupted")
+                    print("# NetworkOperation interrupted")
                 }, terminated: {
-                    print("# NetworkOperationSignal terminated")
+                    print("# NetworkOperation terminated")
             })
     }
 }
@@ -199,7 +182,7 @@ private extension SignalProducer {
 
 private extension SignalProducerType {
     
-     ///Retries the SignalProducer 'maxAttempts' number of times before failing. Implements an exponential backoff between each retry.
+    ///Retries the SignalProducer 'maxAttempts' number of times before failing. Implements an exponential backoff between each retry.
     func retryWithExponentialBackoff(maxAttempts: Int)
         -> SignalProducer<Value, Error> {
             return retryWithBackoff(ExponentialSequence(), attemptsLeft: maxAttempts)
@@ -210,21 +193,23 @@ private extension SignalProducerType {
         -> SignalProducer<Value, Error> {
             
             guard attemptsLeft > 0 else {
-                print("No attempts left. Aborting.")
-                return self.producer
+                return self.producer.on(failed: { error in
+                    print("\(NSDate()): Received error: '\(error)'. No attempts left - aborting.")
+                })
             }
             
             var generator = strategy.generate()
             guard let timeout = generator.next() else {
-                print("Failed to generate next timeout. Aborting.")
-                return self.producer
+                return self.producer.on(failed: { error in
+                    print("\(NSDate()): Received error: '\(error)'. No next timeout generated - aborting.")
+                })
             }
             
             // If an error occurs we catch it and map it to a new concatenated SignalProducer which will:
             //  - Create an inner SignalProducer that will wait 'timout' seconds
             //  - Replay the original SignalProducer when the previously delayed signal has completed
-            return self.flatMapError { _ -> SignalProducer<Value, Error> in
-                print("\(NSDate()): Received an error. Timing out for: \(timeout) seconds")
+            return self.flatMapError { error -> SignalProducer<Value, Error> in
+                print("\(NSDate()): Received error: '\(error)'. Retrying in: '\(timeout)' seconds")
                 return SignalProducer.empty
                     .delay(timeout, onScheduler: QueueScheduler())
                     .concat(self.retryWithBackoff(GeneratorSequence(generator), attemptsLeft: attemptsLeft-1))
