@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias HttpHeaders = [String: String]
+public typealias HttpRequestHeaders = [String: String]
 
 
 public enum HttpMethod: String {

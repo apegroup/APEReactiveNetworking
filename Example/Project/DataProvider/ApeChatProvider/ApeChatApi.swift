@@ -18,11 +18,11 @@ protocol ApeChatApi {
     // MARK: User
 
     func authenticateUser(username: String,
-                          password: String) -> SignalProducer<AuthResponse, NetworkError>
+                          password: String) -> SignalProducer<NetworkResponse<AuthResponse>, NetworkError>
 
-    func getAllUsers() -> SignalProducer<[User], NetworkError>
+    func getAllUsers() -> SignalProducer<NetworkResponse<[User]>, NetworkError>
 
-    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<User, NetworkError>
+    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<NetworkResponse<User>, NetworkError>
     
 
     // MARK: Messages

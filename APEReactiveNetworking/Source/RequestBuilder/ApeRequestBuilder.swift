@@ -14,7 +14,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     private let endpoint : Endpoint
     private var authHeader: String?
     private var contentTypeHeader = HttpContentType.ApplicationJson
-    private var additionalHeaders: HttpHeaders?
+    private var additionalHeaders: HttpRequestHeaders?
     private var bodyData: NSData?
 
     // MARK: Public
@@ -23,7 +23,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
         self.endpoint = endpoint
     }
     
-    public func addHeaders(headers: HttpHeaders) -> HttpRequestBuilder {
+    public func addHeaders(headers: HttpRequestHeaders) -> HttpRequestBuilder {
         self.additionalHeaders = headers
         return self
     }
@@ -53,8 +53,8 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
     // MARK: Private
 
-    private func generateHeaders() -> HttpHeaders {
-        var headers: HttpHeaders = [:]
+    private func generateHeaders() -> HttpRequestHeaders {
+        var headers: HttpRequestHeaders = [:]
 
         if let authorizationHeaderValue = authHeader {
             headers["Authorization"] = authorizationHeaderValue
@@ -72,7 +72,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     }
 
 
-    private func generateRequest(headers: HttpHeaders, body: NSData?) -> NSURLRequest {
+    private func generateRequest(headers: HttpRequestHeaders, body: NSData?) -> NSURLRequest {
         guard let url = NSURL(string: endpoint.absoluteUrl) else {
             preconditionFailure("Endpoint contains invalid url")
         }
