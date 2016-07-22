@@ -8,8 +8,6 @@
 
 import Foundation
 
-//Backoff strategy sequences
-
 /**
  *  A SequenceType that creates a generator which increases exponentially
  */
