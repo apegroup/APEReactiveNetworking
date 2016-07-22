@@ -82,6 +82,7 @@ public struct Network {
                 }, terminated: {
                     print("# \(NSDate()): NetworkOperation terminated")
             })
+            .observeOn(scheduler)
     }
 }
 
