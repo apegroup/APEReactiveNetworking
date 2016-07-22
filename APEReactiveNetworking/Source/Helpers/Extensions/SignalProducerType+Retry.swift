@@ -24,14 +24,14 @@ extension SignalProducerType {
             
             guard attemptsLeft > 0 else {
                 return self.producer.on(failed: { error in
-                    print("\(NSDate()): Received error: '\(error)'. No attempts left - aborting.")
+                    print("\t\(NSDate()): Received error: '\(error)'. No attempts left - aborting.\n")
                 })
             }
             
             var generator = strategy.generate()
             guard let timeout = generator.next() else {
                 return self.producer.on(failed: { error in
-                    print("\(NSDate()): Received error: '\(error)'. No next timeout generated - aborting.")
+                    print("\t\(NSDate()): Received error: '\(error)'. No next timeout generated - aborting.\n")
                 })
             }
             
@@ -39,12 +39,12 @@ extension SignalProducerType {
             //  - Create an inner SignalProducer that will wait 'timout' seconds
             //  - Replay the original SignalProducer when the previously delayed signal has completed
             return self.flatMapError { error -> SignalProducer<Value, Error> in
-                print("\(NSDate()): Received error: '\(error)'. Retrying in: '\(timeout)' seconds")
+                print("\t\(NSDate()): Received error: '\(error)'. Retrying in: '\(timeout)' seconds\n")
                 return SignalProducer.empty
                     .delay(timeout, onScheduler: QueueScheduler())
                     .concat(self.retryWithBackoff(GeneratorSequence(generator), attemptsLeft: attemptsLeft-1))
                 }.on (started: {
-                    print("\(NSDate()): Starting operation. Attempts left: \(attemptsLeft)")
+                    print("\t\(NSDate()): Starting operation. Attempts left: \(attemptsLeft)")
                 })
     }
 }

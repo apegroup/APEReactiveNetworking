@@ -64,38 +64,23 @@ public struct Network {
                      maxRetries: Int = maxRetryCount,
                      parseDataBlock: ((data:NSData) -> T?)? = nil) -> SignalProducer<T, NetworkError> {
         
-        let operationProducer = session.dataTaskSignalProducer(request: request,
+        return session.dataTaskSignalProducer(request: request,
             responseCodeValidator: responseCodeValidator,
             parseDataBlock: parseDataBlock)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxRetries)
-        
-        
-        /* In order to implement 'entire-operation-timeout' (rather than 'timeout-per-retry') we merge the
-         * Operation-SignalProducer with an empty SignalProducer and apply the timeout to the merged/outer SignalProducer.
-         *
-         * The Merged-SignalProducer will fail if:
-         *      - the inner Operation-SignalProducers fails,
-         *      or if
-         *      - the inner Operation-SignalProducer doesn't complete withhin 'abortAfter' seconds
-         *
-         * Whichever occurs first.
-         */
-        return SignalProducer<SignalProducer<T, NetworkError>, NoError> (values: [SignalProducer.empty, operationProducer])
-            .flatten(.Merge)
             .timeoutWithError(.TimedOut, afterInterval: abortAfter, onScheduler: QueueScheduler())
-            .observeOn(scheduler)
             .on (
                 started: {
-                    print("# NetworkOperation started")
+                    print("# \(NSDate()): NetworkOperation started. Must complete within '\(abortAfter)' seconds")
                 }, failed: { error in
-                    print("# NetworkOperation failed: \(error)")
+                    print("# \(NSDate()): NetworkOperation failed: \(error)")
                 }, completed: {
-                    print("# NetworkOperation completed")
+                    print("# \(NSDate()): NetworkOperation completed")
                 }, interrupted: {
-                    print("# NetworkOperation interrupted")
+                    print("# \(NSDate()): NetworkOperation interrupted")
                 }, terminated: {
-                    print("# NetworkOperation terminated")
+                    print("# \(NSDate()): NetworkOperation terminated")
             })
     }
 }
@@ -112,7 +97,7 @@ private extension NSURLSession {
             return SignalProducer<T, NetworkError>(){ observer, disposable in
                 
                 let task = self.dataTaskWithRequest(request) { data, response, error in
-                    
+                                        
                     guard error == nil else {
                         return observer.sendFailed(.RequestFailure(reason: error!))
                     }
