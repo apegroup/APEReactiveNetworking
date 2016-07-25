@@ -67,6 +67,7 @@
 		6708E9631D081B5500D4191F /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
 		6708E9641D081B5500D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		6708E9651D081B5500D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		6763011C1D46065E006D7D1E /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +151,7 @@
 		6708E9031D06FFDC00D4191F = {
 			isa = PBXGroup;
 			children = (
+				6763011C1D46065E006D7D1E /* README.md */,
 				5FF05A9F1D4105C10082575A /* Result.framework */,
 				5FF05A9D1D4105BE0082575A /* ReactiveCocoa.framework */,
 				6708E96B1D081B6700D4191F /* Dependencies */,
