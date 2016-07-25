@@ -87,10 +87,10 @@ class LoginViewController: UIViewController {
                     .authenticateUser(self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
                     .start { event in
                         switch event {
-                        case .Next(let networkResponse):
+                        case .Next(let NetworkDataResponse):
                             //This is a POC - mark the global "authenticated" state that we are authenticated
                             DummyState.authed = true
-                            self.handleLoginSuccess(networkResponse.data)
+                            self.handleLoginSuccess(NetworkDataResponse.parsedData)
                         case .Failed(let error):
                             self.handleLoginError(error)
                         default: break
@@ -104,7 +104,7 @@ class LoginViewController: UIViewController {
         loginCompletionHandler?(authResponse)
     }
     
-    private func handleLoginError(error: NetworkError) {
+    private func handleLoginError(error: Network.Error) {
         print("received error: \(error)")
     }
 }

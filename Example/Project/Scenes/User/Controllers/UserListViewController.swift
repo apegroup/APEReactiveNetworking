@@ -48,7 +48,7 @@ class UserListViewController: UIViewController {
         }
     }
     
-    private func getAllUsers() -> SignalProducer<NetworkResponse<[User]>, NetworkError> {
+    private func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.Error> {
         return apeChatApi.getAllUsers().on(
             started : {
                 print("users started")
@@ -65,7 +65,7 @@ class UserListViewController: UIViewController {
             },
             next: { response in
                 print("response headers: \(response.responseHeaders)")
-                let users = response.data
+                let users = response.parsedData
                 print("users received: \(users)")
                 self.dataSource.elements = users
                 self.tableView.reloadData()

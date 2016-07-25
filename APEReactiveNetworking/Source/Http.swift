@@ -9,6 +9,7 @@
 import Foundation
 
 public typealias HttpRequestHeaders = [String: String]
+public typealias HttpResponseHeaders = [NSObject : AnyObject]
 
 
 public enum HttpMethod: String {

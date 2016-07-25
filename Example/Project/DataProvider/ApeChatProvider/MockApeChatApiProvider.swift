@@ -16,16 +16,16 @@ struct MockApeChatApiProvider { //: ApeChatApi {
     //MARK: ApeChatApi
     
     func authenticateUser(username: String,
-                          password: String) -> SignalProducer<NetworkResponse<AuthResponse>, NetworkError> {
+                          password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
         return signalProducer()
     }
     
-    func getAllUsers() -> SignalProducer<NetworkResponse<[User]>, NetworkError> {
+    func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.Error> {
         return signalProducer()
     }
     
 
-    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<NetworkResponse<User>, NetworkError> {
+    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<NetworkDataResponse<User>, Network.Error> {
         return signalProducer()
     }
 
@@ -36,20 +36,20 @@ struct MockApeChatApiProvider { //: ApeChatApi {
     
     //MARK: Private
     
-    private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkResponse<[T]>, NetworkError> {
+    private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkDataResponse<[T]>, Network.Error> {
         
         return signalProducer()
     }
     
     ///Returns a signal producer that sends a next event containing a parsed model of type 'T' or a 'ParseFailure' if an error occurred.
-    private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkResponse<T>, NetworkError> {
+    private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkDataResponse<T>, Network.Error> {
         
-        return SignalProducer<NetworkResponse<T>, NetworkError>(){ observer, _disposable in
+        return SignalProducer<NetworkDataResponse<T>, Network.Error>(){ observer, _disposable in
             guard let model = self.initFromJsonFile(T) else {
                 return observer.sendFailed(.ParseFailure)
             }
             
-            observer.sendNext(NetworkResponse(responseHeaders: [:], data: model))
+            observer.sendNext(NetworkDataResponse(responseHeaders: [:], data: model))
             observer.sendCompleted()
         }
     }

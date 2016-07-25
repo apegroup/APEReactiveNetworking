@@ -15,7 +15,7 @@ struct DummyState {
     static var authed = false
 }
 
-extension SignalProducerType where Error == NetworkError {
+extension SignalProducerType where Error == Network.Error {
     
     //MARK: Public
     
@@ -62,7 +62,7 @@ extension SignalProducerType where Error == NetworkError {
                 observer.sendCompleted()
                 }
                 .flatten(.Merge)
-                .on(failed: { (error: NetworkError) in
+                .on(failed: { (error: Network.Error) in
                     if case .ErrorResponse(httpCode: .Unauthorized, reason: let reason) = error {
                         print("Received error: \(reason) - presenting login")
                         self.presentLoginViewController()

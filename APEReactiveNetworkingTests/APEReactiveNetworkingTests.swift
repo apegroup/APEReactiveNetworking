@@ -20,7 +20,7 @@ class APEReactiveNetworkingTests: XCTestCase {
         let expectation = expectationWithDescription("Expected status 200 OK within 5 seconds")
         
         let request = NSURLRequest(URL: NSURL(string: "http://www.google.com")!)
-        let producer: SignalProducer<HttpResponseHeaders, NetworkError> = Network().send(request)
+        let producer: SignalProducer<HttpResponseHeaders, Network.Error> = Network().send(request)
             .on(completed: {
                 expectation.fulfill()
             })
@@ -36,9 +36,9 @@ class APEReactiveNetworkingTests: XCTestCase {
         let expectation = expectationWithDescription("Expected timeout")
         
         let request = NSURLRequest(URL: NSURL(string: "http://www.google.com")!)
-        let producer: SignalProducer<HttpResponseHeaders, NetworkError> = Network().send(request, abortAfter: 0.0)
-            .on(failed: { (error: NetworkError) in
-                XCTAssertEqual(error._code, NetworkError.TimedOut._code)
+        let producer: SignalProducer<HttpResponseHeaders, Network.Error> = Network().send(request, abortAfter: 0.0)
+            .on(failed: { (error: Network.Error) in
+                XCTAssertEqual(error._code, Network.Error.TimedOut._code)
                 expectation.fulfill()
             })
         
@@ -74,13 +74,13 @@ class APEReactiveNetworkingTests: XCTestCase {
         var startTime: NSTimeInterval?
         var endTime: NSTimeInterval?
         let request = NSURLRequest(URL: NSURL(string: "http://www._thisisaninvalidURL_asdfasoiddlkdk.com")!)
-        let producer: SignalProducer<HttpResponseHeaders, NetworkError> = Network().send(request, abortAfter:maximumTimePermitted, maxRetries:numberOfRetries)
+        let producer: SignalProducer<HttpResponseHeaders, Network.Error> = Network().send(request, abortAfter:maximumTimePermitted, maxRetries:numberOfRetries)
             .on(
                 started: {
                     //Capture the start time
                     startTime = NSDate().timeIntervalSince1970
                     
-                }, failed: { (error: NetworkError) in
+                }, failed: { (error: Network.Error) in
                     //Capture the end time
                     endTime = NSDate().timeIntervalSince1970
                     
@@ -92,7 +92,7 @@ class APEReactiveNetworkingTests: XCTestCase {
                     
                     //Assert that a request failure has occurred
                     let expectedError = NSError(domain: "NSURLErrorDomain", code: -1003, userInfo: nil)
-                    XCTAssertEqual(error._code, NetworkError.RequestFailure(reason: expectedError)._code)
+                    XCTAssertEqual(error._code, Network.Error.RequestFailure(reason: expectedError)._code)
                     
                     expectation.fulfill()
             })

@@ -11,32 +11,31 @@ import Foundation
 import ReactiveCocoa
 
 
-public typealias HttpResponseHeaders = [NSObject : AnyObject]
-
-public struct NetworkResponse<T> {
+// TODO: Move into Network when possible
+public struct NetworkDataResponse<T> {
     public let responseHeaders: HttpResponseHeaders
-    public let data: T
-    
+    public let parsedData: T
+
     public init(responseHeaders: HttpResponseHeaders, data: T) {
         self.responseHeaders = responseHeaders
-        self.data = data
+        self.parsedData = data
     }
-}
-
-
-public enum NetworkError : ErrorType {
-    case ParseFailure
-    case MissingData
-    case MissingResponse
-    case ErrorResponse (httpCode: HttpStatusCode, reason: String)
-    case RequestFailure (reason: NSError)
-    case TimedOut
 }
 
 
 // TODO: Consider customisable data, download, upload tasks
 public struct Network {
-    
+
+    public enum Error : ErrorType {
+        case ParseFailure
+        case MissingData
+        case MissingResponse
+        case ErrorResponse (httpCode: HttpStatusCode, reason: String)
+        case RequestFailure (reason: NSError)
+        case TimedOut
+    }
+
+
     /// The TOTAL number of seconds to wait before aborting the entire operation.
     static let operationTimeoutSeconds: NSTimeInterval = 10
     
@@ -71,7 +70,7 @@ public struct Network {
                      session: NSURLSession = NSURLSession.sharedSession(),
                      scheduler: SchedulerType = UIScheduler(),
                      abortAfter: NSTimeInterval = operationTimeoutSeconds,
-                     maxRetries: Int = maxRetryCount) -> SignalProducer<HttpResponseHeaders, NetworkError> {
+                     maxRetries: Int = maxRetryCount) -> SignalProducer<HttpResponseHeaders, Network.Error> {
         
         return session
             .dataTaskHttpHeaderSignalProducer(request: request,responseCodeValidator: responseCodeValidator)
@@ -108,7 +107,7 @@ public struct Network {
                      scheduler: SchedulerType = UIScheduler(),
                      abortAfter: NSTimeInterval = operationTimeoutSeconds,
                      maxRetries: Int = maxRetryCount,
-                     parseDataBlock: ((data:NSData) -> T?)) -> SignalProducer<NetworkResponse<T>, NetworkError> {
+                     parseDataBlock: ((data:NSData) -> T?)) -> SignalProducer<NetworkDataResponse<T>, Network.Error> {
         
         return session
             .dataTaskSignalProducer(request: request,responseCodeValidator: responseCodeValidator, parseDataBlock: parseDataBlock)
@@ -148,9 +147,9 @@ private extension NSURLSession {
      */
     func dataTaskHttpHeaderSignalProducer(request request: NSURLRequest,
                                                   responseCodeValidator: HttpResponseCodeValidator)
-        -> SignalProducer<HttpResponseHeaders, NetworkError> {
+        -> SignalProducer<HttpResponseHeaders, Network.Error> {
             
-            return SignalProducer<HttpResponseHeaders, NetworkError> { observer, disposable in
+            return SignalProducer<HttpResponseHeaders, Network.Error> { observer, disposable in
                 
                 let task = self.dataTaskWithRequest(request) { data, response, error in
                     
@@ -177,12 +176,12 @@ private extension NSURLSession {
     func dataTaskSignalProducer<T>(request request: NSURLRequest,
                                 responseCodeValidator: HttpResponseCodeValidator,
                                 parseDataBlock: ((data:NSData) -> T?))
-        -> SignalProducer<NetworkResponse<T>, NetworkError> {
+        -> SignalProducer<NetworkDataResponse<T>, Network.Error> {
             
-            return SignalProducer<NetworkResponse<T>, NetworkError> { observer, disposable in
+            return SignalProducer<NetworkDataResponse<T>, Network.Error> { observer, disposable in
                 
                 let task = self.dataTaskWithRequest(request) { data, response, error in
-                    
+
                     let (maybeHttpResponse, networkError) = self.validate(request, withResponseCodeValidator: responseCodeValidator, error: error, response: response)
                     guard let httpResponse = maybeHttpResponse else {
                         return observer.sendFailed(networkError!)
@@ -198,7 +197,7 @@ private extension NSURLSession {
                         return observer.sendFailed(.ParseFailure)
                     }
                     
-                    observer.sendNext(NetworkResponse(responseHeaders: httpResponse.allHeaderFields, data: parsedData))
+                    observer.sendNext(NetworkDataResponse(responseHeaders: httpResponse.allHeaderFields, data: parsedData))
                     observer.sendCompleted()
                 }
                 
@@ -222,7 +221,7 @@ private extension NSURLSession {
     private func validate(request: NSURLRequest,
                           withResponseCodeValidator responseCodeValidator: HttpResponseCodeValidator,
                                                     error: NSError?,
-                                                    response: NSURLResponse?) -> (httpResponse: NSHTTPURLResponse?, networkError: NetworkError?) {
+                                                    response: NSURLResponse?) -> (httpResponse: NSHTTPURLResponse?, networkError: Network.Error?) {
         //Ensure no error occurred
         guard error == nil else {
             return (httpResponse: nil, networkError: .RequestFailure(reason: error!))
