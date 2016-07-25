@@ -16,7 +16,7 @@ public protocol HttpRequestBuilder {
 
     func addAuthHandler(authHandler: AuthenticationHandler) -> HttpRequestBuilder
 
-    func addHeaders(headers: HttpHeaders) -> HttpRequestBuilder
+    func addHeaders(headers: HttpRequestHeaders) -> HttpRequestBuilder
 
     func setBody(rawData rawData: NSData, contentType: HttpContentType) -> HttpRequestBuilder
 

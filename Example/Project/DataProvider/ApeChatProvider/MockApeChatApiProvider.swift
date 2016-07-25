@@ -16,16 +16,16 @@ struct MockApeChatApiProvider { //: ApeChatApi {
     //MARK: ApeChatApi
     
     func authenticateUser(username: String,
-                          password: String) -> SignalProducer<AuthResponse, NetworkError> {
+                          password: String) -> SignalProducer<NetworkResponse<AuthResponse>, NetworkError> {
         return signalProducer()
     }
     
-    func getAllUsers() -> SignalProducer<[User], NetworkError> {
+    func getAllUsers() -> SignalProducer<NetworkResponse<[User]>, NetworkError> {
         return signalProducer()
     }
     
 
-    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<User, NetworkError> {
+    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<NetworkResponse<User>, NetworkError> {
         return signalProducer()
     }
 
@@ -36,20 +36,20 @@ struct MockApeChatApiProvider { //: ApeChatApi {
     
     //MARK: Private
     
-    private func signalProducer<T: Unboxable>() -> SignalProducer<[T], NetworkError> {
+    private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkResponse<[T]>, NetworkError> {
         
         return signalProducer()
     }
     
     ///Returns a signal producer that sends a next event containing a parsed model of type 'T' or a 'ParseFailure' if an error occurred.
-    private func signalProducer<T: Unboxable>() -> SignalProducer<T, NetworkError> {
+    private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkResponse<T>, NetworkError> {
         
-        return SignalProducer<T, NetworkError>(){ observer, _disposable in
+        return SignalProducer<NetworkResponse<T>, NetworkError>(){ observer, _disposable in
             guard let model = self.initFromJsonFile(T) else {
                 return observer.sendFailed(.ParseFailure)
             }
             
-            observer.sendNext(model)
+            observer.sendNext(NetworkResponse(responseHeaders: [:], data: model))
             observer.sendCompleted()
         }
     }

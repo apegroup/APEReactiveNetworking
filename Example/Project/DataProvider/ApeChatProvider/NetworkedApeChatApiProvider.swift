@@ -20,7 +20,7 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
     
     //More elaborate example
     func authenticateUser(username: String,
-                          password: String) -> SignalProducer<AuthResponse, NetworkError> {
+                          password: String) -> SignalProducer<NetworkResponse<AuthResponse>, NetworkError> {
         
         //Endpoint for authenticating a user
         let endpoint: Endpoint = ApeChatApiEndpoints.AuthUser
@@ -76,7 +76,7 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
     }
     
     
-    func getAllUsers() -> SignalProducer<[User], NetworkError> {
+    func getAllUsers() -> SignalProducer<NetworkResponse<[User]>, NetworkError> {
         let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.GetAllUsers)
             .addAuthHandler(authHandler)
             .build()
@@ -84,7 +84,7 @@ struct NetworkedApeChatApiProvider: ApeChatApi {
     }
     
     
-    func updateUserAvatar(userId: String, avatar: UIImage) -> SignalProducer<User, NetworkError> {
+    func updateUserAvatar(userId: String, avatar: UIImage) -> SignalProducer<NetworkResponse<User>, NetworkError> {
         let avatarRawData = UIImageJPEGRepresentation(avatar, 0.9)!
         
         let request: NSURLRequest = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.UpdateUserAvatar(userId: userId))
