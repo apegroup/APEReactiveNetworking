@@ -20,6 +20,9 @@ A light-weight networking library based on ReactiveCocoa 4.x
 - Code coverage at X %
 - Example project available, using all network methods and binding to UI (a full reactive chain)
 
+## Does not support
+- Multipart request
+- ? 
 
 ## Future improvements
 - Improve the README file with logo, example and architecture
