@@ -36,7 +36,7 @@ public struct Network {
     }
 
 
-    /// The TOTAL number of seconds to wait before aborting the entire operation.
+    /// The total number of seconds to wait before aborting the entire operation
     static let operationTimeoutSeconds: NSTimeInterval = 10
     
     /// The max number of retries before aborting the entire operation
@@ -73,7 +73,7 @@ public struct Network {
                      maxRetries: Int = maxRetryCount) -> SignalProducer<HttpResponseHeaders, Network.Error> {
         
         return session
-            .dataTaskHttpHeaderSignalProducer(request: request,responseCodeValidator: responseCodeValidator)
+            .dataTaskHttpHeaderSignalProducer(request: request, responseCodeValidator: responseCodeValidator)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxRetries)
             .timeoutWithError(.TimedOut, afterInterval: abortAfter, onScheduler: QueueScheduler())

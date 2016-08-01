@@ -31,7 +31,6 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
     public func setBody(rawData rawData: NSData,
                                 contentType: HttpContentType) -> HttpRequestBuilder {
-
         self.contentTypeHeader = contentType
         self.bodyData = rawData
         return self
@@ -61,12 +60,13 @@ public class ApeRequestBuilder: HttpRequestBuilder {
         }
 
         headers["Content-Type"] = contentTypeHeader.description
-
-        //FIXME - remove hard coded values
-        headers["X-Apegroup-Client-OS"] = "9.1"
-        headers["X-Apegroup-Client-App-Version"] = "0.1"
-        headers["X-Apegroup-Device-Type"] = "iPhone 6S"
-        headers["Accept-Language"] = "sv-SE"
+        
+        let device = UIDevice.currentDevice()
+        headers["X-Apegroup-Client-OS"] = device.systemName
+        headers["X-Apegroup-Client-OS-Version"] = device.systemVersion
+        headers["X-Apegroup-Client-Device-Type"] = device.modelName
+        //headers["X-Apegroup-Client-App-Version"] = "0.1"
+        //headers["Accept-Language"] = "sv-SE"
 
         return headers
     }
@@ -79,7 +79,6 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = endpoint.httpMethod.rawValue
-
         request.HTTPBody = body
 
         for (header, value) in headers {
@@ -88,7 +87,4 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
         return request
     }
-
-
 }
-

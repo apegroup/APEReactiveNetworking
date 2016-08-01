@@ -146,5 +146,4 @@ public enum HttpStatusCode: Int {
             self = .UnknownHttpStatusCode
         }
     }
-
 }

@@ -14,7 +14,7 @@ struct KeychainManager {
     //MARK: Keychain keys
     
     //Account key
-    private static let AccountKey = "AppArchitectureAccountKey"
+    private static let AccountKey = "APEReactiveNetworkingAccountKey"
     
     //Dictionary keys
     private static let KeyJwtToken = "AccountKeyJwtToken"
