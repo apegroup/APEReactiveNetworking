@@ -25,6 +25,9 @@ A light-weight networking library based on ReactiveCocoa 4.x
 - ? 
 
 ## Future improvements
+- Swift 3.0 support
+- Add support for "side effect injection block" (i.e. a block that allows access to the unparsed data, that is executed after the parseDataBlock and only IF the parseDataBlock was successful). This is important in order to avoid using the parse data block as a side effect injection block.
+
 - Improve the README file with logo, example and architecture
 - Support for background download/upload by the OS
 - Add more testcases
