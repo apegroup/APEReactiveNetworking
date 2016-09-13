@@ -39,3 +39,119 @@ A light-weight networking library based on ReactiveCocoa 4.x
 - Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
 - Extend the Example project with more api methods, better commenting etc
 
+
+
+
+
+
+
+
+## Usage example
+
+```swift
+import APEReactiveNetworking
+import ReactiveCocoa
+import enum Result.NoError
+
+/**
+  The authentication handler is used to
+  - set the value of the 'Authorization' http header field in the request
+  - handle received credentials/tokens, etc, e.g. by storing them in the keychain
+ **/
+let authHandler: AuthenticationHandler = ApeJwtAuthenticationHandler()
+
+
+/**
+- The 'authenticateUser()' method returns the response value of 'Network::send()'.
+- 'Network::send()' returns a 'ReactiveCocoa::SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>', where 'AuthResponse' is expected response data model.
+**/
+func onLoginButtonTapped() {
+  let signalProducer<NetworkDataResponse<AuthResponse>, Network.Error> = authenticateUser("ape", password: "ape123")
+    signalProducer.start { event in
+      switch event {
+        case .Next(let networkDataResponse):
+          let authResponse = networkDataResponse.parsedData
+          self.authHandler.handleAuthTokenReceived(authResponse)
+        case .Failed(let error):
+          print("An error occurred: \(error)")
+        default: break
+      }
+    }
+}
+
+
+/** 
+  Elaborate example: Sending a request.
+**/
+func authenticateUser(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
+
+  ///1) Constructing the http request: 
+
+  //1.1) Create an endpoint by implementing the endpoint protocol, which requires two methods to be implemented: 'absoluteUrl' and 'httpMethod'
+  let endpoint: Endpoint = ApeChatApiEndpoints.AuthUser
+
+  //1.2) Create a custom request builder by implementing the HttpRequestBuilder protocol (or use the provided default implementation 'ApeRequestBuilder')
+  let builder : HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
+
+  //1.3) *** Optional: Provide your http request body ***
+  let jsonDict: [String:AnyObject] = ["user":username, "password":password]
+  builder.setBody(json: jsonDict)
+
+  //1.4) *** Optional: Provide the request builder with a authentication handler (a type conforming to the 'AuthenticationHandler' protocol). A 'ApeJwtAuthenticationHandler' is provided by the framework *** 
+  // The authentication handler is primarily used to set the 'Authorization' http header field in the http request.
+  builder.addAuthHandler(self.authHandler)
+
+  //1.5) Create the request
+  let request: NSURLRequest = builder.build()
+
+
+  ///Configuring the operation settings
+
+  //2) *** Optional: Provide a custom http response code validator by implementing the 'HttpResponseCodeValidator' protocol ('ApeResponseCodeValidator', which accepts all 200-299 response codes, is provided by default)
+  let validator: HttpResponseCodeValidator = ApeResponseCodeValidator()
+
+  //3) *** Optional: Provide if you wish to use a custom NSURLSession (the 'defaultSessionConfiguration' will be used by default) ***
+  let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+
+  //4) *** Optional: Provide a custom 'ReactiveCocoa::SchedulerType' if you wish to handle signal events on a custom queue (the main queue is used by default) ***
+  let scheduler: SchedulerType = UIScheduler()
+
+  //5) *** Optional: Provide a custom request timeout before aborting the operation (10 seconds is used by default)
+  let timeoutSeconds = 20
+
+  //6) *** Optional: Provide a max number of retries before aborting the operation (a maximum of 10 retries is the default)
+  let maxNumberOfRetries = 5
+
+  //7) *** Optional: If you are expecting data to be returned: Provide a 'parse data block' (i.e. a block that transforms the received response data to your expected model) ***
+  let parseDataBlock: (data:NSData) -> AuthResponse? = { data in
+    guard let authResponse = try? Unbox(data) as AuthResponse else {
+      return nil
+    }
+    return authResponse
+  }
+
+  ///Creating the request command/signal producer
+
+  //8) Send the request along with other configuration settings to 'Network.send()'
+  return Network().send(
+      request,
+      responseCodeValidator: validator,
+      session: session,
+      scheduler: scheduler,
+      abortAfter: timeoutSeconds,
+      maxRetries: maxNumberOfRetries,
+      parseDataBlock: parseDataBlock)
+}
+
+//Compact example: Sending the above request using the default values
+func authenticateUser2(username: String,
+    password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
+  let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.AuthUser)
+    .setBody(json: ["user":username, "password":password])
+    .addAuthHandler(self.authHandler)
+    .build()
+
+    return Network().send(request) { try? Unbox($0) }
+}
+
+```
