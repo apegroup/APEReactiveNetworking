@@ -43,7 +43,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     }
 
     ///Builds a NSURLRequest with the provided components
-    public  func build() -> NSURLRequest {
+    public func build() -> NSURLRequest {
         let headers = generateHeaders()
         let request = generateRequest(headers, body: bodyData)
         return request
@@ -53,7 +53,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     // MARK: Private
 
     private func generateHeaders() -> HttpRequestHeaders {
-        var headers: HttpRequestHeaders = [:]
+        var headers: HttpRequestHeaders = self.additionalHeaders ?? [:]
 
         if let authorizationHeaderValue = authHeader {
             headers["Authorization"] = authorizationHeaderValue
