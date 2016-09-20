@@ -12,6 +12,7 @@ public typealias HttpRequestHeaders = [String: String]
 public typealias HttpResponseHeaders = [NSObject : AnyObject]
 
 
+//TODO: lower-camel-case enums
 public enum HttpMethod: String {
     case GET
     case PUT
@@ -20,8 +21,9 @@ public enum HttpMethod: String {
     case DELETE
 
     init?(value: String?) {
-        guard let value = value,
-            resolved = HttpMethod(rawValue: value) else {
+        guard
+            let value = value,
+            let resolved = HttpMethod(rawValue: value) else {
                 return nil
         }
         self = resolved
@@ -30,22 +32,22 @@ public enum HttpMethod: String {
 
 
 public enum HttpContentType {
-    case ApplicationJson
-    case TextPlain
-    case ImageJpeg
-    case ImagePng
+    case applicationJson
+    case textPlain
+    case imageJpeg
+    case imagePng
 }
 
 extension HttpContentType : CustomStringConvertible {
     public var description : String {
         switch self {
-        case ApplicationJson:
+        case .applicationJson:
             return "application/json; charset=utf-8"
-        case TextPlain:
+        case .textPlain:
             return "text/plain; charset=utf-8"
-        case ImageJpeg:
+        case .imageJpeg:
             return "image/jpeg"
-        case ImagePng:
+        case .imagePng:
             return "image/png"
         }
     }
@@ -53,6 +55,7 @@ extension HttpContentType : CustomStringConvertible {
 
 
 //Thanks https://github.com/rhodgkins/SwiftHTTPStatusCodes/blob/master/HTTPStatusCodes.swift
+//FIXME: Lowercase enums
 public enum HttpStatusCode: Int {
 
     // Informational

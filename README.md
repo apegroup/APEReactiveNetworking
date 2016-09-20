@@ -34,7 +34,7 @@ A light-weight networking library based on ReactiveCocoa 4.x
 - Project logo
 - Async image downloads  for cell updating (extension of UIImage?)
 - Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
-- A custom NSURLSession with request timeout set to 10 s
+- A custom URLSession with request timeout set to 10 s
 - Add HTTPS  + SSL certificate validation support
 - Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
 - Extend the Example project with more api methods, better commenting etc
@@ -102,7 +102,7 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   builder.addAuthHandler(self.authHandler)
 
   //1.5) Create the request
-  let request: NSURLRequest = builder.build()
+  let request: URLRequest = builder.build()
 
 
   ///Configuring the operation settings
@@ -110,8 +110,8 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   //2) *** Optional: Provide a custom http response code validator by implementing the 'HttpResponseCodeValidator' protocol ('ApeResponseCodeValidator', which accepts all 200-299 response codes, is provided by default)
   let validator: HttpResponseCodeValidator = ApeResponseCodeValidator()
 
-  //3) *** Optional: Provide if you wish to use a custom NSURLSession (the 'defaultSessionConfiguration' will be used by default) ***
-  let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+  //3) *** Optional: Provide if you wish to use a custom URLSession (the 'defaultSessionConfiguration' will be used by default) ***
+  let session = URLSession(configuration: URLSessionConfiguration.defaultSessionConfiguration())
 
   //4) *** Optional: Provide a custom 'ReactiveCocoa::SchedulerType' if you wish to handle signal events on a custom queue (the main queue is used by default) ***
   let scheduler: SchedulerType = UIScheduler()
@@ -123,7 +123,7 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   let maxNumberOfRetries = 5
 
   //7) *** Optional: If you are expecting data to be returned: Provide a 'parse data block' (i.e. a block that transforms the received response data to your expected model) ***
-  let parseDataBlock: (data:NSData) -> AuthResponse? = { data in
+  let parseDataBlock: (data:Data) -> AuthResponse? = { data in
     guard let authResponse = try? Unbox(data) as AuthResponse else {
       return nil
     }

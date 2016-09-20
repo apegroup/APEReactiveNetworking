@@ -22,7 +22,7 @@ public struct ApeJwtAuthenticationHandler : AuthenticationHandler {
 
     ///Saves the received token to the Keychain
     public func handleAuthTokenReceived(token: String) {
-        let saved = KeychainManager.saveJwtToken(token)
+        let saved = KeychainManager.saveJwtToken(token: token)
         precondition(saved, "Error occurred when saving http auth token")
     }
 }

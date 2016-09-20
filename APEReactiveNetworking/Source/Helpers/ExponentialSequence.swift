@@ -11,12 +11,12 @@ import Foundation
 /**
  *  A SequenceType that creates a generator which increases exponentially
  */
-struct ExponentialSequence: SequenceType {
-    func generate() -> AnyGenerator<NSTimeInterval> {
+struct ExponentialSequence: Sequence {
+    func makeIterator() -> AnyIterator<TimeInterval> {
         var attempt = -1
-        return AnyGenerator {
+        return AnyIterator {
             attempt += 1
-            return pow(2, NSTimeInterval(attempt))
+            return pow(2, TimeInterval(attempt))
         }
     }
 }

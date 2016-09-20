@@ -18,9 +18,9 @@ public protocol HttpRequestBuilder {
 
     func addHeaders(headers: HttpRequestHeaders) -> HttpRequestBuilder
 
-    func setBody(rawData rawData: NSData, contentType: HttpContentType) -> HttpRequestBuilder
+    func setBody(rawData: Data, contentType: HttpContentType) -> HttpRequestBuilder
 
-    func build() -> NSURLRequest
+    func build() -> URLRequest
 }
 
 
@@ -29,18 +29,18 @@ extension HttpRequestBuilder {
 
     // MARK: Regular
 
-    public func setBody(json json: [String:AnyObject]) -> HttpRequestBuilder {
-        guard let rawData = try? NSJSONSerialization.dataWithJSONObject(json, options: []) else {
-            preconditionFailure("Json dictionary could not be converted to NSData")
+    public func setBody(json: [String:AnyObject]) -> HttpRequestBuilder {
+        guard let rawData = try? JSONSerialization.data(withJSONObject: json, options: []) else {
+            preconditionFailure("Json dictionary could not be converted to Data")
         }
-        return setBody(rawData: rawData, contentType: .ApplicationJson)
+        return setBody(rawData: rawData, contentType: .applicationJson)
     }
 
-    public func setBody(text text: String) -> HttpRequestBuilder {
-        guard let rawData = text.dataUsingEncoding(NSUTF8StringEncoding) else {
-            preconditionFailure("Plain text could not be encoded to NSData")
+    public func setBody(text: String) -> HttpRequestBuilder {
+        guard let rawData = text.data(using: String.Encoding.utf8) else {
+            preconditionFailure("Plain text could not be encoded to Data")
         }
-        return setBody(rawData: rawData, contentType: .TextPlain)
+        return setBody(rawData: rawData, contentType: .textPlain)
     }
     
 }

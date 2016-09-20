@@ -22,11 +22,11 @@ struct KeychainManager {
     //MARK: Public
     
     static func jwtToken() -> String? {
-        return dataForKey(KeyJwtToken) as? String
+        return dataForKey(key: KeyJwtToken) as? String
     }
     
     static func saveJwtToken(token: String) -> Bool {
-        return saveData([KeyJwtToken : token])
+        return saveData(data: [KeyJwtToken : token as AnyObject])
     }
     
     //MARK: Private
@@ -39,7 +39,7 @@ struct KeychainManager {
     */
     private static func saveData(data: [String: AnyObject]) -> Bool {
         do {
-            try Locksmith.updateData(data, forUserAccount: AccountKey)
+            try Locksmith.updateData(data: data, forUserAccount: AccountKey)
             debugPrint("Saved '\(data)' to keychain")
             return true
         }
@@ -50,7 +50,7 @@ struct KeychainManager {
     }
     
     private static func dataForKey(key: String) -> AnyObject? {
-        return Locksmith.loadDataForUserAccount(AccountKey)?[key]
+        return Locksmith.loadDataForUserAccount(userAccount: AccountKey)?[key] as AnyObject?
     }
     
     

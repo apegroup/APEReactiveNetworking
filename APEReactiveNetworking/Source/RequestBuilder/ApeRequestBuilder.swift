@@ -13,9 +13,9 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
     private let endpoint : Endpoint
     private var authHeader: String?
-    private var contentTypeHeader = HttpContentType.ApplicationJson
+    private var contentTypeHeader = HttpContentType.applicationJson
     private var additionalHeaders: HttpRequestHeaders?
-    private var bodyData: NSData?
+    private var bodyData: Data?
 
     // MARK: Public
 
@@ -29,8 +29,8 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     }
 
 
-    public func setBody(rawData rawData: NSData,
-                                contentType: HttpContentType) -> HttpRequestBuilder {
+    public func setBody(rawData: Data,
+                        contentType: HttpContentType) -> HttpRequestBuilder {
         self.contentTypeHeader = contentType
         self.bodyData = rawData
         return self
@@ -42,10 +42,10 @@ public class ApeRequestBuilder: HttpRequestBuilder {
         return self
     }
 
-    ///Builds a NSURLRequest with the provided components
-    public func build() -> NSURLRequest {
+    ///Builds a URLRequest with the provided components
+    public func build() -> URLRequest {
         let headers = generateHeaders()
-        let request = generateRequest(headers, body: bodyData)
+        let request = generateRequest(headers: headers, body: bodyData)
         return request
     }
 
@@ -61,7 +61,7 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
         headers["Content-Type"] = contentTypeHeader.description
         
-        let device = UIDevice.currentDevice()
+        let device = UIDevice.current
         headers["X-Apegroup-Client-OS"] = device.systemName
         headers["X-Apegroup-Client-OS-Version"] = device.systemVersion
         headers["X-Apegroup-Client-Device-Type"] = device.modelName
@@ -72,14 +72,14 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     }
 
 
-    private func generateRequest(headers: HttpRequestHeaders, body: NSData?) -> NSURLRequest {
-        guard let url = NSURL(string: endpoint.absoluteUrl) else {
+    private func generateRequest(headers: HttpRequestHeaders, body: Data?) -> URLRequest {
+        guard let url = URL(string: endpoint.absoluteUrl) else {
             preconditionFailure("Endpoint contains invalid url")
         }
 
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = endpoint.httpMethod.rawValue
-        request.HTTPBody = body
+        var request = URLRequest(url: url)
+        request.httpMethod = endpoint.httpMethod.rawValue
+        request.httpBody = body
 
         for (header, value) in headers {
             request.setValue(value, forHTTPHeaderField: header)

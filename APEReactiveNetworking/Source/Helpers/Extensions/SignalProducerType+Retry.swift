@@ -7,31 +7,29 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import ReactiveSwift
 
-extension SignalProducerType {
+extension SignalProducerProtocol {
     
     ///Retries the SignalProducer 'maxAttempts' number of times before failing. Implements an exponential backoff between each retry.
     func retryWithExponentialBackoff(maxAttempts: Int)
         -> SignalProducer<Value, Error> {
-            return retryWithBackoff(ExponentialSequence(), attemptsLeft: maxAttempts)
+            return retryWithBackoff(strategy: ExponentialSequence(), attemptsLeft: maxAttempts)
     }
     
-    
-    
-    private func retryWithBackoff<S: SequenceType where S.Generator.Element == NSTimeInterval>(strategy: S, attemptsLeft: Int)
-        -> SignalProducer<Value, Error> {
+    private func retryWithBackoff<S: Sequence>(strategy: S, attemptsLeft: Int)
+        -> SignalProducer<Value, Error> where S.Iterator.Element == TimeInterval {
             
             guard attemptsLeft > 0 else {
                 return self.producer.on(failed: { error in
-                    print("\t\(NSDate()): Received error: '\(error)'. No attempts left - aborting.\n")
+                    print("\t\(Date()): Received error: '\(error)'. No attempts left - aborting.\n")
                 })
             }
             
-            var generator = strategy.generate()
+            var generator = strategy.makeIterator()
             guard let timeout = generator.next() else {
                 return self.producer.on(failed: { error in
-                    print("\t\(NSDate()): Received error: '\(error)'. No next timeout generated - aborting.\n")
+                    print("\t\(Date()): Received error: '\(error)'. No next timeout generated - aborting.\n")
                 })
             }
             
@@ -39,12 +37,12 @@ extension SignalProducerType {
             //  - Create an inner SignalProducer that will wait 'timout' seconds
             //  - Replay the original SignalProducer when the previously delayed signal has completed
             return self.flatMapError { error -> SignalProducer<Value, Error> in
-                print("\t\(NSDate()): Received error: '\(error)'. Retrying in: '\(timeout)' seconds\n")
+                print("\t\(Date()): Received error: '\(error)'. Retrying in: '\(timeout)' seconds\n")
                 return SignalProducer.empty
-                    .delay(timeout, onScheduler: QueueScheduler())
-                    .concat(self.retryWithBackoff(GeneratorSequence(generator), attemptsLeft: attemptsLeft-1))
+                    .delay(timeout, on: QueueScheduler())
+                    .concat(self.retryWithBackoff(strategy: IteratorSequence(generator), attemptsLeft: attemptsLeft-1))
                 }.on (started: {
-                    print("\t\(NSDate()): Starting operation. Attempts left: \(attemptsLeft)")
+                    print("\t\(Date()): Starting operation. Attempts left: \(attemptsLeft)")
                 })
     }
 }

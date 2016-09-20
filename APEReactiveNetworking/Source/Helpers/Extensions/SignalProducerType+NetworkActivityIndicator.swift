@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import ReactiveSwift
 
-extension SignalProducerType {
+extension SignalProducerProtocol {
     
     /**
      Injects side effects into the SignalProducer's life cycle events.
