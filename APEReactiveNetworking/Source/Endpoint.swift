@@ -10,6 +10,6 @@ import Foundation
 
 
 public protocol Endpoint {
-    var httpMethod: HttpMethod { get }
+    var httpMethod: Http.Method { get }
     var absoluteUrl: String { get }
 }

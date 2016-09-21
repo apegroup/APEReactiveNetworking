@@ -18,9 +18,8 @@ extension SignalProducerProtocol {
      - returns: The signal producer
      */
     func injectNetworkActivityIndicatorSideEffect() -> SignalProducer<Value, Error> {
-        return self.on (
-            started: {
-                NetworkActivityIndicator.sharedInstance.enabled = true
+        return self.on(started: {
+            NetworkActivityIndicator.sharedInstance.enabled = true
             }, terminated: {
                 NetworkActivityIndicator.sharedInstance.enabled = false
             }

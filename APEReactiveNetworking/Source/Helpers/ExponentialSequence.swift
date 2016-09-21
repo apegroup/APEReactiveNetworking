@@ -9,9 +9,10 @@
 import Foundation
 
 /**
- *  A SequenceType that creates a generator which increases exponentially
+ *  A Sequence that creates a iterator which increases exponentially
  */
 struct ExponentialSequence: Sequence {
+    
     func makeIterator() -> AnyIterator<TimeInterval> {
         var attempt = -1
         return AnyIterator {

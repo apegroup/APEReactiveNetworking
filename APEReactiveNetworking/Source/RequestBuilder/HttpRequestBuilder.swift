@@ -8,39 +8,32 @@
 
 import Foundation
 
-
-
 public protocol HttpRequestBuilder {
 
     init(endpoint: Endpoint)
 
-    func addAuthHandler(authHandler: AuthenticationHandler) -> HttpRequestBuilder
+    func add(authHandler: AuthenticationHandler) -> HttpRequestBuilder
 
-    func addHeaders(headers: HttpRequestHeaders) -> HttpRequestBuilder
+    func add(headers: Http.RequestHeaders) -> HttpRequestBuilder
 
-    func setBody(rawData: Data, contentType: HttpContentType) -> HttpRequestBuilder
+    func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder
 
     func build() -> URLRequest
 }
 
+public extension HttpRequestBuilder {
 
-//Work around in Swift 2.2 in order to use default arguments in Protocols
-extension HttpRequestBuilder {
-
-    // MARK: Regular
-
-    public func setBody(json: [String:AnyObject]) -> HttpRequestBuilder {
+    public func setBody(json: [String:Any]) -> HttpRequestBuilder {
         guard let rawData = try? JSONSerialization.data(withJSONObject: json, options: []) else {
             preconditionFailure("Json dictionary could not be converted to Data")
         }
-        return setBody(rawData: rawData, contentType: .applicationJson)
+        return setBody(data: rawData, contentType: .applicationJson)
     }
 
     public func setBody(text: String) -> HttpRequestBuilder {
         guard let rawData = text.data(using: String.Encoding.utf8) else {
             preconditionFailure("Plain text could not be encoded to Data")
         }
-        return setBody(rawData: rawData, contentType: .textPlain)
+        return setBody(data: rawData, contentType: .textPlain)
     }
-    
 }

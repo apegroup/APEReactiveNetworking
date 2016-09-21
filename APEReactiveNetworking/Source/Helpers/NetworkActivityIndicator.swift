@@ -11,8 +11,8 @@ import UIKit
 
 class NetworkActivityIndicator {
     
-    //Singelton
-    static let sharedInstance = NetworkActivityIndicator()  //Swift complier will execute this as a dispatch_once thus guarantee thread-safety
+    //Singleton
+    static let sharedInstance = NetworkActivityIndicator()
     
     //This prevents others from using the default '()' initializer for this class.
     private init() {
