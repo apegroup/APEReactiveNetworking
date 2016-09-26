@@ -1,4 +1,3 @@
 # External dependencies
-github "matthewpalmer/Locksmith" == 2.0.8 
-github "ReactiveCocoa/ReactiveCocoa" == 4.2.0 
-
+github "matthewpalmer/Locksmith"
+github "ReactiveCocoa/ReactiveSwift"

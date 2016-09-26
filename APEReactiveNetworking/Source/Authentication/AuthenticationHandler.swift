@@ -10,6 +10,6 @@ import Foundation
 
 public protocol AuthenticationHandler {
     var authHeader: String? { get }
-    func handleAuthTokenReceived(token: String) -> ()
+    func handleAuthTokenReceived(_ token: String) -> ()
 }
 

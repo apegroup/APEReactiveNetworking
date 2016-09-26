@@ -8,8 +8,6 @@
 
 import Foundation
 
-
 public protocol HttpResponseCodeValidator {
-    func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool
+    func isValid(responseCode: Http.StatusCode, forHttpMethod: Http.Method) -> Bool
 }
-

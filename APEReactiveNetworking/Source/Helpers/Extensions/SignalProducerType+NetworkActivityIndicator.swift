@@ -7,9 +7,9 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import ReactiveSwift
 
-extension SignalProducerType {
+extension SignalProducerProtocol {
     
     /**
      Injects side effects into the SignalProducer's life cycle events.
@@ -18,9 +18,8 @@ extension SignalProducerType {
      - returns: The signal producer
      */
     func injectNetworkActivityIndicatorSideEffect() -> SignalProducer<Value, Error> {
-        return self.on (
-            started: {
-                NetworkActivityIndicator.sharedInstance.enabled = true
+        return self.on(started: {
+            NetworkActivityIndicator.sharedInstance.enabled = true
             }, terminated: {
                 NetworkActivityIndicator.sharedInstance.enabled = false
             }

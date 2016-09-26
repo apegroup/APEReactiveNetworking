@@ -8,52 +8,49 @@
 
 import Foundation
 
+public final class ApeRequestBuilder: HttpRequestBuilder {
 
-public class ApeRequestBuilder: HttpRequestBuilder {
-
-    private let endpoint : Endpoint
+    private let endpoint: Endpoint
     private var authHeader: String?
-    private var contentTypeHeader = HttpContentType.ApplicationJson
-    private var additionalHeaders: HttpRequestHeaders?
-    private var bodyData: NSData?
+    private var contentTypeHeader = Http.ContentType.applicationJson
+    private var additionalHeaders: Http.RequestHeaders?
+    private var bodyData: Data?
 
     // MARK: Public
 
-    required public init(endpoint: Endpoint) {
+    public init(endpoint: Endpoint) {
         self.endpoint = endpoint
     }
     
-    public func addHeaders(headers: HttpRequestHeaders) -> HttpRequestBuilder {
+    public func add(authHandler: AuthenticationHandler) -> HttpRequestBuilder {
+        self.authHeader = authHandler.authHeader
+        return self
+    }
+    
+    public func add(headers: Http.RequestHeaders) -> HttpRequestBuilder {
         self.additionalHeaders = headers
         return self
     }
 
 
-    public func setBody(rawData rawData: NSData,
-                                contentType: HttpContentType) -> HttpRequestBuilder {
+    public func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder {
         self.contentTypeHeader = contentType
-        self.bodyData = rawData
+        self.bodyData = data
         return self
     }
 
-
-    public func addAuthHandler(authHandler: AuthenticationHandler) -> HttpRequestBuilder {
-        self.authHeader = authHandler.authHeader
-        return self
-    }
-
-    ///Builds a NSURLRequest with the provided components
-    public func build() -> NSURLRequest {
-        let headers = generateHeaders()
-        let request = generateRequest(headers, body: bodyData)
+    ///Builds a URLRequest with the provided components
+    public func build() -> URLRequest {
+        let headers = makeHeaders()
+        let request = makeRequest(with: headers, body: bodyData)
         return request
     }
 
 
     // MARK: Private
 
-    private func generateHeaders() -> HttpRequestHeaders {
-        var headers: HttpRequestHeaders = self.additionalHeaders ?? [:]
+    private func makeHeaders() -> Http.RequestHeaders {
+        var headers: Http.RequestHeaders = self.additionalHeaders ?? [:]
 
         if let authorizationHeaderValue = authHeader {
             headers["Authorization"] = authorizationHeaderValue
@@ -61,10 +58,13 @@ public class ApeRequestBuilder: HttpRequestBuilder {
 
         headers["Content-Type"] = contentTypeHeader.description
         
-        let device = UIDevice.currentDevice()
+        let device = UIDevice.current
         headers["X-Apegroup-Client-OS"] = device.systemName
         headers["X-Apegroup-Client-OS-Version"] = device.systemVersion
         headers["X-Apegroup-Client-Device-Type"] = device.modelName
+        headers["X-Apegroup-Client-Device-VendorId"] = device.identifierForVendor?.uuidString ?? "unknown"
+        
+        //FIXME: Fix headers below
         //headers["X-Apegroup-Client-App-Version"] = "0.1"
         //headers["Accept-Language"] = "sv-SE"
 
@@ -72,14 +72,14 @@ public class ApeRequestBuilder: HttpRequestBuilder {
     }
 
 
-    private func generateRequest(headers: HttpRequestHeaders, body: NSData?) -> NSURLRequest {
-        guard let url = NSURL(string: endpoint.absoluteUrl) else {
-            preconditionFailure("Endpoint contains invalid url")
+    private func makeRequest(with headers: Http.RequestHeaders, body: Data?) -> URLRequest {
+        guard let url = URL(string: endpoint.absoluteUrl) else {
+            preconditionFailure("Endpoint contains invalid url: '\(endpoint.absoluteUrl)'")
         }
 
-        let request = NSMutableURLRequest(URL: url)
-        request.HTTPMethod = endpoint.httpMethod.rawValue
-        request.HTTPBody = body
+        var request = URLRequest(url: url)
+        request.httpMethod = endpoint.httpMethod.rawValue
+        request.httpBody = body
 
         for (header, value) in headers {
             request.setValue(value, forHTTPHeaderField: header)

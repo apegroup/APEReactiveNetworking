@@ -9,7 +9,7 @@
 import Foundation
 
 public struct ApeResponseCodeValidator : HttpResponseCodeValidator {
-
+    
     public init() {}
 
     /**
@@ -20,7 +20,7 @@ public struct ApeResponseCodeValidator : HttpResponseCodeValidator {
      
      - returns: true if the response code is within the 200-range, else false
      */
-    public func isResponseCodeValid(responseCode: HttpStatusCode, httpMethod: HttpMethod) -> Bool {
-        return (HttpStatusCode.OK.rawValue..<HttpStatusCode.MultipleChoices.rawValue).contains(responseCode.rawValue)
+    public func isValid(responseCode: Http.StatusCode, forHttpMethod httpMethod: Http.Method) -> Bool {
+        return (Http.StatusCode.ok.rawValue..<Http.StatusCode.multipleChoices.rawValue).contains(responseCode.rawValue)
     }
 }

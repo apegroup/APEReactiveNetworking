@@ -25,8 +25,8 @@ struct KeychainManager {
         return dataForKey(KeyJwtToken) as? String
     }
     
-    static func saveJwtToken(token: String) -> Bool {
-        return saveData([KeyJwtToken : token])
+    static func save(jwtToken: String) -> Bool {
+        return save(data: [KeyJwtToken : jwtToken as AnyObject])
     }
     
     //MARK: Private
@@ -37,9 +37,9 @@ struct KeychainManager {
     - parameter data: The data to be saved
     - returns: true if the data was succesfully saved. Else false
     */
-    private static func saveData(data: [String: AnyObject]) -> Bool {
+    private static func save(data: [String: AnyObject]) -> Bool {
         do {
-            try Locksmith.updateData(data, forUserAccount: AccountKey)
+            try Locksmith.updateData(data: data, forUserAccount: AccountKey)
             debugPrint("Saved '\(data)' to keychain")
             return true
         }
@@ -49,12 +49,7 @@ struct KeychainManager {
         }
     }
     
-    private static func dataForKey(key: String) -> AnyObject? {
-        return Locksmith.loadDataForUserAccount(AccountKey)?[key]
+    private static func dataForKey(_ key: String) -> AnyObject? {
+        return Locksmith.loadDataForUserAccount(userAccount: AccountKey)?[key] as AnyObject?
     }
-    
-    
-    
-    
-    
 }

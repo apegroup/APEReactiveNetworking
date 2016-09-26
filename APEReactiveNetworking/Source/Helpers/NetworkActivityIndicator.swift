@@ -11,8 +11,8 @@ import UIKit
 
 class NetworkActivityIndicator {
     
-    //Singelton
-    static let sharedInstance = NetworkActivityIndicator()  //Swift complier will execute this as a dispatch_once thus guarantee thread-safety
+    //Singleton
+    static let sharedInstance = NetworkActivityIndicator()
     
     //This prevents others from using the default '()' initializer for this class.
     private init() {
@@ -29,11 +29,9 @@ class NetworkActivityIndicator {
                 count = max(0, (count - 1))
             }
             
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.4 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = (self.count > 0)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                UIApplication.shared.isNetworkActivityIndicatorVisible = (self.count > 0)
             }
         }
     }
-    
 }

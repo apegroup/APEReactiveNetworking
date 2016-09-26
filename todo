@@ -1,0 +1,23 @@
+- keychainManager: AnyObject --> Any
+
+Dependencies:
+- Remove unbox/wrap from example project so that it may run Swift3.0
+- Remove locksmith
+
+Code:
+- Encapsulate Network.Error inside NSError?
+- Timeout should provide context. E.g. if I expected 200 OK but receive 500, the operation will retry until max nr of retries is reached or the operation timeout is reached. The error will be Timeout instead of 500
+- Documentation: comment all the protocol properties
+
+- Double logging:
+# 2016-09-21 16:56:31 +0000: Starting operation. Attempts left: 10
+# 2016-09-21 16:56:31 +0000: NetworkOperation started. URL: 'https://web-wrapper-apegroup.appspot.com/config.json'. Must complete within '10.0' seconds
+
+
+
+
+
+
+
+- Set timeout from session settings rather than set session settings from timeout?
+- Create APEDefaultURLSession (performance)

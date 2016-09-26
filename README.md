@@ -2,39 +2,41 @@
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-A light-weight networking library based on ReactiveCocoa 4.x
+A light-weight networking library based on ReactiveSwift 5.x
 
 ## Features
 - PUT, POST, DELETE, GET, PATCH operations
 - Possibility to add custom request headers
-- Reactive oriented, based on ReactiveCocoa 4.x 
+- Reactive oriented, based on ReactiveSwift 5.x 
 - Automatically updates the network activity indicator
 - Possibility to customize authentication handlder, default implementation saves JWT token in safe storage (Keychain)
-- 100% Swift (Swift 2.X)
+- 100% Swift (Swift 3.X)
 - Powering Swift Generics
 - Access to all HTTP response headers
-- Light-weigth, less than 600 lines of code (including whitespace, comments and other meta lines)
+- Lightweigth, less than 600 lines of code (including whitespace, comments and other meta lines)
 - Automatic retry mechanism with possiblity to define max number of retries (exponential back-off strategy)
-- Deterministic response time (successful, error or timeout), ie abort after X seconds
+- Deterministic response time (successful, error or timeout), i.e. abort after 'X' seconds
 - Possibility to customize response code validation, default implementation accepts 200-299 codes
 - Code coverage at X %
 - Example project available, using all network methods and binding to UI (a full reactive chain)
 
 ## Does not support
 - Multipart request
+- Download/Upload tasks
 - ? 
 
 ## Future improvements
-- Swift 3.0 support
+- Remove heavyweight Keychain storage mechanism (we don't want that extra dependency)
+
 - Add support for "side effect injection block" (i.e. a block that allows access to the unparsed data, that is executed after the parseDataBlock and only IF the parseDataBlock was successful). This is important in order to avoid using the parse data block as a side effect injection block.
 
 - Improve the README file with logo, example and architecture
 - Support for background download/upload by the OS
-- Add more testcases
+- Add more test cases
 - Project logo
 - Async image downloads  for cell updating (extension of UIImage?)
 - Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
-- A custom NSURLSession with request timeout set to 10 s
+- A custom URLSession with request timeout set to 10 s
 - Add HTTPS  + SSL certificate validation support
 - Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
 - Extend the Example project with more api methods, better commenting etc
@@ -50,7 +52,7 @@ A light-weight networking library based on ReactiveCocoa 4.x
 
 ```swift
 import APEReactiveNetworking
-import ReactiveCocoa
+import ReactiveSwift
 import enum Result.NoError
 
 /**
@@ -63,7 +65,7 @@ let authHandler: AuthenticationHandler = ApeJwtAuthenticationHandler()
 
 /**
 - The 'authenticateUser()' method returns the response value of 'Network::send()'.
-- 'Network::send()' returns a 'ReactiveCocoa::SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>', where 'AuthResponse' is expected response data model.
+- 'Network::send()' returns a 'ReactiveSwift::SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>', where 'AuthResponse' is expected response data model.
 **/
 func onLoginButtonTapped() {
   let signalProducer<NetworkDataResponse<AuthResponse>, Network.Error> = authenticateUser("ape", password: "ape123")
@@ -99,10 +101,10 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
 
   //1.4) *** Optional: Provide the request builder with a authentication handler (a type conforming to the 'AuthenticationHandler' protocol). A 'ApeJwtAuthenticationHandler' is provided by the framework *** 
   // The authentication handler is primarily used to set the 'Authorization' http header field in the http request.
-  builder.addAuthHandler(self.authHandler)
+  builder.add(authHandler: self.authHandler)
 
   //1.5) Create the request
-  let request: NSURLRequest = builder.build()
+  let request: URLRequest = builder.build()
 
 
   ///Configuring the operation settings
@@ -110,11 +112,11 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   //2) *** Optional: Provide a custom http response code validator by implementing the 'HttpResponseCodeValidator' protocol ('ApeResponseCodeValidator', which accepts all 200-299 response codes, is provided by default)
   let validator: HttpResponseCodeValidator = ApeResponseCodeValidator()
 
-  //3) *** Optional: Provide if you wish to use a custom NSURLSession (the 'defaultSessionConfiguration' will be used by default) ***
-  let session = NSURLSession(configuration: NSURLSessionConfiguration.defaultSessionConfiguration())
+  //3) *** Optional: Provide if you wish to use a custom URLSession (the 'defaultSessionConfiguration' will be used by default) ***
+  let session = URLSession(configuration: URLSessionConfiguration.defaultSessionConfiguration())
 
-  //4) *** Optional: Provide a custom 'ReactiveCocoa::SchedulerType' if you wish to handle signal events on a custom queue (the main queue is used by default) ***
-  let scheduler: SchedulerType = UIScheduler()
+  //4) *** Optional: Provide a custom 'ReactiveSwift::SchedulerProtocol' if you wish to handle signal events on a custom queue (the main queue is used by default) ***
+  let scheduler: SchedulerProtocol = UIScheduler()
 
   //5) *** Optional: Provide a custom request timeout before aborting the operation (10 seconds is used by default)
   let timeoutSeconds = 20
@@ -123,7 +125,7 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   let maxNumberOfRetries = 5
 
   //7) *** Optional: If you are expecting data to be returned: Provide a 'parse data block' (i.e. a block that transforms the received response data to your expected model) ***
-  let parseDataBlock: (data:NSData) -> AuthResponse? = { data in
+  let parseDataBlock: (Data) -> AuthResponse? = { data in
     guard let authResponse = try? Unbox(data) as AuthResponse else {
       return nil
     }
@@ -148,7 +150,7 @@ func authenticateUser2(username: String,
     password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
   let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.AuthUser)
     .setBody(json: ["user":username, "password":password])
-    .addAuthHandler(self.authHandler)
+    .add(authHandler: self.authHandler)
     .build()
 
     return Network().send(request) { try? Unbox($0) }
