@@ -6,7 +6,7 @@
 //  Copyright © 2016 Apegroup. All rights reserved.
 //
 
-import ReactiveCocoa
+import ReactiveSwift
 import APEReactiveNetworking
 
 // MARK: API Protocol
@@ -17,12 +17,12 @@ protocol ApeChatApi {
 
     // MARK: User
 
-    func authenticateUser(username: String,
-                          password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>
+    func authenticateUser(_ username: String,
+                          password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError>
 
-    func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.Error>
+    func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError>
 
-    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<NetworkDataResponse<User>, Network.Error>
+    func updateUserAvatar(userId: String, avatar: UIImage) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError>
     
 
     // MARK: Messages
@@ -36,12 +36,12 @@ protocol ApeChatApi {
 // MARK: API Factory
 struct ApeChatApiFactory {
     
-    static func create(environment: Environment = AppConfiguration.environment) -> ApeChatApi {
+    static func make(environment: Environment = AppConfiguration.environment) -> ApeChatApi {
         //FIXME: Remove hard coded value
         return NetworkedApeChatApiProvider()
         
 //        switch environment {
-//        case .Debug:    return MockApeChatApiProvider() 
+//        case .debug:    return MockApeChatApiProvider()
 //        default:        return NetworkedApeChatApiProvider()
 //        }
     }

@@ -15,7 +15,7 @@ struct User {
     let firstName: String
     let lastName: String
     let gender: String //Enum?
-    let createdAt: NSDate
+    let createdAt: Date
     let birthYear: Int //Date?
     let avatarUrl: String
 }
@@ -23,14 +23,14 @@ struct User {
 //MARK: Unboxable
 
 extension User: Unboxable {
-    init(unboxer: Unboxer) {
-        self.userId = unboxer.unbox("userId")
-        self.firstName = unboxer.unbox("firstname")
-        self.lastName = unboxer.unbox("lastname")
-        self.gender = unboxer.unbox("gender")
-        self.createdAt = unboxer.unbox("createdAt", formatter: NSDate.iso8601DateFormatter())
-        self.birthYear = unboxer.unbox("birthyear")
-        self.avatarUrl = unboxer.unbox("avatarUrl")
+    init(unboxer: Unboxer) throws {
+        self.userId = try unboxer.unbox(key: "userId")
+        self.firstName = try unboxer.unbox(key: "firstname")
+        self.lastName = try unboxer.unbox(key: "lastname")
+        self.gender = try unboxer.unbox(key: "gender")
+        self.createdAt = try unboxer.unbox(key: "createdAt", formatter: Date.iso8601DateFormatter)
+        self.birthYear = try unboxer.unbox(key: "birthyear")
+        self.avatarUrl = try unboxer.unbox(key: "avatarUrl")
     }
 }
 

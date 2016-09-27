@@ -14,14 +14,14 @@ struct Device: Unboxable {
     let vendorIdentifier: String
     let deviceModel: String
     let pushToken: String
-    let createdAt: NSDate
+    let createdAt: Date
     let deviceName: String
 
-    init(unboxer: Unboxer) {
-        self.vendorIdentifier = unboxer.unbox("vendorIdentifier")
-        self.deviceModel = unboxer.unbox("deviceModel")
-        self.pushToken = unboxer.unbox("pushToken")
-        self.createdAt = unboxer.unbox("createdAt", formatter: NSDate.iso8601DateFormatter())
-        self.deviceName = unboxer.unbox("deviceName")
+    init(unboxer: Unboxer) throws {
+        self.vendorIdentifier = try unboxer.unbox(key: "vendorIdentifier")
+        self.deviceModel = try unboxer.unbox(key: "deviceModel")
+        self.pushToken = try unboxer.unbox(key: "pushToken")
+        self.createdAt = try unboxer.unbox(key: "createdAt", formatter: Date.iso8601DateFormatter)
+        self.deviceName = try unboxer.unbox(key: "deviceName")
     }
 }

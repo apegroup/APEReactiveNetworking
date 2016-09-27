@@ -28,15 +28,15 @@
 		5F8E78F91D100B9700D2A5EA /* SignalProducerType+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */; };
 		5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */; };
 		5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8E79021D1094CA00D2A5EA /* User.storyboard */; };
-		6708E95E1D08182C00D4191F /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9571D08182C00D4191F /* ReactiveCocoa.framework */; };
-		6708E95F1D08182C00D4191F /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9581D08182C00D4191F /* Result.framework */; };
-		6708E9601D08182C00D4191F /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9591D08182C00D4191F /* Unbox.framework */; };
-		6708E9611D08182C00D4191F /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E95A1D08182C00D4191F /* Wrap.framework */; };
+		5F9748561DA3D01500D3D49A /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9748551DA3D01500D3D49A /* Unbox.framework */; };
+		5FCDC7861D9A8B8E0006E076 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */; };
+		5FCDC7871D9A8B8E0006E076 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7841D9A8B8E0006E076 /* Result.framework */; };
+		5FCDC7881D9A8B8E0006E076 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7851D9A8B8E0006E076 /* Wrap.framework */; };
 		952231391CEDF06E005B085D /* ApeChatApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231351CEDF06E005B085D /* ApeChatApi.swift */; };
 		9522313A1CEDF06E005B085D /* ApeChatApiEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231361CEDF06E005B085D /* ApeChatApiEndpoints.swift */; };
 		9522313B1CEDF06E005B085D /* NetworkedApeChatApiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231371CEDF06E005B085D /* NetworkedApeChatApiProvider.swift */; };
 		9522313C1CEDF06E005B085D /* MockApeChatApiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231381CEDF06E005B085D /* MockApeChatApiProvider.swift */; };
-		958335781CF3B4D300F2B34F /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958335771CF3B4D300F2B34F /* NSDateExtension.swift */; };
+		958335781CF3B4D300F2B34F /* Date+ISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958335771CF3B4D300F2B34F /* Date+ISO8601.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,10 +107,10 @@
 		5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducerType+Authentication.swift"; sourceTree = "<group>"; };
 		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		5F8E79021D1094CA00D2A5EA /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
-		6708E9571D08182C00D4191F /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
-		6708E9581D08182C00D4191F /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
-		6708E9591D08182C00D4191F /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
-		6708E95A1D08182C00D4191F /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/iOS/Wrap.framework; sourceTree = "<group>"; };
+		5F9748551DA3D01500D3D49A /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
+		5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
+		5FCDC7841D9A8B8E0006E076 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
+		5FCDC7851D9A8B8E0006E076 /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/iOS/Wrap.framework; sourceTree = "<group>"; };
 		67276A8C1C2065260062C807 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67276AA21C2065270062C807 /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67276AAD1C2065270062C807 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,7 +119,7 @@
 		952231361CEDF06E005B085D /* ApeChatApiEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApeChatApiEndpoints.swift; path = ApeChatProvider/ApeChatApiEndpoints.swift; sourceTree = "<group>"; };
 		952231371CEDF06E005B085D /* NetworkedApeChatApiProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkedApeChatApiProvider.swift; path = ApeChatProvider/NetworkedApeChatApiProvider.swift; sourceTree = "<group>"; };
 		952231381CEDF06E005B085D /* MockApeChatApiProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockApeChatApiProvider.swift; path = ApeChatProvider/MockApeChatApiProvider.swift; sourceTree = "<group>"; };
-		958335771CF3B4D300F2B34F /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
+		958335771CF3B4D300F2B34F /* Date+ISO8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+ISO8601.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,10 +127,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6708E95E1D08182C00D4191F /* ReactiveCocoa.framework in Frameworks */,
-				6708E95F1D08182C00D4191F /* Result.framework in Frameworks */,
-				6708E9601D08182C00D4191F /* Unbox.framework in Frameworks */,
-				6708E9611D08182C00D4191F /* Wrap.framework in Frameworks */,
+				5FCDC7881D9A8B8E0006E076 /* Wrap.framework in Frameworks */,
+				5FCDC7861D9A8B8E0006E076 /* ReactiveSwift.framework in Frameworks */,
+				5FCDC7871D9A8B8E0006E076 /* Result.framework in Frameworks */,
+				5F9748561DA3D01500D3D49A /* Unbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,7 +177,7 @@
 		22F316F51C242D1E007EA50C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				958335771CF3B4D300F2B34F /* NSDateExtension.swift */,
+				958335771CF3B4D300F2B34F /* Date+ISO8601.swift */,
 				5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */,
 				5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */,
 				5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */,
@@ -371,10 +371,10 @@
 		64ADCB2CF59BC56EDB5258D3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6708E9571D08182C00D4191F /* ReactiveCocoa.framework */,
-				6708E9581D08182C00D4191F /* Result.framework */,
-				6708E9591D08182C00D4191F /* Unbox.framework */,
-				6708E95A1D08182C00D4191F /* Wrap.framework */,
+				5F9748551DA3D01500D3D49A /* Unbox.framework */,
+				5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */,
+				5FCDC7841D9A8B8E0006E076 /* Result.framework */,
+				5FCDC7851D9A8B8E0006E076 /* Wrap.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -486,7 +486,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Apegroup;
 				TargetAttributes = {
 					67276A8B1C2065260062C807 = {
@@ -499,6 +499,7 @@
 					};
 					67276AAC1C2065270062C807 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = Q48PCXNS55;
 						TestTargetID = 67276A8B1C2065260062C807;
 					};
 				};
@@ -583,10 +584,10 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Unbox.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Wrap.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Unbox.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -616,7 +617,7 @@
 				5F86D5D51D133F3F005859CF /* DataValidator.swift in Sources */,
 				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,
 				5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */,
-				958335781CF3B4D300F2B34F /* NSDateExtension.swift in Sources */,
+				958335781CF3B4D300F2B34F /* Date+ISO8601.swift in Sources */,
 				9522313B1CEDF06E005B085D /* NetworkedApeChatApiProvider.swift in Sources */,
 				5F8E78F91D100B9700D2A5EA /* SignalProducerType+Authentication.swift in Sources */,
 			);
@@ -673,8 +674,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -701,6 +704,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -718,8 +722,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -740,6 +746,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -749,9 +757,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = Q48PCXNS55;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				HostBaseURL = "https://stage.host.com/api/";
 				INFOPLIST_FILE = Project/Application/Info.plist;
@@ -760,6 +771,8 @@
 				OTHER_SWIFT_FLAGS = "$(inherited) -D DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.APEReactiveNetworkingExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5210fb9f-cf62-46fc-9496-0cc96ddf16a6";
+				PROVISIONING_PROFILE_SPECIFIER = "apegroup InHouse";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -771,6 +784,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"RELEASE=1",
@@ -813,10 +827,14 @@
 		67276ABD1C2065270062C807 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = Q48PCXNS55;
 				INFOPLIST_FILE = Tests/UI/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.apegroup.apereactivenetworkingexampleUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "5210fb9f-cf62-46fc-9496-0cc96ddf16a6";
+				PROVISIONING_PROFILE_SPECIFIER = "apegroup InHouse";
 				TEST_TARGET_NAME = Example;
 				USES_XCTRUNNER = YES;
 			};
@@ -847,8 +865,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -876,6 +896,7 @@
 				PROVISIONING_PROFILE = "395cb274-c6f6-47d8-aefc-a32b83863b91";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -888,6 +909,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -942,8 +964,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -964,6 +988,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "395cb274-c6f6-47d8-aefc-a32b83863b91";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -976,6 +1001,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"PREVIEW=1",

@@ -1,9 +1,11 @@
 // This file is a example created for the template project
 
 import UIKit
-import ReactiveCocoa
+import ReactiveSwift
 import enum Result.NoError
 import APEReactiveNetworking
+import ReactiveObjC
+import ReactiveObjCBridge
 
 typealias LoginCompletionHandler = (AuthResponse)->()
 
@@ -11,9 +13,9 @@ class LoginViewController: UIViewController {
     
     //MARK: Properties
     
-    private let authHandler = ApeJwtAuthenticationHandler()
-    private let apeChatApi: ApeChatApi = ApeChatApiFactory.create()
     var loginCompletionHandler: LoginCompletionHandler?
+    
+    private let apeChatApi: ApeChatApi = ApeChatApiFactory.make()
     
     
     //MARK: Outlets
@@ -41,6 +43,7 @@ class LoginViewController: UIViewController {
     
     private func bindUIWithSignals() {
         
+        //FIXME:
         //Validate textfields input values
         let usernameSignal = usernameTextField.rac_textSignal()
             .toSignalProducer()
@@ -51,47 +54,44 @@ class LoginViewController: UIViewController {
             .map { text in DataValidator().isValidPassword(text as! String) }
         
         //Mark textfields as green when input is valid
-        usernameSignal.startWithNext { [unowned self] valid in
-            let color = valid ? UIColor.greenColor() : UIColor.clearColor()
-            self.usernameTextField.layer.borderColor = color.CGColor
-        }
-
-        passwordSignal.startWithNext { [unowned self] valid in
-            let color = valid ? UIColor.greenColor() : UIColor.clearColor()
-            self.passwordTextField.layer.borderColor = color.CGColor
-        }
-
-        //Enable/disable login button according to input
-        usernameSignal
-            .combineLatestWith(passwordSignal)
-            .map { (valid: (username:Bool, password:Bool)) in
-                valid.username && valid.password
-            }
-            .startWithNext { [unowned self] valid in
-                self.loginButton.enabled = valid
-        }
+        usernameSignal.on(value: { [unowned self] isValid in
+            let color = isValid ? UIColor.green : UIColor.clear
+            self.usernameTextField.layer.borderColor = color.cgColor
+            }).start()
         
-        dismissButton.rac_command = RACCommand { [unowned self] _ ->  RACSignal! in
+        passwordSignal.on(value: { [unowned self] isValid in
+            let color = isValid ? UIColor.green : UIColor.clear
+            self.passwordTextField.layer.borderColor = color.cgColor
+            }).start()
+        
+        //Enable/disable login button according to input
+        usernameSignal.combineLatest(with: passwordSignal)
+            .map { (isValid: (username:Bool, password:Bool)) in isValid.username && isValid.password }
+            .on(value: { [unowned self] valid in
+                self.loginButton.isEnabled = valid
+                }).start()
+        
+        dismissButton.rac_command = RACCommand { [unowned self] _ ->  RACSignal in
             return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 return RACDisposable()
                 }
                 .deliverOnMainThread()
         }
         
         loginButton
-            .rac_signalForControlEvents(.TouchUpInside)
+            .rac_signal(for: .touchUpInside)
             .throttle(0.2)
             .subscribeNext { [unowned self] _sender in
                 self.apeChatApi
                     .authenticateUser(self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
                     .start { event in
                         switch event {
-                        case .Next(let NetworkDataResponse):
+                        case .value(let NetworkDataResponse):
                             //This is a POC - mark the global "authenticated" state that we are authenticated
                             DummyState.authed = true
                             self.handleLoginSuccess(NetworkDataResponse.parsedData)
-                        case .Failed(let error):
+                        case .failed(let error):
                             self.handleLoginError(error)
                         default: break
                         }
@@ -99,12 +99,11 @@ class LoginViewController: UIViewController {
         }
     }
     
-    private func handleLoginSuccess(authResponse: AuthResponse) {
-        authHandler.handleAuthTokenReceived(authResponse.accessToken)
+    private func handleLoginSuccess(_ authResponse: AuthResponse) {
         loginCompletionHandler?(authResponse)
     }
     
-    private func handleLoginError(error: Network.Error) {
+    private func handleLoginError(_ error: Network.OperationError) {
         print("received error: \(error)")
     }
 }

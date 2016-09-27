@@ -1,14 +1,17 @@
 // This file is a example created for the template project
 
 import UIKit
-import ReactiveCocoa
+import ReactiveSwift
 import APEReactiveNetworking
+import ReactiveObjCBridge
+import ReactiveObjC
 
 class UserListViewController: UIViewController {
     
     //MARK: Properties
     
-    private let apeChatApi: ApeChatApi = ApeChatApiFactory.create()
+    private let apeChatApi: ApeChatApi = ApeChatApiFactory.make()
+    
     private let dataSource = TableViewDataSource<User, UserCell>(elements: [],
                                                                  templateCell: UserCell(),
                                                                  configureCell: { userCell, user in
@@ -32,43 +35,41 @@ class UserListViewController: UIViewController {
     
     private func bindUIWithSignals() {
         
-        ///Assosicate the UIBarButtonItem with a RACCommand that starts a signal when the button is tapped
-        //The UIBarButtonItem is disabled while the RACCommand is executing
-        getUsersButton.rac_command = RACCommand { [unowned self] _ ->  RACSignal! in
+        // Assosicate the UIBarButtonItem with a RACCommand that starts a signal when the button is tapped
+        // The UIBarButtonItem is disabled while the RACCommand is executing
+        getUsersButton.rac_command = RACCommand { [unowned self] _ -> RACSignal in
             
             //The outer RACSignal starts an inner 'get-all-users' signal and completes when the inner signal terminates.
             //When the outer RACCommand signal completes the UIBarButtonItem becomes enabled again
             return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
-                self.getAllUsers()
+                let disposable = self.getAllUsers()
+                    .requireAuthentication()
                     .on(terminated: { subscriber.sendCompleted() })
-                    .startWithAuthentication()
+                    .start()
                 
-                return RACDisposable()
+                return RACDisposable {
+                    disposable.dispose()
+                }
             }
         }
     }
     
-    private func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.Error> {
+    private func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError> {
         return apeChatApi.getAllUsers().on(
             started : {
                 print("users started")
-            },
-            failed: { error in
-                print("users failed fetching: \(error)")
-                
-            },
-            completed: {
-                print("users completed")
-            },
-            terminated: {
-                print("users terminated")
-            },
-            next: { response in
+            }, value: { response in
                 print("response headers: \(response.responseHeaders)")
                 let users = response.parsedData
                 print("users received: \(users)")
                 self.dataSource.elements = users
                 self.tableView.reloadData()
+            }, failed: { error in
+                print("users failed fetching: \(error)")
+            }, completed: {
+                print("users completed")
+            }, terminated: {
+                print("users terminated")
         })
     }
 }

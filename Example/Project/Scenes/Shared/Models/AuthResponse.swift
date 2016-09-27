@@ -10,14 +10,14 @@ import Foundation
 import Unbox
 
 struct AuthResponse {
-    let accessToken : String
-    let user : User
+    let accessToken: String
+    let user: User
 }
 
 extension AuthResponse: Unboxable {
-    init(unboxer: Unboxer) {
-        self.accessToken = unboxer.unbox("token")
-        self.user = unboxer.unbox("user")
+    init(unboxer: Unboxer) throws {
+        self.accessToken = try unboxer.unbox(key: "token")
+        self.user = try unboxer.unbox(key: "user")
     }
 }
 

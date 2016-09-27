@@ -15,8 +15,8 @@ import APEReactiveNetworking
 enum ApeChatApiEndpoints : Endpoint {
 
     enum MessageStatus : String {
-        case Read
-        case UnRead
+        case read
+        case unread
     }
 
     private enum Paths : String {
@@ -25,29 +25,41 @@ enum ApeChatApiEndpoints : Endpoint {
     }
 
     //User Resources
-    case AuthUser
-    case GetAllUsers
-    case UpdateUserAvatar (userId: String)
+    case authUser
+    case getAllUsers
+    case updateUserAvatar (userId: String)
 
     //Message Resources
-    case GetMessages (since: NSDate?, status: MessageStatus?, senderId: String?, receiverId: String?)
-    case DeleteMessage (messageId: String)
+    case getMessages (since: Date?, status: MessageStatus?, senderId: String?, receiverId: String?)
+    case deleteMessage (messageId: String)
 
 
     private var path: String {
         switch self {
-        case AuthUser, GetAllUsers:
+        case .authUser, .getAllUsers:
             return Paths.users.rawValue
 
-        case let UpdateUserAvatar(userId):
+        case let .updateUserAvatar(userId):
             return Paths.users.rawValue + userId + "/avatar/"
 
-        case let GetMessages(since, status, senderId, receiverId):
-            return buildGetMessagesPath(since, status: status, senderId: senderId, receiverId: receiverId)
+        case let .getMessages(since, status, senderId, receiverId):
+            return buildGetMessagesPath(since: since, status: status, senderId: senderId, receiverId: receiverId)
 
-        case let DeleteMessage(messageId):
+        case let .deleteMessage(messageId):
             return Paths.messages.rawValue + messageId
-
+        }
+    }
+    
+    //MARK: - Endpoint conformance
+    
+    public var acceptedResponseCodes: [Http.StatusCode] {
+        switch self {
+        case .authUser:
+            return [.created]
+        case .deleteMessage:
+            return [.noContent]
+        default:
+            return [.ok]
         }
     }
 
@@ -55,20 +67,20 @@ enum ApeChatApiEndpoints : Endpoint {
         return AppConfiguration.environment.baseUrl + self.path
     }
 
-    var httpMethod : HttpMethod {
+    var httpMethod : Http.Method {
         switch self {
-        case AuthUser, UpdateUserAvatar:
-            return .POST
+        case .authUser, .updateUserAvatar:
+            return .post
 
-        case DeleteMessage:
-            return .DELETE
+        case .deleteMessage:
+            return .delete
 
         default:
-            return .GET
+            return .get
         }
     }
     
-    private func buildGetMessagesPath(since: NSDate?, status: MessageStatus?, senderId: String?, receiverId: String?) -> String {
+    private func buildGetMessagesPath(since: Date?, status: MessageStatus?, senderId: String?, receiverId: String?) -> String {
         let params = [(paramName: "since", paramValue: since?.iso8601string()),
                       (paramName: "status", paramValue: status?.rawValue),
                       (paramName: "senderId", paramValue: senderId),
@@ -79,10 +91,9 @@ enum ApeChatApiEndpoints : Endpoint {
 
     private func buildQueryString(of params: [(paramName: String, paramValue: String?)]) -> String {
         return params
-            .filter{ return $0.paramValue != nil }
+            .filter { $0.paramValue != nil }
             .reduce("") { (accumulator, elem) -> String in
-                return accumulator + (accumulator.isEmpty ? "?" : "&") + elem.paramName + "=" + elem.paramValue!
+                accumulator + (accumulator.isEmpty ? "?" : "&") + elem.paramName + "=" + elem.paramValue!
         }
     }
-    
 }

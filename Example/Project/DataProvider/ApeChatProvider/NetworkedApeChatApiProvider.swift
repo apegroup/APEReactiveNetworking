@@ -6,7 +6,7 @@
 //  Copyright © 2016 Apegroup. All rights reserved.
 //
 
-import ReactiveCocoa
+import ReactiveSwift
 import enum Result.NoError
 import APEReactiveNetworking
 import Unbox
@@ -14,84 +14,53 @@ import Wrap
 
 struct NetworkedApeChatApiProvider: ApeChatApi {
     
-    let authHandler: AuthenticationHandler = ApeJwtAuthenticationHandler()
-    
     //MARK: ApeChatApi
     
-    //More elaborate example
-    func authenticateUser(username: String,
-                          password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
+    //Elaborate example
+    func authenticateUser(_ username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
         
         //Endpoint for authenticating a user
-        let endpoint: Endpoint = ApeChatApiEndpoints.AuthUser
+        let endpoint: Endpoint = ApeChatApiEndpoints.authUser
         
         //Create a request builder
         let builder : HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
         
         //Build request
-        let jsonDict: [String:AnyObject] = ["user":username, "password":password]
-        let request: NSURLRequest = builder.setBody(json: jsonDict).build()
+        let jsonDict: [String:Any] = ["user":username, "password":password]
+        let request: ApeURLRequest = builder.setBody(json: jsonDict).build()
         
-        //The URLSession to use
-        let URLCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024,
-                                  diskCapacity: 20 * 1024 * 1024,
-                                  diskPath: "URLCache")
+        //Scheduler to handle signal events
+        let scheduler: SchedulerProtocol = UIScheduler()
         
-        let sessionConfig = NSURLSessionConfiguration.defaultSessionConfiguration()
-        sessionConfig.URLCache = URLCache
-        //Customize sessionConfig even more... (eg cookies etc)
+        //Max seconds allowed before aborting network operation
+        let timeoutSeconds: TimeInterval = 20
         
-        let session = NSURLSession(configuration: sessionConfig)
-        
-        //Alternative way of setting the cache but try avoid using this since its not recomended by Apple
-        //Add the code block in your AppDelegate, didFinishLaunchingWithOptions() method
-        /*
-         let URLCache = NSURLCache(memoryCapacity: 4 * 1024 * 1024,
-         diskCapacity: 20 * 1024 * 1024,
-         diskPath: "URLCache")
-         
-         NSURLCache.setSharedURLCache(URLCache)
-         */
-        
-        
-        //Block for transforming response NSData --> AuthenticateUserResponse
-        let parseDataBlock: (data:NSData) -> AuthResponse? = { data in
-            guard let authResponse = try? Unbox(data) as AuthResponse else {
+        //Block for transforming response Data --> AuthenticateUserResponse
+        let parseDataBlock: (Data) -> AuthResponse? = { data in
+            guard let authResponse = try? unbox(data: data) as AuthResponse else {
                 return nil
             }
             return authResponse
         }
         
-        //Scheduler to handle signal events
-        let scheduler: SchedulerType = UIScheduler()
-        
-        let validator: HttpResponseCodeValidator = ApeResponseCodeValidator()
-        
         return Network().send(request,
-                              responseCodeValidator: validator,
-                              session: session,
                               scheduler: scheduler,
-                              abortAfter: 20,
+                              abortAfter: timeoutSeconds,
                               parseDataBlock: parseDataBlock)
     }
     
     
-    func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.Error> {
-        let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.GetAllUsers)
-            .addAuthHandler(authHandler)
-            .build()
-        return Network().send(request) { try? Unbox($0) }
+    func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError> {
+        let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.getAllUsers).build()
+        return Network().send(request) { try? unbox(data: $0) }
     }
     
     
-    func updateUserAvatar(userId: String, avatar: UIImage) -> SignalProducer<NetworkDataResponse<User>, Network.Error> {
+    func updateUserAvatar(userId: String, avatar: UIImage) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
         let avatarRawData = UIImageJPEGRepresentation(avatar, 0.9)!
-        
-        let request: NSURLRequest = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.UpdateUserAvatar(userId: userId))
-            .addAuthHandler(authHandler)
-            .setBody(rawData: avatarRawData, contentType: .ImageJpeg)
+        let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.updateUserAvatar(userId: userId))
+            .setBody(data: avatarRawData, contentType: .imageJpeg)
             .build()
-        
-        return Network().send(request) { try? Unbox($0) }
+        return Network().send(request) { try? unbox(data: $0) }
     }
 }

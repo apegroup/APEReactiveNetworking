@@ -12,12 +12,12 @@ struct AppConfiguration {
     
     static let environment: Environment = {
         
-        var environment = Environment.Production
+        var environment = Environment.production
         
         #if DEBUG
-            environment = .Debug
+            environment = .debug
         #elseif PREVIEW
-            environment = .Preview
+            environment = .preview
         #endif
         
 //        print("Application is built with configuration: '\(environment)'")
@@ -26,7 +26,7 @@ struct AppConfiguration {
     
     
     static func isProductionBuild() -> Bool {
-        return environment == Environment.Production
+        return environment == .production
     }
 }
 
@@ -34,23 +34,23 @@ struct AppConfiguration {
  * Possible to extend with additional environments and properties.
  */
 enum Environment: String {
-    case Debug
-    case Preview
-    case Production
+    case debug
+    case preview
+    case production
     
     private var urlProtocol: String {
         switch self {
-        case Debug:            return "https://"
-        case Preview:          return "https://"
-        case Production:       return "https://"
+        case .debug:            return "https://"
+        case .preview:          return "https://"
+        case .production:       return "https://"
         }
     }
     
     var baseUrl: String {
         switch self {
-        case Debug:            return urlProtocol + "private-ea0bb-apechat.apiary-mock.com"
-        case Preview:          return urlProtocol + "private-05732-apechat.apiary-mock.com"
-        case Production:       return urlProtocol + "private-05732-apechat.apiary-mock.com"
+        case .debug:            return urlProtocol + "private-ea0bb-apechat.apiary-mock.com"
+        case .preview:          return urlProtocol + "private-05732-apechat.apiary-mock.com"
+        case .production:       return urlProtocol + "private-05732-apechat.apiary-mock.com"
         }
     }
 }

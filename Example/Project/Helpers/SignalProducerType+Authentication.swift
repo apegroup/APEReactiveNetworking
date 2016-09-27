@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import ReactiveCocoa
+import ReactiveSwift
 import enum Result.NoError
 import APEReactiveNetworking
 
@@ -15,19 +15,9 @@ struct DummyState {
     static var authed = false
 }
 
-extension SignalProducerType where Error == Network.Error {
+extension SignalProducerProtocol where Error == Network.OperationError {
     
     //MARK: Public
-    
-    /**
-     Starts a SignalProducer injected with a side effect that presents the 'LoginViewController' if the an 'authentication' error occurs.
-     If the user is sucessful in authenticating the original signal will be restarted
-     */
-    func startWithAuthentication() -> Disposable {
-        return injectAuthorizationSideEffect().start()
-    }
-    
-    //MARK: Private
     
     /**
      Injects a side effect that presents the 'LoginViewController' if the SignalProducer receives an 'authentication' error.
@@ -35,36 +25,35 @@ extension SignalProducerType where Error == Network.Error {
      
      - returns: A new SignalProducer containing the added side effects
      */
-    private func injectAuthorizationSideEffect() -> SignalProducer<Value, Error> {
+    public func requireAuthentication() -> SignalProducer<Value, Error> {
         guard let originalSignalProducer = self as? SignalProducer<Value, Error> else {
             preconditionFailure("'injectAuthorizationSideEffect' must be called on a 'SignalProducer' and not another SignalProducerType'")
         }
-        
-        //TODO: Remove signal-merge-logic when a real backend is in place
         
         //Create a signal that will fail unless we are marked as authenticated.
         //The failure-event contains a specific Http status code (401) which signifies that an Authentication error has occurred.
         let failUnlessAuthenticatedSignal = SignalProducer<Value, Error>() { observer, _disposable in
             guard DummyState.authed else {
-                return observer.sendFailed(.ErrorResponse(httpCode: .Unauthorized, reason: "'401 Unauthorized'"))
+                return observer.send(error: .unexpectedResponseCode(httpCode: .unauthorized,
+                                                                    data: "401 Unauthorized".data(using: .utf8)))
             }
             observer.sendCompleted()
         }
         
         
-        //Merge the two SignalProducers into a single SignalProducer.
-        //The merged starts both signal producers but fails if not authenticated, thus simulating a 'not authenticated' scenario.
+        //Concatenate the two SignalProducers into a single SignalProducer.
+        //The new producer fails if not authenticated, thus simulating a 'not authenticated' scenario.
         //However, if we are authenticated then the original signal will be performed.
         let mergedSignal: SignalProducer<Value, Error> =
             SignalProducer<SignalProducer<Value, Error>, NoError>() { observer, _ in
-                observer.sendNext(originalSignalProducer)
-                observer.sendNext(failUnlessAuthenticatedSignal)
+                observer.send(value: failUnlessAuthenticatedSignal)
+                observer.send(value: originalSignalProducer)
                 observer.sendCompleted()
                 }
-                .flatten(.Merge)
-                .on(failed: { (error: Network.Error) in
-                    if case .ErrorResponse(httpCode: .Unauthorized, reason: let reason) = error {
-                        print("Received error: \(reason) - presenting login")
+                .flatten(.concat)
+                .on(failed: { (error: Network.OperationError) in
+                    if case .unexpectedResponseCode(httpCode: .unauthorized, _) = error {
+                        print("Received error: \(error) - presenting login")
                         self.presentLoginViewController()
                     }
                 })
@@ -80,21 +69,21 @@ extension SignalProducerType where Error == Network.Error {
      - parameter presentingViewController: The view controller to present the LoginViewController
      */
     private func presentLoginViewController(presentingViewController: UIViewController
-        = (UIApplication.sharedApplication().keyWindow?.rootViewController?.currentlyPresentedViewController())!) {
+        = (UIApplication.shared.keyWindow?.rootViewController?.currentlyPresentedViewController())!) {
         
         let navCtrl = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as! UINavigationController
         let loginVc = navCtrl.topViewController as! LoginViewController
         
         loginVc.loginCompletionHandler = { [unowned loginVc] _authResponse in
-            dispatch_async(dispatch_get_main_queue()) {
-                loginVc.dismissViewControllerAnimated(true, completion: nil)
+            DispatchQueue.main.async {
+                loginVc.dismiss(animated: true, completion: nil)
             }
             
             self.start()
         }
         
-        dispatch_async(dispatch_get_main_queue()) {
-            presentingViewController.presentViewController(navCtrl, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            presentingViewController.present(navCtrl, animated: true, completion: nil)
         }
     }
 }
