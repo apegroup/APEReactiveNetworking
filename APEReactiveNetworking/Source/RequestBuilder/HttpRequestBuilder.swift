@@ -11,14 +11,14 @@ import Foundation
 public protocol HttpRequestBuilder {
 
     init(endpoint: Endpoint)
+    
+    func addAuthHandler(_ authHandler: AuthenticationHandler) -> HttpRequestBuilder
 
-    func add(authHandler: AuthenticationHandler) -> HttpRequestBuilder
-
-    func add(headers: Http.RequestHeaders) -> HttpRequestBuilder
+    func addHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder
 
     func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder
 
-    func build() -> URLRequest
+    func build() -> ApeURLRequest
 }
 
 public extension HttpRequestBuilder {

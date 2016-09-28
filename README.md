@@ -27,9 +27,6 @@ A light-weight networking library based on ReactiveSwift 5.x
 
 ## Future improvements
 - Remove heavyweight Keychain storage mechanism (we don't want that extra dependency)
-
-- Add support for "side effect injection block" (i.e. a block that allows access to the unparsed data, that is executed after the parseDataBlock and only IF the parseDataBlock was successful). This is important in order to avoid using the parse data block as a side effect injection block.
-
 - Improve the README file with logo, example and architecture
 - Support for background download/upload by the OS
 - Add more test cases
@@ -89,7 +86,7 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
 
   ///1) Constructing the http request: 
 
-  //1.1) Create an endpoint by implementing the endpoint protocol, which requires two methods to be implemented: 'absoluteUrl' and 'httpMethod'
+  //1.1) Create an endpoint by implementing the endpoint protocol, which requires three methods to be implemented: 'absoluteUrl', 'httpMethod' and 'acceptedResponseCodes'
   let endpoint: Endpoint = ApeChatApiEndpoints.AuthUser
 
   //1.2) Create a custom request builder by implementing the HttpRequestBuilder protocol (or use the provided default implementation 'ApeRequestBuilder')
@@ -104,15 +101,12 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   builder.add(authHandler: self.authHandler)
 
   //1.5) Create the request
-  let request: URLRequest = builder.build()
+  let request: ApeURLRequest = builder.build()
 
 
   ///Configuring the operation settings
 
-  //2) *** Optional: Provide a custom http response code validator by implementing the 'HttpResponseCodeValidator' protocol ('ApeResponseCodeValidator', which accepts all 200-299 response codes, is provided by default)
-  let validator: HttpResponseCodeValidator = ApeResponseCodeValidator()
-
-  //3) *** Optional: Provide if you wish to use a custom URLSession (the 'defaultSessionConfiguration' will be used by default) ***
+  //2) *** Optional: Provide if you wish to use a custom URLSession (the 'defaultSessionConfiguration' will be used by default) ***
   let session = URLSession(configuration: URLSessionConfiguration.defaultSessionConfiguration())
 
   //4) *** Optional: Provide a custom 'ReactiveSwift::SchedulerProtocol' if you wish to handle signal events on a custom queue (the main queue is used by default) ***
@@ -135,10 +129,8 @@ func authenticateUser(username: String, password: String) -> SignalProducer<Netw
   ///Creating the request command/signal producer
 
   //8) Send the request along with other configuration settings to 'Network.send()'
-  return Network().send(
+  return Network(session: session).send(
       request,
-      responseCodeValidator: validator,
-      session: session,
       scheduler: scheduler,
       abortAfter: timeoutSeconds,
       maxRetries: maxNumberOfRetries,
