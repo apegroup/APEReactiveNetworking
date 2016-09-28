@@ -9,11 +9,11 @@
 import Foundation
 
 public final class ApeRequestBuilder: HttpRequestBuilder {
-
+    
     private let endpoint: Endpoint
     private var authHeader: String?
     private var contentTypeHeader = Http.ContentType.applicationJson
-    private var additionalHeaders: Http.RequestHeaders?
+    private var additionalHeaders: Http.RequestHeaders = [:]
     private var bodyData: Data?
 
     // MARK: Public
@@ -22,16 +22,15 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
         self.endpoint = endpoint
     }
     
-    public func add(authHandler: AuthenticationHandler) -> HttpRequestBuilder {
+    public func addAuthHandler(_ authHandler: AuthenticationHandler) -> HttpRequestBuilder {
         self.authHeader = authHandler.authHeader
         return self
     }
     
-    public func add(headers: Http.RequestHeaders) -> HttpRequestBuilder {
+    public func addHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder {
         self.additionalHeaders = headers
         return self
     }
-
 
     public func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder {
         self.contentTypeHeader = contentType
@@ -40,17 +39,16 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
     }
 
     ///Builds a URLRequest with the provided components
-    public func build() -> URLRequest {
+    public func build() -> ApeURLRequest {
         let headers = makeHeaders()
-        let request = makeRequest(with: headers, body: bodyData)
-        return request
+        return makeRequest(with: headers, body: bodyData)
     }
 
 
     // MARK: Private
 
     private func makeHeaders() -> Http.RequestHeaders {
-        var headers: Http.RequestHeaders = self.additionalHeaders ?? [:]
+        var headers = self.additionalHeaders
 
         if let authorizationHeaderValue = authHeader {
             headers["Authorization"] = authorizationHeaderValue
@@ -72,7 +70,7 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
     }
 
 
-    private func makeRequest(with headers: Http.RequestHeaders, body: Data?) -> URLRequest {
+    private func makeRequest(with headers: Http.RequestHeaders, body: Data?) -> ApeURLRequest {
         guard let url = URL(string: endpoint.absoluteUrl) else {
             preconditionFailure("Endpoint contains invalid url: '\(endpoint.absoluteUrl)'")
         }
@@ -84,7 +82,7 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
         for (header, value) in headers {
             request.setValue(value, forHTTPHeaderField: header)
         }
-
-        return request
+        
+        return ApeURLRequest(urlRequest: request, acceptedResponseCodes: endpoint.acceptedResponseCodes)
     }
 }

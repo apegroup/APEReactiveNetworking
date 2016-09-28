@@ -8,8 +8,8 @@
 
 import Foundation
 
-
 public protocol Endpoint {
     var httpMethod: Http.Method { get }
     var absoluteUrl: String { get }
+    var acceptedResponseCodes: [Http.StatusCode] { get }
 }

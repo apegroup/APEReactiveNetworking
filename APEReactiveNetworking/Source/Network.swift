@@ -6,74 +6,71 @@
 //  Copyright © 2016 Apegroup. All rights reserved.
 //
 
-
 import Foundation
 import ReactiveSwift
-
 
 //TODO: Move into Network when possible
 public struct NetworkDataResponse<T> {
     public let responseHeaders: Http.ResponseHeaders
+    public let rawData: Data
     public let parsedData: T
     
-    public init(responseHeaders: Http.ResponseHeaders, data: T) {
+    public init(responseHeaders: Http.ResponseHeaders, rawData: Data, parsedData: T) {
         self.responseHeaders = responseHeaders
-        self.parsedData = data
+        self.rawData = rawData
+        self.parsedData = parsedData
     }
 }
 
-// TODO: Consider customisable data, download, upload tasks
+//TODO: Consider customisable data, download, upload tasks
 public struct Network {
+    
+    /// The total number of seconds to wait before aborting the network operation
+    static let defaultOperationTimeoutSeconds: TimeInterval = 10
+    
+    /// The max number of retries before failing the network operation
+    static let defaultOperationMaxRetries = 10
+    
+    /// The URLSession to be used to send requests
+    private let session: URLSession
     
     public enum OperationError : Error {
         case parseFailure
         case missingData
         case missingResponse
-        case errorResponse(httpCode: Http.StatusCode, reason: String)
-        case requestFailure(reason: Error)
+        case unexpectedResponseCode(httpCode: Http.StatusCode, description: String)
+        case requestFailure(error: Error)
         case timedOut
     }
     
-    public init() {}
-    
-    /// The total number of seconds to wait before aborting the entire operation
-    static let operationTimeoutSeconds: TimeInterval = 10
-    
-    /// The max number of retries before aborting the entire operation
-    static let maxRetryCount = 10
+    /// The URLSession to be used to send requests. Defaults to the shared session
+    public init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
     
     //MARK: Public
     
     /**
-     Sends a request over the network.
+     Sends a request over the network
      
      - parameter request:               The request to be sent
-     
-     - parameter responseCodeValidator: An http status code validator that asserts that the received response code matches the expected response code. Defaults to 'ApeResponseCodeValidator'
-     
-     - parameter session:               The URLSession to be used. Defaults to the shared session
-     
      - parameter scheduler:             The scheduler to which the returned SignalProducer will forward events to. Defaults to the UIScheduler.
-     
-     - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent. Defaults to 'operationTimeoutSeconds'
-     
-     - parameter maxRetries:            Max number of retries before failing the operation. Implements an exponential backoff between each retry. Defaults to 'retryCount'
+     - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent. Defaults to 'defaultOperationTimeoutSeconds'
+     - parameter maxRetries:            Max number of retries before failing the operation. Implements an exponential backoff between each retry. Defaults to 'defaultOperationMaxRetries'
      
      - returns: A SignalProducer that will begin the network request when started. The 'next' event contains the Http.ResponseHeaders.
      */
-    public func send(_ request: URLRequest,
-                     responseCodeValidator: HttpResponseCodeValidator = ApeResponseCodeValidator(),
-                     session: URLSession = URLSession.shared,
+    public func send(_ request: ApeURLRequest,
                      scheduler: SchedulerProtocol = UIScheduler(),
-                     abortAfter: TimeInterval = operationTimeoutSeconds,
-                     maxRetries: Int = maxRetryCount) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
+                     abortAfter: TimeInterval = Network.defaultOperationTimeoutSeconds,
+                     maxRetries: Int = Network.defaultOperationMaxRetries) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
         
         return session
-            .dataTaskHttpHeaderSignalProducer(request: request,responseCodeValidator: responseCodeValidator)
+            .dataTaskHttpHeaderSignalProducer(request: request)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxAttempts: maxRetries)
             .timeout(after: abortAfter, raising: .timedOut, on: QueueScheduler())
-            .addLogging(request: request, abortAfter: abortAfter)
+            .addLogging(request: request.urlRequest, abortAfter: abortAfter)
             .observe(on: scheduler)
     }
     
@@ -81,36 +78,25 @@ public struct Network {
      Sends a request over the network.
      
      - parameter request:               The request to be sent
-     
-     - parameter responseCodeValidator: An http status code validator that asserts that the received response code matches the expected response code.
-     Defaults to 'ApeResponseCodeValidator'
-     
-     - parameter session:               The URLSession to be used. Defaults to the shared session
-     
      - parameter scheduler:             The scheduler to which the returned SignalProducer will forward events to. Defaults to the UIScheduler.
-     
-     - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent. Defaults to 'operationTimeoutSeconds'
-     
-     - parameter maxRetries:            Max number of retries before failing the operation. Implements an exponential backoff between each retry. Defaults to 'retryCount'
-     
+     - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent. Defaults to 'defaultOperationTimeoutSeconds'
+     - parameter maxRetries:            Max number of retries before failing the operation. Implements an exponential backoff between each retry. Defaults to 'defaultOperationMaxRetries'
      - parameter parseDataBlock:        A block that accepts the response raw data as a means to parse the it to the expected data type.
      
      - returns: A SignalProducer that will begin the network request when started. The 'next' event contains the a NetworkResponse object, containing the Http.ResponseHeaders and the parsed data.
      */
-    public func send<T>(_ request: URLRequest,
-                     responseCodeValidator: HttpResponseCodeValidator = ApeResponseCodeValidator(),
-                     session: URLSession = URLSession.shared,
+    public func send<T>(_ request: ApeURLRequest,
                      scheduler: SchedulerProtocol = UIScheduler(),
-                     abortAfter: TimeInterval = operationTimeoutSeconds,
-                     maxRetries: Int = maxRetryCount,
+                     abortAfter: TimeInterval = Network.defaultOperationTimeoutSeconds,
+                     maxRetries: Int = Network.defaultOperationMaxRetries,
                      parseDataBlock: @escaping ((Data) -> T?)) -> SignalProducer<NetworkDataResponse<T>, Network.OperationError> {
         
         return session
-            .dataTaskSignalProducer(request: request,responseCodeValidator: responseCodeValidator, parseDataBlock: parseDataBlock)
+            .dataTaskSignalProducer(request: request, parseDataBlock: parseDataBlock)
             .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxAttempts: maxRetries)
             .timeout(after: abortAfter, raising: .timedOut, on: QueueScheduler())
-            .addLogging(request: request, abortAfter: abortAfter)
+            .addLogging(request: request.urlRequest, abortAfter: abortAfter)
             .observe(on: scheduler)
     }
 }
@@ -140,14 +126,14 @@ private extension URLSession {
     /**
      Returns a SignalProducer that returns the Http response headers, or an appropriate Network.OperationError if an error occurs
      */
-    func dataTaskHttpHeaderSignalProducer(request: URLRequest, responseCodeValidator: HttpResponseCodeValidator)
+    func dataTaskHttpHeaderSignalProducer(request: ApeURLRequest)
         -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
             
             return SignalProducer<Http.ResponseHeaders, Network.OperationError> { observer, disposable in
                 
-                let task = self.dataTask(with: request) { data, response, error in
+                let task = self.dataTask(with: request.urlRequest) { data, response, error in
                     
-                    let (maybeHttpResponse, networkError) = self.validate(request, withResponseCodeValidator: responseCodeValidator, error: error, response: response)
+                    let (maybeHttpResponse, networkError) = self.validate(request, error: error, response: response)
                     guard let httpResponse = maybeHttpResponse else {
                         return observer.send(error: networkError!)
                     }
@@ -167,16 +153,15 @@ private extension URLSession {
     /**
      Returns a SignalProducer that returns a NetworkResponse, containing the Http response headers and the parsed response data, or an appropriate Network.OperationError if an error occurs
      */
-    func dataTaskSignalProducer<T>(request: URLRequest,
-                                responseCodeValidator: HttpResponseCodeValidator,
+    func dataTaskSignalProducer<T>(request: ApeURLRequest,
                                 parseDataBlock: @escaping ((Data) -> T?))
         -> SignalProducer<NetworkDataResponse<T>, Network.OperationError> {
             
             return SignalProducer<NetworkDataResponse<T>, Network.OperationError> { observer, disposable in
                 
-                let task = self.dataTask(with: request) { data, response, error in
+                let task = self.dataTask(with: request.urlRequest) { data, response, error in
                     
-                    let (maybeHttpResponse, networkError) = self.validate(request, withResponseCodeValidator: responseCodeValidator, error: error, response: response)
+                    let (maybeHttpResponse, networkError) = self.validate(request, error: error, response: response)
                     guard let httpResponse = maybeHttpResponse else {
                         return observer.send(error: networkError!)
                     }
@@ -191,7 +176,9 @@ private extension URLSession {
                         return observer.send(error: .parseFailure)
                     }
                     
-                    observer.send(value: NetworkDataResponse(responseHeaders: httpResponse.allHeaderFields, data: parsedData))
+                    observer.send(value: NetworkDataResponse(responseHeaders: httpResponse.allHeaderFields,
+                                                             rawData: data,
+                                                             parsedData: parsedData))
                     observer.sendCompleted()
                 }
                 
@@ -212,27 +199,26 @@ private extension URLSession {
      
      - returns: The HttpURLResponse, or an associated Network.OperationError if an error has occurred
      */
-    private func validate(_ request: URLRequest,
-                          withResponseCodeValidator responseCodeValidator: HttpResponseCodeValidator,
+    private func validate(_ request: ApeURLRequest,
                           error: Error?,
                           response: URLResponse?) -> (httpResponse: HTTPURLResponse?, networkError: Network.OperationError?) {
         
         //Ensure no error occurred
-        guard error == nil else {
-            return (httpResponse: nil, networkError: .requestFailure(reason: error!))
+        if let error = error {
+            return (httpResponse: nil, networkError: .requestFailure(error: error))
         }
         
-        //Ensure httpResponse was returned
+        //Ensure httpUrlResponse was returned
         guard let httpResponse = response as? HTTPURLResponse else {
             return (httpResponse: nil, networkError: .missingResponse)
         }
         
         //Ensure expected response code is returned
         let statusCode = Http.StatusCode(code: httpResponse.statusCode)
-        guard let method = Http.Method(value: request.httpMethod),
-            responseCodeValidator.isValid(responseCode: statusCode, forHttpMethod: method) else {
-                let reason = HTTPURLResponse.localizedString(forStatusCode: httpResponse.statusCode)
-                return (httpResponse: nil, networkError: .errorResponse(httpCode: statusCode, reason: reason))
+        guard request.acceptedResponseCodes.contains(statusCode) else {
+            let expectedString = request.acceptedResponseCodes.map { "\($0)" }.joined(separator: ", ")
+            return (httpResponse: nil, networkError: .unexpectedResponseCode(httpCode: statusCode,
+                                                                             description: "Expected '\(expectedString)', received: '\(statusCode)'"))
         }
         
         return (httpResponse: httpResponse, networkError: nil)
