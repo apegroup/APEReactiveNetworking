@@ -9,7 +9,7 @@ A light-weight networking library based on ReactiveSwift 5.x
 - Possibility to add custom request headers
 - Reactive oriented, based on ReactiveSwift 5.x 
 - Automatically updates the network activity indicator
-- Possibility to customize authentication handlder, default implementation saves JWT token in safe storage (Keychain)
+- Possibility to customize authentication handler, default implementation saves JWT token in safe storage (Keychain)
 - 100% Swift (Swift 3.X)
 - Powering Swift Generics
 - Access to all HTTP response headers
