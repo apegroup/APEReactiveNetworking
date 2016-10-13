@@ -13,8 +13,7 @@
 		5F6D488A1D421D630097F426 /* ExponentialSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D48891D421D630097F426 /* ExponentialSequence.swift */; };
 		5F6D488C1D421D800097F426 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D488B1D421D800097F426 /* NetworkActivityIndicator.swift */; };
 		5F6D488E1D421DAB0097F426 /* SignalProducerType+NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D488D1D421DAB0097F426 /* SignalProducerType+NetworkActivityIndicator.swift */; };
-		5FD47A891D992A1B00EDF45C /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD47A871D992A1B00EDF45C /* ReactiveSwift.framework */; };
-		5FD47A8A1D992A1B00EDF45C /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD47A881D992A1B00EDF45C /* Result.framework */; };
+		5F8FF1171DAFADA300C49A2B /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9631D081B5500D4191F /* Locksmith.framework */; };
 		5FF05A891D40F5690082575A /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A881D40F5690082575A /* KeychainManager.swift */; };
 		5FF05A931D40F69F0082575A /* ApeJwtAuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8B1D40F69F0082575A /* ApeJwtAuthenticationHandler.swift */; };
 		5FF05A941D40F69F0082575A /* AuthenticationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8C1D40F69F0082575A /* AuthenticationHandler.swift */; };
@@ -28,7 +27,6 @@
 		6708E91D1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E91C1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift */; };
 		6708E9331D0700D200D4191F /* Http.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92C1D0700D200D4191F /* Http.swift */; };
 		6708E9341D0700D200D4191F /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6708E92D1D0700D200D4191F /* Network.swift */; };
-		6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6708E9631D081B5500D4191F /* Locksmith.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,9 +71,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FD47A8A1D992A1B00EDF45C /* Result.framework in Frameworks */,
-				6708E9671D081B5500D4191F /* Locksmith.framework in Frameworks */,
-				5FD47A891D992A1B00EDF45C /* ReactiveSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,6 +79,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5FF42C7A1D992BD900063CE5 /* Result.framework in Frameworks */,
+				5F8FF1171DAFADA300C49A2B /* Locksmith.framework in Frameworks */,
 				6708E9181D06FFDC00D4191F /* APEReactiveNetworking.framework in Frameworks */,
 				5FF42C791D992BD600063CE5 /* ReactiveSwift.framework in Frameworks */,
 			);
@@ -224,7 +220,6 @@
 				6708E9091D06FFDC00D4191F /* Frameworks */,
 				6708E90A1D06FFDC00D4191F /* Headers */,
 				6708E90B1D06FFDC00D4191F /* Resources */,
-				67A741B01D0846F700B04F65 /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -317,23 +312,7 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		67A741B01D0846F700B04F65 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Locksmith.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
 			);
 			name = Carthage;
 			outputPaths = (
