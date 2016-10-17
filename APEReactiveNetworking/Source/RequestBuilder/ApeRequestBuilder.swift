@@ -11,7 +11,6 @@ import Foundation
 public final class ApeRequestBuilder: HttpRequestBuilder {
     
     private let endpoint: Endpoint
-    private var authHeader: String?
     private var contentTypeHeader = Http.ContentType.applicationJson
     private var additionalHeaders: Http.RequestHeaders = [:]
     private var bodyData: Data?
@@ -22,13 +21,13 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
         self.endpoint = endpoint
     }
     
-    public func addAuthHandler(_ authHandler: AuthenticationHandler) -> HttpRequestBuilder {
-        self.authHeader = authHandler.authHeader
+    public func addHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder {
+        additionalHeaders[header.key] = header.value
         return self
     }
     
-    public func addHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder {
-        self.additionalHeaders = headers
+    public func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder {
+        additionalHeaders = headers
         return self
     }
 
@@ -49,18 +48,13 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
 
     private func makeHeaders() -> Http.RequestHeaders {
         var headers = self.additionalHeaders
-
-        if let authorizationHeaderValue = authHeader {
-            headers["Authorization"] = authorizationHeaderValue
-        }
-
         headers["Content-Type"] = contentTypeHeader.description
         
         let device = UIDevice.current
-        headers["X-Apegroup-Client-OS"] = device.systemName
-        headers["X-Apegroup-Client-OS-Version"] = device.systemVersion
-        headers["X-Apegroup-Client-Device-Type"] = device.modelName
-        headers["X-Apegroup-Client-Device-VendorId"] = device.identifierForVendor?.uuidString ?? "unknown"
+        headers["X-Client-OS"] = device.systemName
+        headers["X-Client-OS-Version"] = device.systemVersion
+        headers["X-Client-Device-Type"] = device.modelName
+        headers["X-Client-Device-VendorId"] = device.identifierForVendor?.uuidString ?? "unknown"
         
         //FIXME: Fix headers below
         //headers["X-Apegroup-Client-App-Version"] = "0.1"
