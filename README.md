@@ -66,12 +66,11 @@ We also added functions that we needed but missed in other network libraries, su
       * [HTTP basic](#http-basic) √
       * [Bearer token](#bearer-token) √
       * [Custom authentication header](#custom-authentication-header) √
-    * [Setting custom http headers]
+    * [Setting custom http headers](#setting-custom-http-headers)
     * [Setting the request body]
       * [JSON]
       * [Plain Text]
       * [Custom content type]
-    * [Setting custom http headers]
     * [Sending a request](#sending-a-request)
     * [Handling a response](#handling-a-response)
       * [Response without data]
@@ -125,17 +124,10 @@ Build your request by using a 'HttpRequestBuilder'.
 
 ```swift
 public protocol HttpRequestBuilder {
-
     init(endpoint: Endpoint)
-    
-    /// Adds a header entry to the HttpHeaders. If an entry with the received key already exists it will be overwritten.
     func addHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder
-    
-    /// Sets the HttpHeaders. Overwrites all existing headers
     func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder
-
     func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder
-
     func build() -> ApeURLRequest
 }
 ```
@@ -166,12 +158,123 @@ let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeade
 ```
 
 #### Custom authentication header
-To authenticate using a custom authentication header, for example **"Token token=ASDFASDFASDF12345"** you would need to set the following header field: `Authorization: Token token=AAAFFAAAA3DAAAAAA`. Simply do this:
+To authenticate using a custom authentication header, for example **"Token token=ASDFASDFASDF12345"** you would need to set the following header field: `Authorization: Token token=ASDFASDFASDF12345`. Simply do this:
 
 ```swift
 let endpoint = ApegroupEndpoint()
 let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(headerValue: "Token token=ASDFASDFASDF12345")
 ```
+
+### Setting custom http headers
+There are two ways of setting your own http headers.
+
+By setting all the headers (which will replace existing key-values):
+```swift
+let customHeaders: Http.RequestHeaders = ["CustomKey1": "CustomValue1", "CustomKey2" : "CustomValue2"]
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setHeaders(customHeaders)
+```
+
+Or by adding a single header entry (if the header already exists it will be replaced by the new value):
+```swift
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).addHeader(("CustomKey","CustomValue"))
+```
+
+### Setting the request body
+#### JSON
+```swift
+let jsonBody: [String : Any] = ["key":"value"]
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setBody(json: jsonBody)
+```
+
+#### Plain Text
+```swift
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setBody(text: "plain text body")
+```
+
+#### Custom content type
+```swift
+let image: UIImage = ...
+let imageData = UIImagePNGRepresentation(image)!
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setBody(data: imageData, contentType: Http.ContentType.imagePng)
+```
+
+### Sending a request
+
+Requests are sent using the 'Network' API.
+
+Using the default URLSessionConfiguration
+```swift
+let network = Network()
+```
+
+Using a custom URLSessionConfiguration
+```swift
+let customConfiguration = URLSessionConfiguration()
+let customSession = URLSession(configuration: customConfiguration)
+let network = Network(session: customSession)
+```
+
+To send a request, simply create a request operation (i.e. a SignalProducer), by calling the send method.
+(Remember to import 'ReactiveSwift' and to start the signal producer)
+```swift
+import ReactiveSwift
+
+let endpoint = ApegroupEndpoint()
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint)
+let request = requestBuilder.build()
+let network = Network()
+let signalProducer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = network.send(request)
+signalProducer.start()
+```
+
+### Handling a response
+
+Response handling is performed in a reactive manner by providing closures to the SignalProducer
+
+```swift
+import ReactiveSwift
+
+let endpoint = ApegroupEndpoint()
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint)
+let request = requestBuilder.build()
+let network = Network()
+let signalProducer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = network.send(request)
+```
+
+#### Response without data
+By default, only the response http headers are returned by the SignalProducer 
+
+```swift
+signalProducer.on(
+  failed: { (error: Network.OperationError) in
+    print("Network operation failed with error: \(error)")
+  }, completed: {
+    print("Successfully sent a request!")
+}).start()
+```
+
+#### Response with data
+```swift
+```
+
+#### Error handling
+##### Retries
+```swift
+```
+
+##### Timeout
+```swift
+```
+
+##### Other
+```swift
+```
+
+
+### Author
+### Attribution
+### Contribution
+### License
 
 
 
