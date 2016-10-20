@@ -1,24 +1,40 @@
 # APEReactiveNetworking
+![Logotype](Banner.jpg)
 
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/apegroup/APEReactiveNetworking) 
+[![Version](https://cocoapod-badges.herokuapp.com/v/APEReactiveNetworking/badge.png)](https://cocoapods.org/pods/APEReactiveNetworking)
+[![Version](https://img.shields.io/cocoapods/v/APEReactiveNetworking.svg?style=flat)](https://cocoapods.org/pods/APEReactiveNetworking)
+![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X-lightgrey.svg)
+[![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
 
-A light-weight networking library based on ReactiveSwift 5.x
+**APEReactiveNetworking** is simply a `reactive oriented`, `feather-weight` networking library, `made by Sweden`
+
+We focused on building a network lib that was real-world, use-case oriented (looking at what our existing app projects actually used/needed from a networking lib) rather than implementing all sorts of functions any given project would possibly use.
+
+It's feather-weight because we deliberately did not implement features, available in other networking libs, that is seldom used, for example multipart request-body support. Why create waste?
+
+It's reactive based because we built it on top of [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift), which is an aswesome lib that we think will be the best Reactive lib for the Apple platforms.
+
+We also added functions that we needed but missed in other network libraries, such as deterministic timeout time for a given request with built-in retry mechanism *(eg: Send request X with maximum 5 retries and an exponential backoff-strategy staring at 1 second, but cancel everything and timeout after maximum 10 seconds, no mather how many retries have been executed)* 
+
+**APEReactiveNetworking** is implemented purley in `Swift 3` and powering the magic of Swift Generics.
+
 
 ## Features
-- PUT, POST, DELETE, GET, PATCH operations
-- Possibility to add custom request headers
-- Reactive oriented, based on ReactiveSwift 5.x 
-- Automatically updates the network activity indicator
-- Possibility to customize authentication handler, default implementation saves JWT token in safe storage (Keychain)
-- 100% Swift (Swift 3.X)
+- Feather-weight
+- 100% Swift 3
 - Powering Swift Generics
-- Access to all HTTP response headers
-- Lightweigth, less than 600 lines of code (including whitespace, comments and other meta lines)
+- Reactive oriented, based on ReactiveSwift
 - Automatic retry mechanism with possiblity to define max number of retries (exponential back-off strategy)
 - Deterministic response time (successful, error or timeout), i.e. abort after 'X' seconds
+- Automatically updates the network activity indicator
+- Possibility to add custom request headers
+- Access to all HTTP response headers
+- PUT, POST, DELETE, GET, PATCH operations
 - Possibility to customize response code validation, default implementation accepts 200-299 codes
 - Code coverage at X %
 - Example project available, using all network methods and binding to UI (a full reactive chain)
+
 
 ## Does not support
 - Multipart request
@@ -26,11 +42,8 @@ A light-weight networking library based on ReactiveSwift 5.x
 - ? 
 
 ## Future improvements
-- Remove heavyweight Keychain storage mechanism (we don't want that extra dependency)
-- Improve the README file with logo, example and architecture
 - Support for background download/upload by the OS
 - Add more test cases
-- Project logo
 - Async image downloads  for cell updating (extension of UIImage?)
 - Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
 - A custom URLSession with request timeout set to 10 s
