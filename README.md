@@ -53,27 +53,33 @@ We also added functions that we needed but missed in other network libraries, su
 
 
 
-## Table of Contents
+## Table of Contents (REMOVE ALL √ BEFORE MERGE)
 
-  * [Requirements](#requirements)
-    * [Dependencies](#dependencies)
+  * [Requirements](#requirements) √
   * [Installation](#installation)
     * [Carthage](#carthage)
     * [CocoaPods](#cocoapods)
   * [Usage](#usage)
-    * [Create your endpoints](#create-your-endpoints)
-    * [Create your request](#create-your-request)
-    * [Authenticating](#authenticating)
-      * [HTTP basic](#http-basic)
-      * [Bearer token](#bearer-token)
-      * [Custom authentication header](#custom-authentication-header)
-  * [Making a request](#making-a-request)
-  * [Choosing a content or parameter type](#choosing-a-content-or-parameter-type)
-  * [JSON](#json)
-  * [URL-encoding](#url-encoding)
-  * [Cancelling a request](#cancelling-a-request)
-  * [Error handling](#logging-errors)
-  * [Updating the Network Activity Indicator](#updating-the-network-activity-indicator)
+    * [Create your endpoints](#create-your-endpoints) √
+    * [Create your request](#create-your-request) √
+    * [Authenticating](#authenticating) √
+      * [HTTP basic](#http-basic) √
+      * [Bearer token](#bearer-token) √
+      * [Custom authentication header](#custom-authentication-header) √
+    * [Setting custom http headers]
+    * [Setting the request body]
+      * [JSON]
+      * [Plain Text]
+      * [Custom content type]
+    * [Setting custom http headers]
+    * [Sending a request](#sending-a-request)
+    * [Handling a response](#handling-a-response)
+      * [Response without data]
+      * [Response with data]
+      * [Error handling]
+        * [Retries]
+        * [Timeout]
+        * [Other]
   * [Author](#author)
   * [Attribution](#attribution)
   * [Constribution](#contribution)
@@ -84,8 +90,8 @@ We also added functions that we needed but missed in other network libraries, su
 - iOS 9.0 or greater
 - Xcode 8 (Swift 3.0) or later
 
-### Dependencies
-- [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift)
+- Dependencies:
+  - [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift)
 
 ## Installation
 
@@ -156,7 +162,7 @@ To authenticate using a [bearer token](https://tools.ietf.org/html/rfc6750) **"A
 
 ```swift
 let endpoint = ApegroupEndpoint()
-let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(token: "ASDFASDFASDF12345")
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(token: "ASDFASDFASDF12345")
 ```
 
 #### Custom authentication header
@@ -164,7 +170,7 @@ To authenticate using a custom authentication header, for example **"Token token
 
 ```swift
 let endpoint = ApegroupEndpoint()
-let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(headerValue: "Token token=ASDFASDFASDF12345")
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(headerValue: "Token token=ASDFASDFASDF12345")
 ```
 
 
