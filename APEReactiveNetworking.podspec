@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'APEReactiveNetworking'
   s.version          = '2.0.3'
-  s.summary          = 'A light-weight networking library based on ReactiveSwift 5.x'
+  s.summary          = 'APEReactiveNetworking is simply a reactive oriented, feather-weight networking library, made by Sweden'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,29 +18,23 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-A light-weight networking library based on ReactiveSwift 5.x
+  APEReactiveNetworking is simply a reactive oriented, feather-weight networking library, made by Sweden.
 
-Features
-PUT, POST, DELETE, GET, PATCH operations
-Possibility to add custom request headers
-Reactive oriented, based on ReactiveSwift 5.x
-Automatically updates the network activity indicator
-Possibility to customize authentication handler, default implementation saves JWT token in safe storage (Keychain)
-100% Swift (Swift 3.X)
-Powering Swift Generics
-Access to all HTTP response headers
-Lightweigth, less than 600 lines of code (including whitespace, comments and other meta lines)
-Automatic retry mechanism with possiblity to define max number of retries (exponential back-off strategy)
-Deterministic response time (successful, error or timeout), i.e. abort after 'X' seconds
-Possibility to customize response code validation, default implementation accepts 200-299 codes
-Code coverage at X %
-Example project available, using all network methods and binding to UI (a full reactive chain)
+  We focused on building a network lib that was real-world, use-case oriented (looking at what our existing app projects actually used/needed from a networking lib) rather than implementing all sorts of functions any given project would possibly use.
+
+  It's feather-weight because we deliberately did not implement features, available in other networking libs, that is seldom used, for example multipart request-body support. Why create waste?
+
+  It's reactive based because we built it on top of ReactiveSwift, which is an aswesome lib that we think will be the best Reactive lib for the Apple platforms.
+
+  We also added functions that we needed but missed in other network libraries, such as deterministic timeout time for a given request with built-in retry mechanism (eg: Send request X with maximum 5 retries and an exponential backoff-strategy staring at 1 second, but cancel everything and timeout after maximum 10 seconds, no mather how many retries have been executed)
+
+  APEReactiveNetworking is implemented purley in Swift 3 and powering the magic of Swift Generics.
                        DESC
 
   s.homepage         = 'https://github.com/apegroup/APEReactiveNetworking'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'Dennis Charmington' => 'dennis.charmington@apegroup.com' }
+  s.author           = { 'Apegroup AB' => 'dennis.charmington@apegroup.com' }
   s.source           = { :git => 'https://github.com/apegroup/APEReactiveNetworking.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/apegroup'
 
