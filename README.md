@@ -7,21 +7,21 @@
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
 
-**APEReactiveNetworking** is simply a `reactive oriented`, `feather-weight` networking library, `made by Sweden`
+**APEReactiveNetworking** is simply a `reactive oriented`, `lightweight` networking library, `made by Apegroup`
 
 We focused on building a network lib that was real-world, use-case oriented (looking at what our existing app projects actually used/needed from a networking lib) rather than implementing all sorts of functions any given project would possibly use.
 
-It's feather-weight because we deliberately did not implement features, available in other networking libs, that is seldom used, for example multipart request-body support. Why create waste?
+It's lightweight because we deliberately did not implement features, available in other networking libs, that are seldom used, for example multipart request-body support. Why create waste?
 
 It's reactive based because we built it on top of [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift), which is an aswesome lib that we think will be the best Reactive lib for the Apple platforms.
 
-We also added functions that we needed but missed in other network libraries, such as deterministic timeout time for a given request with built-in retry mechanism *(eg: Send request X with maximum 5 retries and an exponential backoff-strategy staring at 1 second, but cancel everything and timeout after maximum 10 seconds, no mather how many retries have been executed)* 
+We also added functions that we needed but missed in other network libraries, such as deterministic timeout time for a given request with built-in retry mechanism *(eg: Send request X with maximum 5 retries and an exponential backoff-strategy starting at 1 second, but cancel everything and timeout after maximum 10 seconds, no mather how many retries have been executed)* 
 
 **APEReactiveNetworking** is implemented purley in `Swift 3` and powering the magic of Swift Generics.
 
 
 ## Features
-- Feather-weight
+- Lightweight
 - 100% Swift 3
 - Powering Swift Generics
 - Reactive oriented, based on ReactiveSwift
@@ -42,12 +42,12 @@ We also added functions that we needed but missed in other network libraries, su
 - ? 
 
 ## Future improvements
-- Support for background download/upload by the OS
+- Support for background download/upload tasks by the OS
 - Add more test cases
-- Async image downloads  for cell updating (extension of UIImage?)
-- Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
-- A custom URLSession with request timeout set to 10 s
-- Add HTTPS  + SSL certificate validation support
+- Async image downloads for cell updating (extension of UIImage?) (in a new separate framework?)
+- Support for cookies (e.g. since Google AppEngine does not support setting http Response headers, we cannot set a new jwt token in headers)
+- A custom URLSession with request timeout set to 10s
+- Add HTTPS + SSL certificate validation support
 - Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
 - Extend the Example project with more api methods, better commenting etc
 
@@ -56,6 +56,7 @@ We also added functions that we needed but missed in other network libraries, su
 ## Table of Contents
 
   * [Requirements](#requirements)
+    * [Dependencies](#dependencies)
   * [Choosing a configuration type](#choosing-a-configuration-type)
   * [Authenticating](#authenticating)
     * [HTTP basic](#http-basic)
@@ -78,12 +79,32 @@ We also added functions that we needed but missed in other network libraries, su
 * [Attribution](#attribution)
 
 ## Requirements
+
+### Dependencies
+- [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift)
+
 ## Choosing a configuration type
+
 ## Authentication
 ### HTTP Basic
+
+To authenticate using [basic authentication](http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA) with a username **"ape"** and password **"group"** you only need to do this:
+
+```swift
+```
 ### Bearer token
+
+To authenticate using a [bearer token](https://tools.ietf.org/html/rfc6750) **"ASDFASDFASDF12345"** you only need to do this:
+
+```swift
+```
+
 ### Custom authentication header
-### Custom http header
+To authenticate using a custom authentication header, for example **"Token token=AAAFFAAAA3DAAAAAA"** you would need to set the following header field: `Authorization: Token token=AAAFFAAAA3DAAAAAA`. Luckily, **Networking** provides a simple way to do this:
+
+```swift
+
+```
 
 
 
