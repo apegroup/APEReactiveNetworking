@@ -57,53 +57,114 @@ We also added functions that we needed but missed in other network libraries, su
 
   * [Requirements](#requirements)
     * [Dependencies](#dependencies)
-  * [Choosing a configuration type](#choosing-a-configuration-type)
-  * [Authenticating](#authenticating)
-    * [HTTP basic](#http-basic)
-    * [Bearer token](#bearer-token)
-    * [Custom authentication header](#custom-authentication-header)
+  * [Installation](#installation)
+    * [Carthage](#carthage)
+    * [CocoaPods](#cocoapods)
+  * [Usage](#usage)
+    * [Create your endpoints](#create-your-endpoints)
+    * [Create your request](#create-your-request)
+    * [Authenticating](#authenticating)
+      * [HTTP basic](#http-basic)
+      * [Bearer token](#bearer-token)
+      * [Custom authentication header](#custom-authentication-header)
   * [Making a request](#making-a-request)
   * [Choosing a content or parameter type](#choosing-a-content-or-parameter-type)
   * [JSON](#json)
   * [URL-encoding](#url-encoding)
-  * [Multipart](#multipart)
-  * [Others](#others)
   * [Cancelling a request](#cancelling-a-request)
-  * [Faking a request](#faking-a-request)
-  * [Downloading and caching an image](#downloading-and-caching-an-image)
-  * [Logging errors](#logging-errors)
+  * [Error handling](#logging-errors)
   * [Updating the Network Activity Indicator](#updating-the-network-activity-indicator)
-  * [Installing](#installing)
   * [Author](#author)
+  * [Attribution](#attribution)
+  * [Constribution](#contribution)
   * [License](#license)
-* [Attribution](#attribution)
 
 ## Requirements
+
+- iOS 9.0 or greater
+- Xcode 8 (Swift 3.0) or later
 
 ### Dependencies
 - [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift)
 
-## Choosing a configuration type
+## Installation
 
-## Authentication
-### HTTP Basic
+
+## Usage
+
+### Create your endpoints
+
+An endpoint is a type that conforms to the 'Endpoint' protocol and describes the endpoints that your client communicates with.
+
+```swift
+public protocol Endpoint {
+    var httpMethod: Http.Method { get }
+    var absoluteUrl: String { get }
+    var acceptedResponseCodes: [Http.StatusCode] { get }
+}
+```
+
+Example of conforming to the 'Endpoint' protocol:
+```swift
+struct ApegroupEndpoint: Endpoint {
+    var httpMethod = Http.Method.get
+    var absoluteUrl = "http://www.apegroup.com"
+    var acceptedResponseCodes = [Http.StatusCode.ok]
+}
+```
+
+### Create your request
+
+Build your request by using a 'HttpRequestBuilder'.
+
+```swift
+public protocol HttpRequestBuilder {
+
+    init(endpoint: Endpoint)
+    
+    /// Adds a header entry to the HttpHeaders. If an entry with the received key already exists it will be overwritten.
+    func addHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder
+    
+    /// Sets the HttpHeaders. Overwrites all existing headers
+    func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder
+
+    func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder
+
+    func build() -> ApeURLRequest
+}
+```
+
+'ApeRequestBuilder', a type conforming to the 'HttpRequestBuilder' protocol, is provided by the framework:
+```swift
+let endpoint = ApegroupEndpoint()
+let requestBuilder: HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
+let request: ApeURLRequest = requestBuilder.build()
+```
+
+### Authentication
+#### HTTP Basic
 
 To authenticate using [basic authentication](http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA) with a username **"ape"** and password **"group"** you only need to do this:
 
 ```swift
+let endpoint = ApegroupEndpoint()
+let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(username: "ape", password: "group")
 ```
-### Bearer token
+#### Bearer token
 
 To authenticate using a [bearer token](https://tools.ietf.org/html/rfc6750) **"ASDFASDFASDF12345"** you only need to do this:
 
 ```swift
+let endpoint = ApegroupEndpoint()
+let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(token: "ASDFASDFASDF12345")
 ```
 
-### Custom authentication header
-To authenticate using a custom authentication header, for example **"Token token=AAAFFAAAA3DAAAAAA"** you would need to set the following header field: `Authorization: Token token=AAAFFAAAA3DAAAAAA`. Luckily, **Networking** provides a simple way to do this:
+#### Custom authentication header
+To authenticate using a custom authentication header, for example **"Token token=ASDFASDFASDF12345"** you would need to set the following header field: `Authorization: Token token=AAAFFAAAA3DAAAAAA`. Simply do this:
 
 ```swift
-
+let endpoint = ApegroupEndpoint()
+let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(headerValue: "Token token=ASDFASDFASDF12345")
 ```
 
 
