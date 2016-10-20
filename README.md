@@ -53,48 +53,61 @@ We also added functions that we needed but missed in other network libraries, su
 
 
 
+## Table of Contents
 
+  * [Requirements](#requirements)
+  * [Choosing a configuration type](#choosing-a-configuration-type)
+  * [Authenticating](#authenticating)
+    * [HTTP basic](#http-basic)
+    * [Bearer token](#bearer-token)
+    * [Custom authentication header](#custom-authentication-header)
+  * [Making a request](#making-a-request)
+  * [Choosing a content or parameter type](#choosing-a-content-or-parameter-type)
+  * [JSON](#json)
+  * [URL-encoding](#url-encoding)
+  * [Multipart](#multipart)
+  * [Others](#others)
+  * [Cancelling a request](#cancelling-a-request)
+  * [Faking a request](#faking-a-request)
+  * [Downloading and caching an image](#downloading-and-caching-an-image)
+  * [Logging errors](#logging-errors)
+  * [Updating the Network Activity Indicator](#updating-the-network-activity-indicator)
+  * [Installing](#installing)
+  * [Author](#author)
+  * [License](#license)
+* [Attribution](#attribution)
 
+## Requirements
+## Choosing a configuration type
+## Authentication
+### HTTP Basic
+### Bearer token
+### Custom authentication header
+### Custom http header
 
 
 
 ## Usage example
+
+
+  1) Create an endpoint by implementing the endpoint protocol, which requires three methods to be implemented: 'absoluteUrl', 'httpMethod' and 'acceptedResponseCodes'
+  ```swift
+  public protocol Endpoint {
+    var httpMethod: Http.Method { get }
+    var absoluteUrl: String { get }
+    var acceptedResponseCodes: [Http.StatusCode] { get }
+  }
+```
 
 ```swift
 import APEReactiveNetworking
 import ReactiveSwift
 import enum Result.NoError
 
-/**
-  The authentication handler is used to
-  - set the value of the 'Authorization' http header field in the request
-  - handle received credentials/tokens, etc, e.g. by storing them in the keychain
- **/
-let authHandler: AuthenticationHandler = ApeJwtAuthenticationHandler()
-
-
-/**
-- The 'authenticateUser()' method returns the response value of 'Network::send()'.
-- 'Network::send()' returns a 'ReactiveSwift::SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>', where 'AuthResponse' is expected response data model.
-**/
-func onLoginButtonTapped() {
-  let signalProducer<NetworkDataResponse<AuthResponse>, Network.Error> = authenticateUser("ape", password: "ape123")
-    signalProducer.start { event in
-      switch event {
-        case .Next(let networkDataResponse):
-          let authResponse = networkDataResponse.parsedData
-          self.authHandler.handleAuthTokenReceived(authResponse)
-        case .Failed(let error):
-          print("An error occurred: \(error)")
-        default: break
-      }
-    }
-}
-
 
 /** 
   Elaborate example: Sending a request.
-**/
+ **/
 func authenticateUser(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
 
   ///1) Constructing the http request: 
@@ -159,6 +172,23 @@ func authenticateUser2(username: String,
     .build()
 
     return Network().send(request) { try? Unbox($0) }
+}
+
+/**
+- The 'authenticateUser()' method returns the response value of 'Network::send()'.
+- 'Network::send()' returns a 'ReactiveSwift::SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>', where 'AuthResponse' is expected response data model.
+**/
+func onLoginButtonTapped() {
+  let signalProducer<NetworkDataResponse<AuthResponse>, Network.Error> = authenticateUser("ape", password: "ape123")
+    signalProducer.start { event in
+      switch event {
+        case .Next(let networkDataResponse):
+          let authResponse = networkDataResponse.parsedData
+        case .Failed(let error):
+          print("An error occurred: \(error)")
+        default: break
+      }
+    }
 }
 
 ```

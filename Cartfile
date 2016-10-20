@@ -1,3 +1,2 @@
 # External dependencies
-github "matthewpalmer/Locksmith"
 github "ReactiveCocoa/ReactiveSwift"
