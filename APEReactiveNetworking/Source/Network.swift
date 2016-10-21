@@ -37,7 +37,7 @@ public struct Network {
     public enum OperationError : Error {
         case parseFailure
         case missingData
-        case missingResponse
+        case invalidResponseType
         case unexpectedResponseCode(httpCode: Http.StatusCode, data: Data?)
         case requestFailure(error: Error)
         case timedOut
@@ -211,7 +211,7 @@ private extension URLSession {
         
         //Ensure httpUrlResponse was returned
         guard let httpResponse = response as? HTTPURLResponse else {
-            return (httpResponse: nil, networkError: .missingResponse)
+            return (httpResponse: nil, networkError: .invalidResponseType)
         }
         
         //Ensure expected response code is returned
