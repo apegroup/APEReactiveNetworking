@@ -128,7 +128,7 @@ enum ApegroupEndpoints: Endpoint {
     case createUser
     case deleteUser
     case getUser
-    case getMessage
+    case getMessage (messageId: String)
     
     var httpMethod : HttpMethod {
         switch self {
