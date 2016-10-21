@@ -45,5 +45,4 @@ APEReactiveNetworking is implemented purley in Swift 3 and powering the magic of
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'ReactiveSwift', '1.0.0-alpha.2'
-  s.dependency 'Locksmith', '3.0.0'
 end
