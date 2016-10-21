@@ -38,7 +38,7 @@ public struct Network {
         case parseFailure
         case missingData
         case missingResponse
-        case unexpectedResponseCode(httpCode: Http.StatusCode, description: String)
+        case unexpectedResponseCode(httpCode: Http.StatusCode, data: Data?)
         case requestFailure(error: Error)
         case timedOut
     }
@@ -133,7 +133,7 @@ private extension URLSession {
                 
                 let task = self.dataTask(with: request.urlRequest) { data, response, error in
                     
-                    let (maybeHttpResponse, networkError) = self.validate(request, error: error, response: response)
+                    let (maybeHttpResponse, networkError) = self.validate(request, error: error, response: response, data: data)
                     guard let httpResponse = maybeHttpResponse else {
                         return observer.send(error: networkError!)
                     }
@@ -161,7 +161,7 @@ private extension URLSession {
                 
                 let task = self.dataTask(with: request.urlRequest) { data, response, error in
                     
-                    let (maybeHttpResponse, networkError) = self.validate(request, error: error, response: response)
+                    let (maybeHttpResponse, networkError) = self.validate(request, error: error, response: response, data: data)
                     guard let httpResponse = maybeHttpResponse else {
                         return observer.send(error: networkError!)
                     }
@@ -201,7 +201,8 @@ private extension URLSession {
      */
     private func validate(_ request: ApeURLRequest,
                           error: Error?,
-                          response: URLResponse?) -> (httpResponse: HTTPURLResponse?, networkError: Network.OperationError?) {
+                          response: URLResponse?,
+                          data: Data?) -> (httpResponse: HTTPURLResponse?, networkError: Network.OperationError?) {
         
         //Ensure no error occurred
         if let error = error {
@@ -216,9 +217,7 @@ private extension URLSession {
         //Ensure expected response code is returned
         let statusCode = Http.StatusCode(code: httpResponse.statusCode)
         guard request.acceptedResponseCodes.contains(statusCode) else {
-            let expectedString = request.acceptedResponseCodes.map { "\($0)" }.joined(separator: ", ")
-            return (httpResponse: nil, networkError: .unexpectedResponseCode(httpCode: statusCode,
-                                                                             description: "Expected '\(expectedString)', received: '\(statusCode)'"))
+            return (httpResponse: nil, networkError: .unexpectedResponseCode(httpCode: statusCode, data: data))
         }
         
         return (httpResponse: httpResponse, networkError: nil)
