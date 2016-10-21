@@ -355,6 +355,7 @@ Network().send(request, scheduler: myScheduler).start()
 ### Author
 ### Attribution
 ### Contribution
+All people are welcome to contribute. See [CONTRIBUTING](https://github.com/apegroup/APEReactiveNetworking/blob/master/CONTRIBUTING) for details.
 
 ### License
 APEReactiveNetworking is released under the MIT license. See [LICENSE](https://github.com/apegroup/APEReactiveNetworking/blob/master/LICENSE) for details.
