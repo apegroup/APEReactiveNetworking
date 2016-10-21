@@ -58,16 +58,17 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
       * [HTTP basic](#http-basic) √
       * [Bearer token](#bearer-token) √
       * [Custom authentication header](#custom-authentication-header) √
-    * [Setting custom http headers](#setting-custom-http-headers)
-    * [Setting the request body]
-      * [JSON]
-      * [Plain Text]
-      * [Custom content type]
-    * [Sending a request](#sending-a-request)
-    * [Handling a response](#handling-a-response)
-      * [Response without data]
-      * [Response with data]
+    * [Setting custom http headers](#setting-custom-http-headers) √
+    * [Setting the request body] √
+      * [JSON] √
+      * [Plain Text] √
+      * [Custom content type] √
+    * [Sending a request](#sending-a-request) √
+    * [Handling a response](#handling-a-response) √
+      * [Response without data] √
+      * [Response with data] √
       * [Error handling]
+      * [Configuring the request operation]
         * [Retries]
         * [Timeout]
         * [Other]
@@ -259,19 +260,25 @@ signalProducer.on(
 ```
 
 #### Response with data
-If you expect response data, you simply pass an additional parameter, `parseDataBlock`, to the method `Network.send()`.
+If you expect response data to be returned, simply pass an additional parameter, `parseDataBlock`, to the method `Network.send()`. The parseDataBlock specifies how to convert the raw response data to your desired model type.
 
-The parseDataBlock specifies how to convert the 
-
+The SignalProducer will send a generic wrapper object parameterized with your model type 'T', `NetworkDataResponse<T>`, which contains:
+- the raw response data
+- your parsed data model
+- the http response headers
 
 ```swift
-let signalProducer: SignalProducer<NetworkDataResponse<Model>, Network.OperationError> =
-network.send(request, parseDataBlock: { (data: Data) -> Model? in 
-  return Model(from: data) 
+struct MyModel {
+  init(from: Data) {}
+}
+
+let signalProducer: SignalProducer<NetworkDataResponse<MyModel>, Network.OperationError> =
+network.send(request, parseDataBlock: { (data: Data) -> MyModel? in 
+  return MyModel(from: data) 
 })
         
 signalProducer.on(
-  value: { (response: NetworkDataResponse<Model>) in
+  value: { (response: NetworkDataResponse<MyModel>) in
     let rawData: Data = response.rawData
     let model: Model = response.parsedData
     let responseHeaders: Http.ResponseHeaders = response.responseHeaders
@@ -283,18 +290,52 @@ signalProducer.on(
 ```
 
 #### Error handling
-##### Retries
+APEReactiveNetworking defines the following error type:
+
 ```swift
+public enum OperationError : Error {
+  case parseFailure
+  case missingData
+  case missingResponse
+  case unexpectedResponseCode(httpCode: Http.StatusCode, data: Data?)
+  case requestFailure(error: Error)
+  case timedOut
+}
+```
+
+Any error handling is performed in the usual 'failed' closure of the SignalProducer.
+
+### Configuring the request operation
+It is possible configure the network operation in the following ways:
+  - Setting a max number of retries before aborting the operation
+  - Setting a timeout limit before aborting the operation
+  - Specifying a Scheduler to which the returned SignalProducer will forward events to
+
+##### Retries
+The default max number of retries is 10. It is possible to override this value by providing the `maxRetries` parameter in the `Network.send()` method.
+
+The retries are performed using an exponential backoff strategy between each retry, starting from 1 (it is currently not possible to start from custom values, which might be useful e.g. after reading the 'Retry-After' response header).
+
+```swift
+let maxNumberOfRetries = 3
+Network().send(request, maxRetries: maxNumberOfRetries).start()
 ```
 
 ##### Timeout
+The default timeout is 10 seconds. It is possible to override this value by providing the `abortAfter` parameter in the `Network.send()` method. If the operation times out a 'TimedOut' error is sent.
+
 ```swift
+let maxSecondsAllowed: TimeInterval = 5
+Network().send(request, abortAfter: maxSecondsAllowed).start()
 ```
 
-##### Other
-```swift
-```
+##### Scheduler
+The default scheduler to which the SignalProducer will forward events to is the UIScheduler. It is possible to override this value by providing the `scheduler` parameter in the `Network.send()` method.
 
+```swift
+let myScheduler: SchedulerProtocol = QueueScheduler()
+Network().send(request, scheduler: myScheduler).start()
+```
 
 ### Author
 ### Attribution
