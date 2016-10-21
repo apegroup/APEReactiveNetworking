@@ -357,7 +357,7 @@ Network().send(request, scheduler: myScheduler).start()
 ### Contribution
 
 ### License
-APEReactiveNetworking is released under the MIT license. See LICENSE for details.
+APEReactiveNetworking is released under the MIT license. See [LICENSE](https://github.com/apegroup/APEReactiveNetworking/blob/master/LICENSE) for details.
 
 
 ## Advanced Usage example
