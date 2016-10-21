@@ -147,8 +147,14 @@ enum ApegroupEndpoints: Endpoint {
         return baseURL + path
     }
 
-    var acceptedResponseCodes = 200
-
+    var acceptedResponseCodes : Int {
+        switch self {
+        case let deleteUser:
+            return 204
+        default:
+            return 200
+        }
+    }
 
     private let baseURL = "https://api.apegroup.com/"
 
