@@ -45,33 +45,33 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 
 
 
-## Table of Contents (REMOVE ALL √ BEFORE MERGE)
+## Table of Contents
 
-  * [Requirements](#requirements) √
-  * [Installation](#installation) √
+  * [Requirements](#requirements)
+  * [Installation](#installation)
     * [Carthage](#carthage)
     * [CocoaPods](#cocoapods)
   * [Usage](#usage)
-    * [Create your endpoints](#create-your-endpoints) √
-    * [Create your request](#create-your-request) √
-    * [Authenticating](#authenticating) √
-      * [HTTP basic](#http-basic) √
-      * [Bearer token](#bearer-token) √
-      * [Custom authentication header](#custom-authentication-header) √
-    * [Setting custom http headers](#setting-custom-http-headers) √
-    * [Setting the request body] √
-      * [JSON] √
-      * [Plain Text] √
-      * [Custom content type] √
-    * [Sending a request](#sending-a-request) √
-    * [Handling a response](#handling-a-response) √
-      * [Response without data] √
-      * [Response with data] √
-      * [Error handling]
-      * [Configuring the request operation]
-        * [Retries]
-        * [Timeout]
-        * [Other]
+    * [Create your endpoints](#create-your-endpoints)
+    * [Create your request](#create-your-request)
+    * [Authenticating](#authenticating)
+      * [HTTP basic](#http-basic)
+      * [Bearer token](#bearer-token)
+      * [Custom authentication header](#custom-authentication-header)
+    * [Setting custom http headers](#setting-custom-http-headers)
+    * [Setting the request body]
+      * [JSON](#json)
+      * [Plain Text](#plain-text)
+      * [Custom content type](#custom-content-type)
+    * [Sending a request](#sending-a-request)
+    * [Handling a response](#handling-a-response)
+      * [Response without data](#response-without-data)
+      * [Response with data](#response-with-data)
+      * [Error handling](#error-handling)
+      * [Configuring the request operation](#configuring-the-request-operation)
+        * [Retries](#retries)
+        * [Timeout](#timeout)
+        * [Scheduler](#scheduler)
   * [Author](#author)
   * [Attribution](#attribution)
   * [Constribution](#contribution)
@@ -277,16 +277,12 @@ network.send(request, parseDataBlock: { (data: Data) -> MyModel? in
   return MyModel(from: data) 
 })
         
-signalProducer.on(
-  value: { (response: NetworkDataResponse<MyModel>) in
-    let rawData: Data = response.rawData
-    let model: Model = response.parsedData
-    let responseHeaders: Http.ResponseHeaders = response.responseHeaders
-    print("Received response data successfully")
-  }, failed: { (error: Network.OperationError) in
-    print("Network operation failed with error: \(error)")
-  }).start()
-}
+signalProducer.on(value: { (response: NetworkDataResponse<MyModel>) in
+  let rawData: Data = response.rawData
+  let model: Model = response.parsedData
+  let responseHeaders: Http.ResponseHeaders = response.responseHeaders
+  print("Received response data successfully")
+}}).start()
 ```
 
 #### Error handling
@@ -296,14 +292,33 @@ APEReactiveNetworking defines the following error type:
 public enum OperationError : Error {
   case parseFailure
   case missingData
-  case missingResponse
+  case invalidResponseType
   case unexpectedResponseCode(httpCode: Http.StatusCode, data: Data?)
   case requestFailure(error: Error)
   case timedOut
 }
 ```
 
-Any error handling is performed in the usual 'failed' closure of the SignalProducer.
+Error handling is performed in the usual 'failed' closure of the SignalProducer:
+
+```swift
+signalProducer.on(failed: { (operationError: Network.OperationError) in
+  switch operationError {
+    case .requestFailure(let error):
+      print("Request failed with error: \(error)")
+    case let .unexpectedResponseCode(code, data):
+      print("Received unexpected response code: \(code.rawValue)")
+    case .timedOut:
+      print("Operation timed out")
+    case .missingData:
+      print("Expected response data is missing")
+    case .parseFailure:
+      print("Failed to parse the response data to MyModel")
+    case .invalidResponseType:
+      print("Expected HTTPURLResponse")
+  }
+}).start()
+```
 
 ### Configuring the request operation
 It is possible configure the network operation in the following ways:
@@ -344,7 +359,7 @@ Network().send(request, scheduler: myScheduler).start()
 
 
 
-## Usage example
+## Advanced Usage example
 
 
   1) Create an endpoint by implementing the endpoint protocol, which requires three methods to be implemented: 'absoluteUrl', 'httpMethod' and 'acceptedResponseCodes'
