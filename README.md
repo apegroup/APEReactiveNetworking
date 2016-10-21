@@ -7,7 +7,7 @@
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
 
-**APEReactiveNetworking** is simply a `reactive oriented`, `lightweight` networking library, `made by Apegroup`
+**APEReactiveNetworking** is simply a `reactive oriented`, `lightweight` networking library, made by [Apegroup](http://www.apegroup.com)
 
 We focused on building a network lib that was real-world, use-case oriented (looking at what our existing app projects actually used/needed from a networking lib) rather than implementing all sorts of functions any given project would possibly use.
 
@@ -30,7 +30,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 - [x] Access to all HTTP response headers
 - [x] PUT, POST, DELETE, GET, PATCH operations
 - [x] Possibility to customize response code validation (default implementation accepts 200-299 codes)
-- [x] Example project available
+- [ ] Example project available
 - [ ] Code coverage at X % 
 
 ## Future improvements
@@ -48,7 +48,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 ## Table of Contents (REMOVE ALL √ BEFORE MERGE)
 
   * [Requirements](#requirements) √
-  * [Installation](#installation)
+  * [Installation](#installation) √
     * [Carthage](#carthage)
     * [CocoaPods](#cocoapods)
   * [Usage](#usage)
@@ -86,6 +86,19 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 
 ## Installation
 
+### Carthage
+
+
+### CocoaPods
+You can use [CocoaPods](http://cocoapods.org/) to install `APEReactiveNetworking` by adding it to your `Podfile`:
+```ruby
+platform :ios, '9.0'
+use_frameworks!
+
+target '<MyApp>' do
+    pod 'APEReactiveNetworking'
+end
+```
 
 ## Usage
 
@@ -230,13 +243,13 @@ let endpoint = ApegroupEndpoint()
 let requestBuilder = ApeRequestBuilder(endpoint: endpoint)
 let request = requestBuilder.build()
 let network = Network()
-let signalProducer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = network.send(request)
 ```
 
 #### Response without data
 By default, only the response http headers are returned by the SignalProducer 
 
 ```swift
+let signalProducer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = network.send(request)
 signalProducer.on(
   failed: { (error: Network.OperationError) in
     print("Network operation failed with error: \(error)")
@@ -246,7 +259,27 @@ signalProducer.on(
 ```
 
 #### Response with data
+If you expect response data, you simply pass an additional parameter, `parseDataBlock`, to the method `Network.send()`.
+
+The parseDataBlock specifies how to convert the 
+
+
 ```swift
+let signalProducer: SignalProducer<NetworkDataResponse<Model>, Network.OperationError> =
+network.send(request, parseDataBlock: { (data: Data) -> Model? in 
+  return Model(from: data) 
+})
+        
+signalProducer.on(
+  value: { (response: NetworkDataResponse<Model>) in
+    let rawData: Data = response.rawData
+    let model: Model = response.parsedData
+    let responseHeaders: Http.ResponseHeaders = response.responseHeaders
+    print("Received response data successfully")
+  }, failed: { (error: Network.OperationError) in
+    print("Network operation failed with error: \(error)")
+  }).start()
+}
 ```
 
 #### Error handling
