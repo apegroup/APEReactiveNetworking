@@ -2,8 +2,8 @@
 ![Logotype](Banner.jpg)
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/apegroup/APEReactiveNetworking) 
-[![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org/)
 [![Version](https://img.shields.io/cocoapods/v/APEReactiveNetworking.svg?style=flat)](https://cocoapods.org/pods/APEReactiveNetworking)
+[![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org/)
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
 
@@ -11,13 +11,11 @@
 
 We focused on building a network lib that was real-world, use-case oriented (looking at what our existing app projects actually used/needed from a networking lib) rather than implementing all sorts of functions any given project would possibly use.
 
-It's feather-weight because we deliberately did not implement features, available in other networking libs, that is seldom used, for example multipart request-body support. Why create waste?
+It's feather-weight because we deliberately did not implement features, available in other networking libs, that is seldom used, for example multipart request-body support. Why create waste? This README file is probably larger than the actual implementation, that's how light-weigth this library is.
 
 It's reactive based because we built it on top of [ReactiveSwift](https://github.com/ReactiveCocoa/ReactiveSwift), which is an aswesome lib that we think will be the best Reactive lib for the Apple platforms.
 
-We also added functions that we needed but missed in other network libraries, such as deterministic timeout time for a given request with built-in retry mechanism *(eg: Send request X with maximum 5 retries and an exponential backoff-strategy staring at 1 second, but cancel everything and timeout after maximum 10 seconds, no mather how many retries have been executed)* 
-
-**APEReactiveNetworking** is implemented purley in `Swift 3` and powering the magic of Swift Generics.
+**APEReactiveNetworking** is implemented purley in `Swift 3` and powering the magic of Swift Generics. Its used in production by [BLOX](https://itunes.apple.com/se/app/blox-by-apegroup/id1162178318?mt=8&ign-mpt=uo%3D2) iOS app among others.
 
 
 ## Features
