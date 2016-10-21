@@ -2,7 +2,7 @@
 ![Logotype](Banner.jpg)
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/apegroup/APEReactiveNetworking) 
-[![Version](https://cocoapod-badges.herokuapp.com/v/APEReactiveNetworking/badge.png)](https://cocoapods.org/pods/APEReactiveNetworking)
+[![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org/)
 [![Version](https://img.shields.io/cocoapods/v/APEReactiveNetworking.svg?style=flat)](https://cocoapods.org/pods/APEReactiveNetworking)
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
@@ -21,36 +21,29 @@ We also added functions that we needed but missed in other network libraries, su
 
 
 ## Features
-- Feather-weight
-- 100% Swift 3
-- Powering Swift Generics
-- Reactive oriented, based on ReactiveSwift
-- Automatic retry mechanism with possiblity to define max number of retries (exponential back-off strategy)
-- Deterministic response time (successful, error or timeout), i.e. abort after 'X' seconds
-- Automatically updates the network activity indicator
-- Possibility to add custom request headers
-- Access to all HTTP response headers
-- PUT, POST, DELETE, GET, PATCH operations
-- Possibility to customize response code validation, default implementation accepts 200-299 codes
-- Code coverage at X %
-- Example project available, using all network methods and binding to UI (a full reactive chain)
-
-
-## Does not support
-- Multipart request
-- Download/Upload tasks
-- ? 
+- [x] Feather-weight
+- [x] 100% Swift 3
+- [x] Powering Swift Generics
+- [x] Reactive oriented, based on ReactiveSwift
+- [x] Automatic retry mechanism with possiblity to define max number of retries (exponential back-off strategy)
+- [x] Deterministic response time (successful, error or timeout), i.e. abort after 'X' seconds
+- [x] Automatically updates the network activity indicator
+- [x] Possibility to add custom request headers
+- [x] Access to all HTTP response headers
+- [x] PUT, POST, DELETE, GET, PATCH operations
+- [x] Possibility to customize response code validation (default implementation accepts 200-299 codes)
+- [x] Example project available
+- [ ] Code coverage at X % 
 
 ## Future improvements
-- Support for background download/upload by the OS
-- Add more test cases
-- Async image downloads  for cell updating (extension of UIImage?)
-- Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
-- A custom URLSession with request timeout set to 10 s
-- Add HTTPS  + SSL certificate validation support
-- Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
-- Extend the Example project with more api methods, better commenting etc
-
+- [ ] Support for background download/upload by the OS
+- [ ] Async image downloads for cell updating (extension of UIImage?)
+- [ ] Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
+- [ ] A custom URLSession with request timeout set to 10 s
+- [ ] Add HTTPS  + SSL certificate validation support
+- [ ] Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
+- [ ] Extend the Example project
+- [ ] Add more test cases
 
 
 ## Table of Contents
