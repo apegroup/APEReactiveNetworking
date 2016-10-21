@@ -54,7 +54,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
   * [Usage](#usage)
     * [Create your endpoints](#create-your-endpoints)
     * [Create your request](#create-your-request)
-    * [Authenticating](#authenticating)
+    * [Authentication](#authentication)
       * [HTTP basic](#http-basic)
       * [Bearer token](#bearer-token)
       * [Custom authentication header](#custom-authentication-header)
