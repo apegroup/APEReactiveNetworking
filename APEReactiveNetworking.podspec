@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'APEReactiveNetworking'
-  s.version          = '2.0.3'
+  s.version          = '2.1'
   s.summary          = '  APEReactiveNetworking is simply a reactive oriented, lightweight networking library, made by Apegroup'
 
 # This description is used to generate tags and improve search results.
