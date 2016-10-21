@@ -59,7 +59,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
       * [Bearer token](#bearer-token)
       * [Custom authentication header](#custom-authentication-header)
     * [Setting custom http headers](#setting-custom-http-headers)
-    * [Setting the request body]
+    * [Setting the request body](#setting-the-request-body)
       * [JSON](#json)
       * [Plain Text](#plain-text)
       * [Custom content type](#custom-content-type)
