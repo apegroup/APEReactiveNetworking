@@ -355,8 +355,9 @@ Network().send(request, scheduler: myScheduler).start()
 ### Author
 ### Attribution
 ### Contribution
-### License
 
+### License
+APEReactiveNetworking is released under the MIT license. See LICENSE for details.
 
 
 ## Advanced Usage example
