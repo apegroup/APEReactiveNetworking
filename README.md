@@ -73,7 +73,6 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
         * [Timeout](#timeout)
         * [Scheduler](#scheduler)
   * [Author](#author)
-  * [Attribution](#attribution)
   * [Constribution](#contribution)
   * [License](#license)
 
@@ -88,6 +87,12 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 ## Installation
 
 ### Carthage
+
+You can use [Carthage](https://github.com/Carthage/Carthage) to install `APEReactiveNetworking` by adding it to your `Cartfile`:
+
+```
+github "apegroup/APEReactiveNetworking"
+```
 
 
 ### CocoaPods
@@ -105,7 +110,7 @@ end
 
 ### Create your endpoints
 
-An endpoint is a type that conforms to the 'Endpoint' protocol and describes the endpoints that your client communicates with.
+An endpoint is a type that conforms to the `Endpoint` protocol and describes the endpoints that your client communicates with.
 
 ```swift
 public protocol Endpoint {
@@ -115,18 +120,52 @@ public protocol Endpoint {
 }
 ```
 
-Example of conforming to the 'Endpoint' protocol:
+Example of conforming to the `Endpoint` protocol:
 ```swift
-struct ApegroupEndpoint: Endpoint {
-    var httpMethod = Http.Method.get
-    var absoluteUrl = "http://www.apegroup.com"
-    var acceptedResponseCodes = [Http.StatusCode.ok]
+enum ApegroupEndpoints: Endpoint {
+    
+    case updateUser
+    case createUser
+    case deleteUser
+    case getUser
+    case getMessage
+    
+    var httpMethod : HttpMethod {
+        switch self {
+        case updateUser, createUser:
+            return .POST
+
+        case deleteUser:
+            return .DELETE
+
+        default:
+            return .GET
+        }
+    }
+
+    var absoluteUrl: String {
+        return baseURL + path
+    }
+
+    var acceptedResponseCodes = 200
+
+
+    private let baseURL = "https://api.apegroup.com/"
+
+    private var path: String {
+        switch self {
+        case let getMessage(messageId):
+            return "/messages/" + messageId
+        default:
+            return "/users/"
+        }
+    }
 }
 ```
 
 ### Create your request
 
-Build your request by using a 'HttpRequestBuilder'.
+Build your request by using a `HttpRequestBuilder`.
 
 ```swift
 public protocol HttpRequestBuilder {
@@ -138,7 +177,8 @@ public protocol HttpRequestBuilder {
 }
 ```
 
-'ApeRequestBuilder', a type conforming to the 'HttpRequestBuilder' protocol, is provided by the framework:
+`ApeRequestBuilder`, a type conforming to the 'HttpRequestBuilder' protocol, is provided by the framework:
+
 ```swift
 let endpoint = ApegroupEndpoint()
 let requestBuilder: HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
@@ -206,7 +246,7 @@ let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setBody(data: imageDa
 
 ### Sending a request
 
-Requests are sent using the 'Network' API.
+Requests are sent using the `Network` API.
 
 Using the default URLSessionConfiguration
 ```swift
@@ -221,7 +261,7 @@ let network = Network(session: customSession)
 ```
 
 To send a request, simply create a request operation (i.e. a SignalProducer), by calling the send method.
-(Remember to import 'ReactiveSwift' and to start the signal producer)
+(Remember to import `ReactiveSwift` and to start the signal producer)
 ```swift
 import ReactiveSwift
 
@@ -299,7 +339,7 @@ public enum OperationError : Error {
 }
 ```
 
-Error handling is performed in the usual 'failed' closure of the SignalProducer:
+Error handling is performed in the usual *failed* closure of the SignalProducer:
 
 ```swift
 signalProducer.on(failed: { (operationError: Network.OperationError) in
@@ -329,15 +369,15 @@ It is possible configure the network operation in the following ways:
 ##### Retries
 The default max number of retries is 10. It is possible to override this value by providing the `maxRetries` parameter in the `Network.send()` method.
 
-The retries are performed using an exponential backoff strategy between each retry, starting from 1 (it is currently not possible to start from custom values, which might be useful e.g. after reading the 'Retry-After' response header).
+The retries are performed using an exponential backoff strategy between each retry, starting from 1 (it is currently not possible to start from custom values, which might be useful e.g. after reading the *Retry-After* response header).
 
 ```swift
 let maxNumberOfRetries = 3
 Network().send(request, maxRetries: maxNumberOfRetries).start()
 ```
 
-##### Timeout
-The default timeout is 10 seconds. It is possible to override this value by providing the `abortAfter` parameter in the `Network.send()` method. If the operation times out a 'TimedOut' error is sent.
+##### Abort-after
+The default abort-after time is 10 seconds, i.e. no mather how many retries or sleep between each retry, the signal will abort after the specified number of seconds and return a `TimeOut` error. It is possible to override this value by providing the `abortAfter` parameter in the `Network.send()` method. 
 
 ```swift
 let maxSecondsAllowed: TimeInterval = 5
@@ -353,116 +393,11 @@ Network().send(request, scheduler: myScheduler).start()
 ```
 
 ### Author
-### Attribution
+[Apegroup AB](http://www.apegroup.com), Stockholm, Sweden
+
 ### Contribution
 All people are welcome to contribute. See [CONTRIBUTING](https://github.com/apegroup/APEReactiveNetworking/blob/master/CONTRIBUTING) for details.
 
 ### License
 APEReactiveNetworking is released under the MIT license. See [LICENSE](https://github.com/apegroup/APEReactiveNetworking/blob/master/LICENSE) for details.
 
-
-## Advanced Usage example
-
-
-  1) Create an endpoint by implementing the endpoint protocol, which requires three methods to be implemented: 'absoluteUrl', 'httpMethod' and 'acceptedResponseCodes'
-  ```swift
-  public protocol Endpoint {
-    var httpMethod: Http.Method { get }
-    var absoluteUrl: String { get }
-    var acceptedResponseCodes: [Http.StatusCode] { get }
-  }
-```
-
-```swift
-import APEReactiveNetworking
-import ReactiveSwift
-import enum Result.NoError
-
-
-/** 
-  Elaborate example: Sending a request.
- **/
-func authenticateUser(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
-
-  ///1) Constructing the http request: 
-
-  //1.1) Create an endpoint by implementing the endpoint protocol, which requires three methods to be implemented: 'absoluteUrl', 'httpMethod' and 'acceptedResponseCodes'
-  let endpoint: Endpoint = ApeChatApiEndpoints.AuthUser
-
-  //1.2) Create a custom request builder by implementing the HttpRequestBuilder protocol (or use the provided default implementation 'ApeRequestBuilder')
-  let builder : HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
-
-  //1.3) *** Optional: Provide your http request body ***
-  let jsonDict: [String:AnyObject] = ["user":username, "password":password]
-  builder.setBody(json: jsonDict)
-
-  //1.4) *** Optional: Provide the request builder with a authentication handler (a type conforming to the 'AuthenticationHandler' protocol). A 'ApeJwtAuthenticationHandler' is provided by the framework *** 
-  // The authentication handler is primarily used to set the 'Authorization' http header field in the http request.
-  builder.add(authHandler: self.authHandler)
-
-  //1.5) Create the request
-  let request: ApeURLRequest = builder.build()
-
-
-  ///Configuring the operation settings
-
-  //2) *** Optional: Provide if you wish to use a custom URLSession (the 'defaultSessionConfiguration' will be used by default) ***
-  let session = URLSession(configuration: URLSessionConfiguration.defaultSessionConfiguration())
-
-  //4) *** Optional: Provide a custom 'ReactiveSwift::SchedulerProtocol' if you wish to handle signal events on a custom queue (the main queue is used by default) ***
-  let scheduler: SchedulerProtocol = UIScheduler()
-
-  //5) *** Optional: Provide a custom request timeout before aborting the operation (10 seconds is used by default)
-  let timeoutSeconds = 20
-
-  //6) *** Optional: Provide a max number of retries before aborting the operation (a maximum of 10 retries is the default)
-  let maxNumberOfRetries = 5
-
-  //7) *** Optional: If you are expecting data to be returned: Provide a 'parse data block' (i.e. a block that transforms the received response data to your expected model) ***
-  let parseDataBlock: (Data) -> AuthResponse? = { data in
-    guard let authResponse = try? Unbox(data) as AuthResponse else {
-      return nil
-    }
-    return authResponse
-  }
-
-  ///Creating the request command/signal producer
-
-  //8) Send the request along with other configuration settings to 'Network.send()'
-  return Network(session: session).send(
-      request,
-      scheduler: scheduler,
-      abortAfter: timeoutSeconds,
-      maxRetries: maxNumberOfRetries,
-      parseDataBlock: parseDataBlock)
-}
-
-//Compact example: Sending the above request using the default values
-func authenticateUser2(username: String,
-    password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error> {
-  let request = ApeRequestBuilder(endpoint: ApeChatApiEndpoints.AuthUser)
-    .setBody(json: ["user":username, "password":password])
-    .add(authHandler: self.authHandler)
-    .build()
-
-    return Network().send(request) { try? Unbox($0) }
-}
-
-/**
-- The 'authenticateUser()' method returns the response value of 'Network::send()'.
-- 'Network::send()' returns a 'ReactiveSwift::SignalProducer<NetworkDataResponse<AuthResponse>, Network.Error>', where 'AuthResponse' is expected response data model.
-**/
-func onLoginButtonTapped() {
-  let signalProducer<NetworkDataResponse<AuthResponse>, Network.Error> = authenticateUser("ape", password: "ape123")
-    signalProducer.start { event in
-      switch event {
-        case .Next(let networkDataResponse):
-          let authResponse = networkDataResponse.parsedData
-        case .Failed(let error):
-          print("An error occurred: \(error)")
-        default: break
-      }
-    }
-}
-
-```
