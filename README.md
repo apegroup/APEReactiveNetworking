@@ -122,50 +122,46 @@ public protocol Endpoint {
 
 Example of conforming to the `Endpoint` protocol:
 ```swift
-enum ApegroupEndpoints: Endpoint {
-    
-    case updateUser
-    case createUser
-    case deleteUser
-    case getUser
-    case getMessage (messageId: String)
-    
-    var httpMethod : HttpMethod {
-        switch self {
-        case updateUser, createUser:
-            return .POST
+enum UserAPI: Endpoint {
 
-        case deleteUser:
-            return .DELETE
+  //MARK: - Endpoints
 
-        default:
-            return .GET
-        }
+  case getUser(id: String)
+  case getUsers
+  case createUser
+  case updateUser(id: String)
+  case deleteUser(id: String)
+
+  //MARK: - Endpoint protocol conformance
+
+  var httpMethod : Http.Method {
+  switch self {
+    case .updateUser, .createUser:      return .post
+    case .deleteUser:                   return .delete
+    default:                            return .get
+    }
+  }
+
+  var absoluteUrl: String {
+    let baseUrl = "https://api.apegroup.com"
+    let path: String
+
+    switch self {
+      case .getUser(let userId), .updateUser(let userId), .deleteUser(let userId):
+        path = "/users/\(userId)"
+      case .getUsers, .createUser:
+        path = "/users/"
     }
 
-    var absoluteUrl: String {
-        return baseURL + path
-    }
+    return baseUrl + path
+  }
 
-    var acceptedResponseCodes : Int {
-        switch self {
-        case let deleteUser:
-            return 204
-        default:
-            return 200
-        }
+  var acceptedResponseCodes : [Http.StatusCode] {
+    switch self {
+      case .deleteUser:       return [.noContent]
+      default:                return [.ok, .created]
     }
-
-    private let baseURL = "https://api.apegroup.com/"
-
-    private var path: String {
-        switch self {
-        case let getMessage(messageId):
-            return "/messages/" + messageId
-        default:
-            return "/users/"
-        }
-    }
+  }
 }
 ```
 
