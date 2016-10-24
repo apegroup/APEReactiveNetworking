@@ -2,7 +2,6 @@
 ![Logotype](Banner.jpg)
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/apegroup/APEReactiveNetworking) 
-[![Version](https://img.shields.io/cocoapods/v/APEReactiveNetworking.svg?style=flat)](https://cocoapods.org/pods/APEReactiveNetworking)
 [![Language](https://img.shields.io/badge/language-Swift%203.0-orange.svg)](https://swift.org/)
 ![platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20OS%20X-lightgrey.svg)
 [![License](https://img.shields.io/cocoapods/l/Networking.svg?style=flat)](https://cocoapods.org/pods/Networking)
@@ -50,7 +49,6 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
   * [Requirements](#requirements)
   * [Installation](#installation)
     * [Carthage](#carthage)
-    * [CocoaPods](#cocoapods)
   * [Usage](#usage)
     * [Create your endpoints](#create-your-endpoints)
     * [Create your request](#create-your-request)
@@ -92,18 +90,6 @@ You can use [Carthage](https://github.com/Carthage/Carthage) to install `APEReac
 
 ```
 github "apegroup/APEReactiveNetworking"
-```
-
-
-### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `APEReactiveNetworking` by adding it to your `Podfile`:
-```ruby
-platform :ios, '9.0'
-use_frameworks!
-
-target '<MyApp>' do
-    pod 'APEReactiveNetworking'
-end
 ```
 
 ## Usage
