@@ -27,6 +27,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 - [x] Automatically updates the network activity indicator
 - [x] Possibility to add custom request headers
 - [x] Access to all HTTP response headers
+- [x] Automatically adds device info, such as OS-version, as a few X-headers in all requests
 - [x] PUT, POST, DELETE, GET, PATCH operations
 - [x] Possibility to customize response code validation (default implementation accepts 200-299 codes)
 - [ ] Example project available
