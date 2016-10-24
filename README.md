@@ -173,6 +173,14 @@ let requestBuilder: HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
 let request: ApeURLRequest = requestBuilder.build()
 ```
 
+When using the built-in `ApeRequestBuilder` the following http headers will be included in each request:
+```swift
+- "X-Client-OS" // The name of the operating system running on the device represented by the receiver, e.g. "iOS"
+- "X-Client-OS-Version" // The current version of the operating system, e.g. "1.2"
+- "X-Client-Device-Type" // The device model name, e.g. "iPhone 6s Plus"
+- "X-Client-Device-VendorId"  // An alphanumeric string that is the same for apps that come from the same vendor running on the same device, or "unknown" if unavailable
+```
+
 ### Authentication
 #### HTTP Basic
 
