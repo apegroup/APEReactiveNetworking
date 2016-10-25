@@ -160,8 +160,7 @@ Build your request by using a `HttpRequestBuilder`.
 ```swift
 public protocol HttpRequestBuilder {
     init(endpoint: Endpoint)
-    func addHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder
-    func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder
+    func setHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder
     func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder
     func build() -> ApeURLRequest
 }
@@ -178,9 +177,9 @@ let request: ApeURLRequest = requestBuilder.build()
 When using the built-in `ApeRequestBuilder` the following http headers will be included in each request:
 ```swift
 - "X-Client-OS" // The name of the operating system running on the device represented by the receiver, e.g. "iOS"
-- "X-Client-OS-Version" // The current version of the operating system, e.g. "1.2"
+- "X-Client-OS-Version" // The current version of the operating system, e.g. "10.0"
 - "X-Client-Device-Type" // The device model name, e.g. "iPhone 6s Plus"
-- "X-Client-Device-VendorId"  // An alphanumeric string that is the same for apps that come from the same vendor running on the same device, or "unknown" if unavailable
+- "X-Client-Device-VendorId"  // An alphanumeric string that is the same for apps that come from the same vendor running on the same device, or "unknown" if unavailable, e.g. "9C32B72F-8532-4F73-BA76-18C9E522E539"
 ```
 
 ### Authentication
@@ -220,7 +219,7 @@ let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setHeaders(customHead
 
 Or by adding a single header entry (if the header already exists it will be replaced by the new value):
 ```swift
-let requestBuilder = ApeRequestBuilder(endpoint: endpoint).addHeader(("CustomKey","CustomValue"))
+let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setHeader(("CustomKey","CustomValue"))
 ```
 
 ### Setting the request body

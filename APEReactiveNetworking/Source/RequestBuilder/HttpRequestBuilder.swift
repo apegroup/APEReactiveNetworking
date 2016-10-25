@@ -13,11 +13,8 @@ public protocol HttpRequestBuilder {
     init(endpoint: Endpoint)
     
     /// Adds a header entry to the HttpHeaders. If an entry with the received key already exists it will be overwritten.
-    func addHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder
+    func setHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder
     
-    /// Sets the HttpHeaders. Overwrites all existing headers
-    func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder
-
     func setBody(data: Data, contentType: Http.ContentType) -> HttpRequestBuilder
 
     func build() -> ApeURLRequest
@@ -48,19 +45,33 @@ public extension HttpRequestBuilder {
         }
         
         let base64Credentials = credentialsData.base64EncodedString(options: [])
-        return addHeader((key: authorizationHeaderKey, value: "Basic \(base64Credentials)"))
+        return setHeader((key: authorizationHeaderKey, value: "Basic \(base64Credentials)"))
     }
     
     /// Sets the authorization header to "Bearer \(token)"
     public func setAuthorizationHeader(token: String) -> HttpRequestBuilder {
-        return addHeader((key: authorizationHeaderKey, value: "Bearer \(token)"))
+        return setHeader((key: authorizationHeaderKey, value: "Bearer \(token)"))
     }
     
     /// Sets the authorization header to a custom value
     public func setAuthorizationHeader(headerValue: String) -> HttpRequestBuilder {
-        return addHeader((key: authorizationHeaderKey, value: headerValue))
+        return setHeader((key: authorizationHeaderKey, value: headerValue))
     }
     
+    /// Adds a header entry to the HttpHeaders. The header value consists of all the values in the array separated by a comma.
+    public func setHeader(_ header: (key: String, values: [String])) -> HttpRequestBuilder {
+        let valueString = header.values.joined(separator: ",")
+        return setHeader((key: header.key, value: valueString))
+    }
+    
+    /// Sets the received HttpHeaders. If a header key already exists it will be overwritten.
+    public func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder {
+        for (_, header) in headers.enumerated() {
+            _ = setHeader(header)
+        }
+        return self
+    }
+
     
     //MARK: - Body
 

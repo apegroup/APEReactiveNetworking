@@ -21,13 +21,8 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
         self.endpoint = endpoint
     }
     
-    public func addHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder {
+    public func setHeader(_ header: (key: String, value: String)) -> HttpRequestBuilder {
         additionalHeaders[header.key] = header.value
-        return self
-    }
-    
-    public func setHeaders(_ headers: Http.RequestHeaders) -> HttpRequestBuilder {
-        additionalHeaders = headers
         return self
     }
 
