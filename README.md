@@ -412,7 +412,7 @@ URLCache.setSharedURLCache(URLCache)
 
   let urlSession = URLSession(configuration: defaultSessionConfiguration)
 
-  let network = Network(urlSession)
+  let network = Network(session: urlSession)
 ```
 
 
