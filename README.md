@@ -36,7 +36,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 ## Future improvements
 - [ ] Support for background download/upload by the OS
 - [ ] Async image downloads for cell updating (extension of UIImage?)
-- [ ] Support for cookie headers (since Google AppEngine does not support setting Response headers, we cannot set a new jwt token in headers)
+- [ ] Add cookie support 
 - [ ] A custom URLSession with request timeout set to 10 s
 - [ ] Add HTTPS  + SSL certificate validation support
 - [ ] Consider response caching (using HTTP headers: ETag, If-Modified-Since, Last-Modified)
@@ -71,6 +71,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
         * [Retries](#retries)
         * [Timeout](#timeout)
         * [Scheduler](#scheduler)
+    * [Caching](#caching) 
   * [Author](#author)
   * [Constribution](#contribution)
   * [License](#license)
@@ -388,6 +389,34 @@ The default scheduler to which the SignalProducer will forward events to is the 
 let myScheduler: SchedulerProtocol = QueueScheduler()
 Network().send(request, scheduler: myScheduler).start()
 ```
+
+### Caching
+What about caching?
+
+This network layer, deliberately, does not concern itself with caching, it relies on the cache settings of the `URLSession` sent as a parameter in the `Network` constructor. So you if you want custom cache behaviour, you can either create your own URLSession with a custom `URLSessionConfiguration` and pass it into the Network constructor or you can set `URLCache` settings in your AppDelegate, since it affects the default `URLSession`, which is the default value of the Network constructor.
+
+#### Setting cache settings in the AppDelegate
+```swift
+let URLCache = URLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
+URLCache.setSharedURLCache(URLCache)
+```
+
+#### Using a custom URLSession
+```swift
+  let cachesDirectory = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first
+  let cachePath = cachesDirectory?.appending("MyCache")
+  let cache = URLCache(memoryCapacity: 16384, diskCapacity: 268435456, diskPath: cachePath)
+
+  let defaultSessionConfiguration = URLSessionConfiguration.default
+  defaultSessionConfiguration.urlCache = cache
+  defaultSessionConfiguration.requestCachePolicy = .useProtocolCachePolicy
+
+  let urlSession = URLSession(configuration: defaultSessionConfiguration)
+
+  let network = Network(urlSession)
+```
+
+
 
 ### Author
 [Apegroup AB](http://www.apegroup.com), Stockholm, Sweden
