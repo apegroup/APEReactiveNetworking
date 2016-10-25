@@ -21,8 +21,7 @@ public struct Http {
         case delete
         
         init?(value: String?) {
-            guard
-                let value = value,
+            guard let value = value,
                 let resolved = Method(rawValue: value.lowercased()) else {
                     return nil
             }

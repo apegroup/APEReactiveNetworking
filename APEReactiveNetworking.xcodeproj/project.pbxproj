@@ -13,6 +13,7 @@
 		5F6D488A1D421D630097F426 /* ExponentialSequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D48891D421D630097F426 /* ExponentialSequence.swift */; };
 		5F6D488C1D421D800097F426 /* NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D488B1D421D800097F426 /* NetworkActivityIndicator.swift */; };
 		5F6D488E1D421DAB0097F426 /* SignalProducerType+NetworkActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6D488D1D421DAB0097F426 /* SignalProducerType+NetworkActivityIndicator.swift */; };
+		5F7A19131DBF59C2004F1D9F /* APERequestBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7A19121DBF59C2004F1D9F /* APERequestBuilderTests.swift */; };
 		5FF05A951D40F69F0082575A /* ApeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8E1D40F69F0082575A /* ApeRequestBuilder.swift */; };
 		5FF05A961D40F69F0082575A /* HttpRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A8F1D40F69F0082575A /* HttpRequestBuilder.swift */; };
 		5FF05A9A1D40F6E10082575A /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF05A991D40F6E10082575A /* Endpoint.swift */; };
@@ -42,6 +43,7 @@
 		5F6D48891D421D630097F426 /* ExponentialSequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExponentialSequence.swift; sourceTree = "<group>"; };
 		5F6D488B1D421D800097F426 /* NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkActivityIndicator.swift; sourceTree = "<group>"; };
 		5F6D488D1D421DAB0097F426 /* SignalProducerType+NetworkActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducerType+NetworkActivityIndicator.swift"; sourceTree = "<group>"; };
+		5F7A19121DBF59C2004F1D9F /* APERequestBuilderTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APERequestBuilderTests.swift; sourceTree = "<group>"; };
 		5FD47A871D992A1B00EDF45C /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		5FD47A881D992A1B00EDF45C /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		5FF05A8E1D40F69F0082575A /* ApeRequestBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApeRequestBuilder.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 			children = (
 				6708E91C1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift */,
 				6708E91E1D06FFDC00D4191F /* Info.plist */,
+				5F7A19121DBF59C2004F1D9F /* APERequestBuilderTests.swift */,
 			);
 			path = APEReactiveNetworkingTests;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F7A19131DBF59C2004F1D9F /* APERequestBuilderTests.swift in Sources */,
 				6708E91D1D06FFDC00D4191F /* APEReactiveNetworkingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
