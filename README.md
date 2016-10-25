@@ -392,9 +392,9 @@ Network().send(request, scheduler: myScheduler).start()
 ### Caching
 What about caching?
 
-This network layer, deliberately, does not concern itself with caching, it relies on the cache settings of the `URLSession` sent as a parameter in the `Network` constructor. So you if you want custom cache behaviour, you can either create your own URLSession with a custom `URLSessionConfiguration` and pass it into the Network constructor or you can set `URLCache` settings in your AppDelegate, since it affects the default `URLSession`, which is the default value of the Network constructor.
+This network layer, deliberately, does not concern itself with caching, it relies on the cache settings of the `URLSession` sent as a parameter in the `Network` constructor (defaults to using the default URLSession). So you if you want custom cache behaviour, you can either create your own `URLSession` with a custom `URLSessionConfiguration` and pass it into the Network constructor or you can configure the shared `URLCache` settings, eg in your AppDelegate.
 
-#### Setting cache settings in the AppDelegate
+#### Configuring the shared URL cache 
 ```swift
 let URLCache = URLCache(memoryCapacity: 4 * 1024 * 1024, diskCapacity: 20 * 1024 * 1024, diskPath: nil)
 URLCache.setSharedURLCache(URLCache)
