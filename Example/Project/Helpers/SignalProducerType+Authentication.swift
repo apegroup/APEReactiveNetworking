@@ -17,16 +17,16 @@ extension SignalProducerProtocol where Error == Network.OperationError {
     
     /**
      Injects a side effect that presents the 'LoginViewController' if the SignalProducer receives an 'authentication' error.
-     If the user is sucessful in authenticating the original signal will be restarted
-     
      - returns: A new SignalProducer containing the added side effects
      */
     public func handleUnauthorizedResponse() -> SignalProducer<Value, Error> {
         return on(failed: { (error: Network.OperationError) in
             if case let .unexpectedResponseCode(httpCode, data) = error, httpCode == .unauthorized {
-                print("Received \(httpCode) '\(String(data: data ?? Data(), encoding: .utf8) ?? "")' - presenting login")
+                print("Authentication required: '\(String(data: data ?? Data(), encoding: .utf8) ?? "")' - presenting login")
                 self.presentLoginViewController {
-                    self.start()
+                    
+                    //FIXME: If the user is sucessful in authenticating the original signal should be restarted by calling 'self.start()'
+                    //Unfortunately 'self.start()' will perform an *identical* operation - no dynamism at all. This means that the old jwt token will still be used even though the LoginViewController will have retrieved and persisted a new one after it has successfully authenticated :(
                 }
             }
         })
@@ -40,16 +40,13 @@ extension SignalProducerProtocol where Error == Network.OperationError {
      - parameter presentingViewController: The view controller to present the LoginViewController
      */
     private func presentLoginViewController(completion: @escaping ()->()) {
-        
         let navCtrl = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as! UINavigationController
         let loginVc = navCtrl.topViewController as! LoginViewController
         
         loginVc.loginCompletionHandler = { [unowned loginVc] _authResponse in
             DispatchQueue.main.async {
-                loginVc.dismiss(animated: true, completion: nil)
+                loginVc.dismiss(animated: true, completion: completion)
             }
-            
-            completion()
         }
         
         DispatchQueue.main.async {

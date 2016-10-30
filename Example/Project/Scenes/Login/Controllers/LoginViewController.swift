@@ -98,6 +98,7 @@ class LoginViewController: UIViewController {
     }
     
     private func handleLoginSuccess(_ authResponse: AuthResponse) {
+        _ = KeychainManager.save(jwtToken: authResponse.accessToken)
         loginCompletionHandler?(authResponse)
     }
     

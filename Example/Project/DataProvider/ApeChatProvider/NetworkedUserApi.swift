@@ -25,14 +25,11 @@ struct NetworkedUserApi: UserApi {
         let jsonBody = ["username":username, "password":password]
         let request = builder.setBody(json: jsonBody).build()
         
-        //4) Specify scheduler that will handle events from the SignalProducer
+        //4) Configure network operation settings, such as operation timeout and scheduler that will handle events from the SignalProducer
+        let timeoutSeconds: TimeInterval = 5
         let scheduler: SchedulerProtocol = UIScheduler()
         
-        //5) Configure network operation settings, such as timeout and max number of retries
-        let timeoutSeconds: TimeInterval = 5
-        let maxRetries = 3
-        
-        //6) If you are expecting data to be returned, specify how to parse it into your desired model
+        //5) If you are expecting data to be returned, specify how to parse it into your desired model
         let userParseBlock: (Data) -> User? = { userData in
             guard let user = try? unbox(data: userData) as User else {
                 return nil
@@ -40,11 +37,10 @@ struct NetworkedUserApi: UserApi {
             return user
         }
         
-        //7) Create the signal producer
+        //6) Create the signal producer
         return Network().send(request,
                               scheduler: scheduler,
                               abortAfter: timeoutSeconds,
-                              maxRetries: maxRetries,
                               parseDataBlock: userParseBlock)
     }
     
@@ -57,7 +53,9 @@ struct NetworkedUserApi: UserApi {
     }
     
     func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError> {
-        let request = ApeRequestBuilder(endpoint: UserEndpoint.allUsers).build()
+        let request = ApeRequestBuilder(endpoint: UserEndpoint.allUsers)
+            .setAuthorizationHeader(token: KeychainManager.jwtToken() ?? "-" )
+            .build()
         return Network().send(request) { try? unbox(data: $0) }
     }
 }

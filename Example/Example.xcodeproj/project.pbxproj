@@ -35,6 +35,8 @@
 		5F8E78F91D100B9700D2A5EA /* SignalProducerType+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */; };
 		5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */; };
 		5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8E79021D1094CA00D2A5EA /* User.storyboard */; };
+		5FC27ED71DC64F1D00E16295 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC27ED61DC64F1D00E16295 /* KeychainManager.swift */; };
+		5FC27EDA1DC650FD00E16295 /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC27ED91DC650FD00E16295 /* Locksmith.framework */; };
 		5FCDC7861D9A8B8E0006E076 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */; };
 		952231391CEDF06E005B085D /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231351CEDF06E005B085D /* UserApi.swift */; };
 		9522313A1CEDF06E005B085D /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231361CEDF06E005B085D /* UserEndpoint.swift */; };
@@ -129,6 +131,9 @@
 		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		5F8E79021D1094CA00D2A5EA /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
 		5F9748551DA3D01500D3D49A /* Unbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Unbox.framework; path = Carthage/Build/iOS/Unbox.framework; sourceTree = "<group>"; };
+		5FC27ED61DC64F1D00E16295 /* KeychainManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		5FC27ED91DC650FD00E16295 /* Locksmith.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Locksmith.framework; path = Carthage/Build/iOS/Locksmith.framework; sourceTree = "<group>"; };
+		5FC27EDB1DC6569B00E16295 /* Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Example.entitlements; sourceTree = "<group>"; };
 		5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		5FCDC7841D9A8B8E0006E076 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		5FCDC7851D9A8B8E0006E076 /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/iOS/Wrap.framework; sourceTree = "<group>"; };
@@ -148,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5FC27EDA1DC650FD00E16295 /* Locksmith.framework in Frameworks */,
 				5F5FC2811DC0A9310094A592 /* Wrap.framework in Frameworks */,
 				5F5FC27B1DC0A9310094A592 /* Unbox.framework in Frameworks */,
 				5F19D8AA1DC0E6A300115A12 /* ReactiveObjC.framework in Frameworks */,
@@ -205,6 +211,7 @@
 				5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */,
 				5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */,
 				5F86D5D41D133F3E005859CF /* DataValidator.swift */,
+				5FC27ED61DC64F1D00E16295 /* KeychainManager.swift */,
 			);
 			name = Helpers;
 			path = Project/Helpers;
@@ -394,6 +401,7 @@
 		64ADCB2CF59BC56EDB5258D3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5FC27ED91DC650FD00E16295 /* Locksmith.framework */,
 				5F19D8A21DC0E5C900115A12 /* ReactiveObjC.framework */,
 				5F19D8A31DC0E5C900115A12 /* ReactiveObjCBridge.framework */,
 				5F9748551DA3D01500D3D49A /* Unbox.framework */,
@@ -407,6 +415,7 @@
 		67276A831C2065260062C807 = {
 			isa = PBXGroup;
 			children = (
+				5FC27EDB1DC6569B00E16295 /* Example.entitlements */,
 				67A741A01D08435800B04F65 /* APEReactiveNetworking.xcodeproj */,
 				67276A8E1C2065260062C807 /* Source */,
 				67276A8D1C2065260062C807 /* Products */,
@@ -518,6 +527,11 @@
 					67276A8B1C2065260062C807 = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = Q48PCXNS55;
+						SystemCapabilities = {
+							com.apple.Keychain = {
+								enabled = 1;
+							};
+						};
 					};
 					67276AA11C2065270062C807 = {
 						CreatedOnToolsVersion = 7.2;
@@ -614,6 +628,7 @@
 				"$(PROJECT_DIR)/Carthage/Build/iOS/Result.framework",
 				"$(PROJECT_DIR)/Carthage/Build/iOS/Wrap.framework",
 				"$(PROJECT_DIR)/Carthage/Build/iOS/Unbox.framework",
+				"$(PROJECT_DIR)/Carthage/Build/iOS/Locksmith.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -642,6 +657,7 @@
 				22F317311C242D1E007EA50C /* AppDelegate.swift in Sources */,
 				5F86D5D51D133F3F005859CF /* DataValidator.swift in Sources */,
 				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,
+				5FC27ED71DC64F1D00E16295 /* KeychainManager.swift in Sources */,
 				5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */,
 				958335781CF3B4D300F2B34F /* Date+ISO8601.swift in Sources */,
 				9522313B1CEDF06E005B085D /* NetworkedUserApi.swift in Sources */,
@@ -783,6 +799,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Example.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = Q48PCXNS55;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -807,6 +824,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Example.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -932,6 +950,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Example.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -1024,6 +1043,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Example.entitlements;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

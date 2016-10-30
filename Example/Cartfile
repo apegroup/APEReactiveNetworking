@@ -1,3 +1,4 @@
 github "johnsundell/unbox"
 github "johnsundell/wrap"
+github "matthewpalmer/Locksmith"
 github "ReactiveCocoa/ReactiveSwift"
