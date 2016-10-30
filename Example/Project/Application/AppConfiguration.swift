@@ -40,17 +40,26 @@ enum Environment: String {
     
     private var urlProtocol: String {
         switch self {
-        case .debug:            return "https://"
+        case .debug:            return "http://"
         case .preview:          return "https://"
         case .production:       return "https://"
         }
     }
     
-    var baseUrl: String {
+    private var apiVersion: String {
         switch self {
-        case .debug:            return urlProtocol + "private-ea0bb-apechat.apiary-mock.com"
-        case .preview:          return urlProtocol + "private-05732-apechat.apiary-mock.com"
-        case .production:       return urlProtocol + "private-05732-apechat.apiary-mock.com"
+        case .debug:            return "/v1"
+        case .preview:          return "/v1"
+        case .production:       return "/v1"
         }
+    }
+    
+    var baseUrl: String {
+        let baseUrl: String
+        switch self {
+        case .debug:            baseUrl = "localhost:8080"
+        default:                baseUrl = "private-05732-apechat.apiary-mock.com"
+        }
+        return urlProtocol + baseUrl + apiVersion
     }
 }

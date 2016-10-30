@@ -36,10 +36,10 @@
 		5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */; };
 		5F8E79041D1094CA00D2A5EA /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5F8E79021D1094CA00D2A5EA /* User.storyboard */; };
 		5FCDC7861D9A8B8E0006E076 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */; };
-		952231391CEDF06E005B085D /* ApeChatApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231351CEDF06E005B085D /* ApeChatApi.swift */; };
-		9522313A1CEDF06E005B085D /* ApeChatApiEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231361CEDF06E005B085D /* ApeChatApiEndpoints.swift */; };
-		9522313B1CEDF06E005B085D /* NetworkedApeChatApiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231371CEDF06E005B085D /* NetworkedApeChatApiProvider.swift */; };
-		9522313C1CEDF06E005B085D /* MockApeChatApiProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231381CEDF06E005B085D /* MockApeChatApiProvider.swift */; };
+		952231391CEDF06E005B085D /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231351CEDF06E005B085D /* UserApi.swift */; };
+		9522313A1CEDF06E005B085D /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231361CEDF06E005B085D /* UserEndpoint.swift */; };
+		9522313B1CEDF06E005B085D /* NetworkedUserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231371CEDF06E005B085D /* NetworkedUserApi.swift */; };
+		9522313C1CEDF06E005B085D /* MockUserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231381CEDF06E005B085D /* MockUserApi.swift */; };
 		958335781CF3B4D300F2B34F /* Date+ISO8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958335771CF3B4D300F2B34F /* Date+ISO8601.swift */; };
 /* End PBXBuildFile section */
 
@@ -136,10 +136,10 @@
 		67276AA21C2065270062C807 /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67276AAD1C2065270062C807 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67A741A01D08435800B04F65 /* APEReactiveNetworking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = APEReactiveNetworking.xcodeproj; path = ../APEReactiveNetworking.xcodeproj; sourceTree = "<group>"; };
-		952231351CEDF06E005B085D /* ApeChatApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApeChatApi.swift; path = ApeChatProvider/ApeChatApi.swift; sourceTree = "<group>"; };
-		952231361CEDF06E005B085D /* ApeChatApiEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ApeChatApiEndpoints.swift; path = ApeChatProvider/ApeChatApiEndpoints.swift; sourceTree = "<group>"; };
-		952231371CEDF06E005B085D /* NetworkedApeChatApiProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkedApeChatApiProvider.swift; path = ApeChatProvider/NetworkedApeChatApiProvider.swift; sourceTree = "<group>"; };
-		952231381CEDF06E005B085D /* MockApeChatApiProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockApeChatApiProvider.swift; path = ApeChatProvider/MockApeChatApiProvider.swift; sourceTree = "<group>"; };
+		952231351CEDF06E005B085D /* UserApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserApi.swift; path = ApeChatProvider/UserApi.swift; sourceTree = "<group>"; };
+		952231361CEDF06E005B085D /* UserEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserEndpoint.swift; path = ApeChatProvider/UserEndpoint.swift; sourceTree = "<group>"; };
+		952231371CEDF06E005B085D /* NetworkedUserApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NetworkedUserApi.swift; path = ApeChatProvider/NetworkedUserApi.swift; sourceTree = "<group>"; };
+		952231381CEDF06E005B085D /* MockUserApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockUserApi.swift; path = ApeChatProvider/MockUserApi.swift; sourceTree = "<group>"; };
 		958335771CF3B4D300F2B34F /* Date+ISO8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+ISO8601.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -357,10 +357,10 @@
 		5F17A50F1CDB5F3F00D32AF9 /* DataProviders */ = {
 			isa = PBXGroup;
 			children = (
-				952231351CEDF06E005B085D /* ApeChatApi.swift */,
-				952231361CEDF06E005B085D /* ApeChatApiEndpoints.swift */,
-				952231371CEDF06E005B085D /* NetworkedApeChatApiProvider.swift */,
-				952231381CEDF06E005B085D /* MockApeChatApiProvider.swift */,
+				952231351CEDF06E005B085D /* UserApi.swift */,
+				952231361CEDF06E005B085D /* UserEndpoint.swift */,
+				952231371CEDF06E005B085D /* NetworkedUserApi.swift */,
+				952231381CEDF06E005B085D /* MockUserApi.swift */,
 			);
 			name = DataProviders;
 			path = DataProvider;
@@ -630,11 +630,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F10A5E81CFC312B00D14ADC /* LoginViewController.swift in Sources */,
-				9522313C1CEDF06E005B085D /* MockApeChatApiProvider.swift in Sources */,
+				9522313C1CEDF06E005B085D /* MockUserApi.swift in Sources */,
 				5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */,
-				952231391CEDF06E005B085D /* ApeChatApi.swift in Sources */,
+				952231391CEDF06E005B085D /* UserApi.swift in Sources */,
 				5F10A5F11CFC326700D14ADC /* User.swift in Sources */,
-				9522313A1CEDF06E005B085D /* ApeChatApiEndpoints.swift in Sources */,
+				9522313A1CEDF06E005B085D /* UserEndpoint.swift in Sources */,
 				5F10A5F01CFC326700D14ADC /* AuthResponse.swift in Sources */,
 				5F25CB191D119A7D005A1D3F /* TableViewDataSource.swift in Sources */,
 				5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */,
@@ -644,7 +644,7 @@
 				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,
 				5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */,
 				958335781CF3B4D300F2B34F /* Date+ISO8601.swift in Sources */,
-				9522313B1CEDF06E005B085D /* NetworkedApeChatApiProvider.swift in Sources */,
+				9522313B1CEDF06E005B085D /* NetworkedUserApi.swift in Sources */,
 				5F8E78F91D100B9700D2A5EA /* SignalProducerType+Authentication.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,12 +11,15 @@ import ReactiveSwift
 import Unbox
 import APEReactiveNetworking
 
-struct MockApeChatApiProvider { //: ApeChatApi {
+struct MockUserApi: UserApi {
     
-    //MARK: ApeChatApi
+    //MARK: UserApi
     
-    func authenticateUser(_ username: String,
-                          password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
+    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
+        return signalProducer()
+    }
+    
+    func login(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
         return signalProducer()
     }
     
@@ -24,15 +27,6 @@ struct MockApeChatApiProvider { //: ApeChatApi {
         return signalProducer()
     }
     
-
-    func updateUserAvatar (userId: String, avatar: UIImage) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
-        return signalProducer()
-    }
-
-
-
-
-
     
     //MARK: Private
     

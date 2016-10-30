@@ -15,7 +15,7 @@ class LoginViewController: UIViewController {
     
     var loginCompletionHandler: LoginCompletionHandler?
     
-    private let apeChatApi: ApeChatApi = ApeChatApiFactory.make()
+    private let userApi: UserApi = UserApiFactory.make()
     
     
     //MARK: Outlets
@@ -83,13 +83,11 @@ class LoginViewController: UIViewController {
             .rac_signal(for: .touchUpInside)
             .throttle(0.2)
             .subscribeNext { [unowned self] _sender in
-                self.apeChatApi
-                    .authenticateUser(self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
+                self.userApi
+                    .login(username: self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
                     .start { event in
                         switch event {
                         case .value(let NetworkDataResponse):
-                            //This is a POC - mark the global "authenticated" state that we are authenticated
-                            DummyState.authed = true
                             self.handleLoginSuccess(NetworkDataResponse.parsedData)
                         case .failed(let error):
                             self.handleLoginError(error)

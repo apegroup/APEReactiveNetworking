@@ -11,13 +11,11 @@ import Unbox
 
 struct AuthResponse {
     let accessToken: String
-    let user: User
 }
 
 extension AuthResponse: Unboxable {
     init(unboxer: Unboxer) throws {
         self.accessToken = try unboxer.unbox(key: "token")
-        self.user = try unboxer.unbox(key: "user")
     }
 }
 

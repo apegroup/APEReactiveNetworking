@@ -10,12 +10,12 @@ class UserListViewController: UIViewController {
     
     //MARK: Properties
     
-    private let apeChatApi: ApeChatApi = ApeChatApiFactory.make()
+    private let userApi = UserApiFactory.make()
     
     private let dataSource = TableViewDataSource<User, UserCell>(elements: [],
                                                                  templateCell: UserCell(),
                                                                  configureCell: { userCell, user in
-                                                                    userCell.textLabel!.text = "\(user.firstName) \(user.lastName)"
+                                                                    userCell.textLabel!.text = "\(user.username)"
     })
     
     //MARK: IBOutlets
@@ -43,7 +43,7 @@ class UserListViewController: UIViewController {
             //When the outer RACCommand signal completes the UIBarButtonItem becomes enabled again
             return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
                 let disposable = self.getAllUsers()
-                    .requireAuthentication()
+                    .handleUnauthorizedResponse()
                     .on(terminated: { subscriber.sendCompleted() })
                     .start()
                 
@@ -55,7 +55,7 @@ class UserListViewController: UIViewController {
     }
     
     private func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError> {
-        return apeChatApi.getAllUsers().on(
+        return userApi.getAllUsers().on(
             started : {
                 print("users started")
             }, value: { response in
