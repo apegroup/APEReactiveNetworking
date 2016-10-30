@@ -26,10 +26,10 @@ public struct NetworkDataResponse<T> {
 public struct Network {
     
     /// The total number of seconds to wait before aborting the network operation
-    static let defaultOperationTimeoutSeconds: TimeInterval = 10
+    static let defaultOperationTimeoutSeconds: TimeInterval = 15
     
     /// The max number of retries before failing the network operation
-    static let defaultOperationMaxRetries = 10
+    static let defaultOperationMaxRetries = 3
     
     /// The URLSession to be used to send requests
     private let session: URLSession
@@ -67,9 +67,9 @@ public struct Network {
         
         return session
             .dataTaskHttpHeaderSignalProducer(request: request)
-            .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxAttempts: maxRetries)
             .timeout(after: abortAfter, raising: .timedOut, on: QueueScheduler())
+            .injectNetworkActivityIndicatorSideEffect()
             .addLogging(request: request.urlRequest, abortAfter: abortAfter)
             .observe(on: scheduler)
     }
@@ -93,9 +93,9 @@ public struct Network {
         
         return session
             .dataTaskSignalProducer(request: request, parseDataBlock: parseDataBlock)
-            .injectNetworkActivityIndicatorSideEffect()  //NOTE: injection must always be done before other RAC operations since it will create a new SignalProducer
             .retryWithExponentialBackoff(maxAttempts: maxRetries)
             .timeout(after: abortAfter, raising: .timedOut, on: QueueScheduler())
+            .injectNetworkActivityIndicatorSideEffect()
             .addLogging(request: request.urlRequest, abortAfter: abortAfter)
             .observe(on: scheduler)
     }
