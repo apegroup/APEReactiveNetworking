@@ -28,6 +28,9 @@
 		5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB161D119A49005A1D3F /* UserCell.swift */; };
 		5F25CB191D119A7D005A1D3F /* TableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */; };
 		5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */; };
+		5F2ABC9A1DC8E6BA00CB5EED /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABC991DC8E6BA00CB5EED /* ViewModel.swift */; };
+		5F2ABC9D1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABC9C1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift */; };
+		5F2ABC9F1DC8F03E00CB5EED /* MediaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABC9E1DC8F03E00CB5EED /* MediaPresenter.swift */; };
 		5F5FC27B1DC0A9310094A592 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9748551DA3D01500D3D49A /* Unbox.framework */; };
 		5F5FC27F1DC0A9310094A592 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7841D9A8B8E0006E076 /* Result.framework */; };
 		5F5FC2811DC0A9310094A592 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7851D9A8B8E0006E076 /* Wrap.framework */; };
@@ -38,6 +41,9 @@
 		5FC27ED71DC64F1D00E16295 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC27ED61DC64F1D00E16295 /* KeychainManager.swift */; };
 		5FC27EDA1DC650FD00E16295 /* Locksmith.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FC27ED91DC650FD00E16295 /* Locksmith.framework */; };
 		5FCDC7861D9A8B8E0006E076 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */; };
+		5FD6DACB1DC7811D00E4826A /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6DACA1DC7811D00E4826A /* UserDetailViewController.swift */; };
+		5FD6DACE1DC7892400E4826A /* UIKit+ReactiveExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6DACD1DC7892400E4826A /* UIKit+ReactiveExtensions.swift */; };
+		5FD6DAD11DC78EA100E4826A /* UserDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD6DAD01DC78EA100E4826A /* UserDetailViewModel.swift */; };
 		952231391CEDF06E005B085D /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231351CEDF06E005B085D /* UserApi.swift */; };
 		9522313A1CEDF06E005B085D /* UserEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231361CEDF06E005B085D /* UserEndpoint.swift */; };
 		9522313B1CEDF06E005B085D /* NetworkedUserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952231371CEDF06E005B085D /* NetworkedUserApi.swift */; };
@@ -126,6 +132,9 @@
 		5F25CB161D119A49005A1D3F /* UserCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewDataSource.swift; sourceTree = "<group>"; };
 		5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Presentation.swift"; sourceTree = "<group>"; };
+		5F2ABC991DC8E6BA00CB5EED /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		5F2ABC9C1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Scenes.swift"; sourceTree = "<group>"; };
+		5F2ABC9E1DC8F03E00CB5EED /* MediaPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPresenter.swift; sourceTree = "<group>"; };
 		5F86D5D41D133F3E005859CF /* DataValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataValidator.swift; sourceTree = "<group>"; };
 		5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducerType+Authentication.swift"; sourceTree = "<group>"; };
 		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +146,9 @@
 		5FCDC7831D9A8B8E0006E076 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		5FCDC7841D9A8B8E0006E076 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		5FCDC7851D9A8B8E0006E076 /* Wrap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Wrap.framework; path = Carthage/Build/iOS/Wrap.framework; sourceTree = "<group>"; };
+		5FD6DACA1DC7811D00E4826A /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
+		5FD6DACD1DC7892400E4826A /* UIKit+ReactiveExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIKit+ReactiveExtensions.swift"; sourceTree = "<group>"; };
+		5FD6DAD01DC78EA100E4826A /* UserDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewModel.swift; sourceTree = "<group>"; };
 		67276A8C1C2065260062C807 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		67276AA21C2065270062C807 /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		67276AAD1C2065270062C807 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -206,12 +218,15 @@
 		22F316F51C242D1E007EA50C /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				5F2ABC9E1DC8F03E00CB5EED /* MediaPresenter.swift */,
 				958335771CF3B4D300F2B34F /* Date+ISO8601.swift */,
 				5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */,
 				5F25CB181D119A7D005A1D3F /* TableViewDataSource.swift */,
 				5F25CB1A1D119ED0005A1D3F /* UIViewController+Presentation.swift */,
 				5F86D5D41D133F3E005859CF /* DataValidator.swift */,
 				5FC27ED61DC64F1D00E16295 /* KeychainManager.swift */,
+				5FD6DACD1DC7892400E4826A /* UIKit+ReactiveExtensions.swift */,
+				5F2ABC9C1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift */,
 			);
 			name = Helpers;
 			path = Project/Helpers;
@@ -244,6 +259,7 @@
 			children = (
 				5F25CB151D119A34005A1D3F /* Views */,
 				22F317051C242D1E007EA50C /* Models */,
+				5F2ABC991DC8E6BA00CB5EED /* ViewModel.swift */,
 			);
 			name = Shared;
 			path = Project/Scenes/Shared;
@@ -384,6 +400,7 @@
 		5F8E78FF1D1094CA00D2A5EA /* User */ = {
 			isa = PBXGroup;
 			children = (
+				5FD6DACF1DC78E9200E4826A /* ViewModels */,
 				5F8E79001D1094CA00D2A5EA /* Controllers */,
 				5F8E79021D1094CA00D2A5EA /* User.storyboard */,
 			);
@@ -394,8 +411,17 @@
 			isa = PBXGroup;
 			children = (
 				5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */,
+				5FD6DACA1DC7811D00E4826A /* UserDetailViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		5FD6DACF1DC78E9200E4826A /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				5FD6DAD01DC78EA100E4826A /* UserDetailViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		64ADCB2CF59BC56EDB5258D3 /* Frameworks */ = {
@@ -645,6 +671,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5F10A5E81CFC312B00D14ADC /* LoginViewController.swift in Sources */,
+				5FD6DACE1DC7892400E4826A /* UIKit+ReactiveExtensions.swift in Sources */,
 				9522313C1CEDF06E005B085D /* MockUserApi.swift in Sources */,
 				5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */,
 				952231391CEDF06E005B085D /* UserApi.swift in Sources */,
@@ -652,14 +679,19 @@
 				9522313A1CEDF06E005B085D /* UserEndpoint.swift in Sources */,
 				5F10A5F01CFC326700D14ADC /* AuthResponse.swift in Sources */,
 				5F25CB191D119A7D005A1D3F /* TableViewDataSource.swift in Sources */,
+				5F2ABC9F1DC8F03E00CB5EED /* MediaPresenter.swift in Sources */,
+				5FD6DAD11DC78EA100E4826A /* UserDetailViewModel.swift in Sources */,
 				5F25CB171D119A49005A1D3F /* UserCell.swift in Sources */,
 				1D82ABFF1CFD87B300EB2A0D /* Device.swift in Sources */,
 				22F317311C242D1E007EA50C /* AppDelegate.swift in Sources */,
 				5F86D5D51D133F3F005859CF /* DataValidator.swift in Sources */,
+				5F2ABC9A1DC8E6BA00CB5EED /* ViewModel.swift in Sources */,
 				5F8E79031D1094CA00D2A5EA /* UserListViewController.swift in Sources */,
 				5FC27ED71DC64F1D00E16295 /* KeychainManager.swift in Sources */,
 				5F17A5091CDB4E6500D32AF9 /* AppConfiguration.swift in Sources */,
 				958335781CF3B4D300F2B34F /* Date+ISO8601.swift in Sources */,
+				5F2ABC9D1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift in Sources */,
+				5FD6DACB1DC7811D00E4826A /* UserDetailViewController.swift in Sources */,
 				9522313B1CEDF06E005B085D /* NetworkedUserApi.swift in Sources */,
 				5F8E78F91D100B9700D2A5EA /* SignalProducerType+Authentication.swift in Sources */,
 			);

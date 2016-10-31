@@ -2,31 +2,27 @@
 
 import UIKit
 import ReactiveSwift
-import enum Result.NoError
 import APEReactiveNetworking
 import ReactiveObjC
 import ReactiveObjCBridge
-
-typealias LoginCompletionHandler = (AuthResponse)->()
 
 class LoginViewController: UIViewController {
     
     //MARK: Properties
     
-    var loginCompletionHandler: LoginCompletionHandler?
-    
-    private let userApi: UserApi = UserApiFactory.make()
+    private let userApi = UserApiFactory.make()
     
     
     //MARK: Outlets
     
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var dismissButton: UIBarButtonItem!
     
     
-    //MARK: Life cycle
+    //MARK: - Life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +30,7 @@ class LoginViewController: UIViewController {
         bindUIWithSignals()
     }
     
-    //MARK: Private
+    //MARK: - Private
     
     private func setupUI() {
         usernameTextField.layer.borderWidth = 1
@@ -43,66 +39,99 @@ class LoginViewController: UIViewController {
     
     private func bindUIWithSignals() {
         
-        //FIXME:
-        //Validate textfields input values
-        let usernameSignal = usernameTextField.rac_textSignal()
-            .toSignalProducer()
+        //Connect the dismiss button
+        dismissButton.rac_command = RACCommand { [weak self] _ ->  RACSignal in
+            return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
+                self?.dismiss(animated: true, completion: nil)
+                return RACDisposable()
+                }.deliverOnMainThread()
+        }
+        
+        //Connect the register button
+        registerButton.rac_command = RACCommand(signal: { [weak self] _ -> RACSignal in
+            return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable in
+                let disposable = self?.registerUserSignal()
+                    .on(terminated: { subscriber.sendCompleted() })
+                    .start()
+                
+                return RACDisposable {
+                    disposable?.dispose()
+                }}.deliverOnMainThread()
+            })
+        
+        //Connect the login button
+        loginButton.rac_command = RACCommand(signal: { [weak self] _ -> RACSignal in
+            return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable in
+                let disposable = self?.loginUserSignal()
+                    .on(terminated: { subscriber.sendCompleted() })
+                    .start()
+                
+                return RACDisposable {
+                    disposable?.dispose()
+                }}.deliverOnMainThread()
+        })
+        
+        let isValidUsernameSignal = usernameTextField.rac_textSignal().toSignalProducer()
             .map { text in DataValidator().isValidUsername(text as! String) }
         
-        let passwordSignal = passwordTextField.rac_textSignal()
-            .toSignalProducer()
+        let isValidPasswordSignal = passwordTextField.rac_textSignal().toSignalProducer()
             .map { text in DataValidator().isValidPassword(text as! String) }
         
         //Mark textfields as green when input is valid
-        usernameSignal.on(value: { [unowned self] isValid in
+        isValidUsernameSignal.on(value: { [weak self] isValid in
             let color = isValid ? UIColor.green : UIColor.clear
-            self.usernameTextField.layer.borderColor = color.cgColor
+            self?.usernameTextField.layer.borderColor = color.cgColor
             }).start()
         
-        passwordSignal.on(value: { [unowned self] isValid in
+        isValidPasswordSignal.on(value: { [weak self] isValid in
             let color = isValid ? UIColor.green : UIColor.clear
-            self.passwordTextField.layer.borderColor = color.cgColor
+            self?.passwordTextField.layer.borderColor = color.cgColor
             }).start()
         
-        //Enable/disable login button according to input
-        usernameSignal.combineLatest(with: passwordSignal)
+        /*
+         Enable the register and the login buttons iff:
+          - input is valid
+          - no execution is in place
+         */
+        let isValidInputSignal = isValidUsernameSignal.combineLatest(with: isValidPasswordSignal)
             .map { (isValid: (username:Bool, password:Bool)) in isValid.username && isValid.password }
-            .on(value: { [unowned self] valid in
-                self.loginButton.isEnabled = valid
-                }).start()
         
-        dismissButton.rac_command = RACCommand { [unowned self] _ ->  RACSignal in
-            return RACSignal.createSignal { (subscriber: RACSubscriber!) -> RACDisposable! in
-                self.dismiss(animated: true, completion: nil)
-                return RACDisposable()
-                }
-                .deliverOnMainThread()
-        }
+        let isExecutingSignal = loginButton.rac_command.executing.combineLatest(with: registerButton.rac_command.executing)
+            .or()
+            .toSignalProducer()
+            .map { $0 as! Bool }
         
-        loginButton
-            .rac_signal(for: .touchUpInside)
-            .throttle(0.2)
-            .subscribeNext { [unowned self] _sender in
-                self.userApi
-                    .login(username: self.usernameTextField.text ?? "", password: self.passwordTextField.text ?? "")
-                    .start { event in
-                        switch event {
-                        case .value(let NetworkDataResponse):
-                            self.handleLoginSuccess(NetworkDataResponse.parsedData)
-                        case .failed(let error):
-                            self.handleLoginError(error)
-                        default: break
-                        }
-                }
-        }
+        isValidInputSignal.combineLatest(with: isExecutingSignal).map { [weak self] (info: (isValidInput:Bool, requestInProgress:Bool)) in
+            let shouldEnable = info.isValidInput && !info.requestInProgress
+            self?.loginButton.isEnabled = shouldEnable
+            self?.registerButton.isEnabled = shouldEnable
+            }.start()
     }
     
-    private func handleLoginSuccess(_ authResponse: AuthResponse) {
-        _ = KeychainManager.save(jwtToken: authResponse.accessToken)
-        loginCompletionHandler?(authResponse)
+    //MARK: - Register
+    
+    private func registerUserSignal() -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
+        return userApi.register(username: usernameTextField.text ?? "",
+                                password: passwordTextField.text ?? "")
+            .on(value: handleSuccess, failed:  handleError)
     }
     
-    private func handleLoginError(_ error: Network.OperationError) {
-        print("received error: \(error)")
+    //MARK: - Login
+    
+    private func loginUserSignal() -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
+        return userApi.login(username: usernameTextField.text ?? "",
+                             password: passwordTextField.text ?? "")
+            .on(value: handleSuccess, failed:  handleError)
+    }
+    
+    private func handleSuccess(_ authResponse: NetworkDataResponse<AuthResponse>) {
+        guard KeychainManager.save(jwtToken: authResponse.parsedData.accessToken) else {
+            return handleError()
+        }
+        dismiss(animated: true)
+    }
+    
+    private func handleError(_ error: Network.OperationError? = nil) {
+        print("received error: \(error?.description ?? "")")
     }
 }

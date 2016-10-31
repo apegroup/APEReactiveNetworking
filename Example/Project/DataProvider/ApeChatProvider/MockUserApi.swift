@@ -13,9 +13,15 @@ import APEReactiveNetworking
 
 struct MockUserApi: UserApi {
     
+    
     //MARK: UserApi
     
-    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
+    ///Fetch a detailed view of the currently logged in user
+    func getCurrentUser() -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
+        return signalProducer()
+    }
+    
+    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
         return signalProducer()
     }
     
@@ -24,6 +30,10 @@ struct MockUserApi: UserApi {
     }
     
     func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError> {
+        return signalProducer()
+    }
+    
+    func getUser(_ username: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
         return signalProducer()
     }
     

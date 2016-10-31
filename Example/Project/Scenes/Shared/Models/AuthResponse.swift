@@ -15,7 +15,7 @@ struct AuthResponse {
 
 extension AuthResponse: Unboxable {
     init(unboxer: Unboxer) throws {
-        self.accessToken = try unboxer.unbox(key: "token")
+        accessToken = try unboxer.unbox(key: "token")
     }
 }
 

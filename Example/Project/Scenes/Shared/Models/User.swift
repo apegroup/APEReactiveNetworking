@@ -18,7 +18,7 @@ struct User {
 
 extension User: Unboxable {
     init(unboxer: Unboxer) throws {
-        self.username = try unboxer.unbox(key: "username")
+        username = try unboxer.unbox(key: "username")
     }
 }
 

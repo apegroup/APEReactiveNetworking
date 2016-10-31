@@ -13,7 +13,7 @@ import Unbox
 struct NetworkedUserApi: UserApi {
     
     //Elaborate example
-    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
+    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError> {
         
         //1) Specify the endpoint for registering a user
         let endpoint: Endpoint = UserEndpoint.register
@@ -30,8 +30,8 @@ struct NetworkedUserApi: UserApi {
         let scheduler: SchedulerProtocol = UIScheduler()
         
         //5) If you are expecting data to be returned, specify how to parse it into your desired model
-        let userParseBlock: (Data) -> User? = { userData in
-            guard let user = try? unbox(data: userData) as User else {
+        let authParseBlock: (Data) -> AuthResponse? = { userData in
+            guard let user = try? unbox(data: userData) as AuthResponse else {
                 return nil
             }
             return user
@@ -41,7 +41,7 @@ struct NetworkedUserApi: UserApi {
         return Network().send(request,
                               scheduler: scheduler,
                               abortAfter: timeoutSeconds,
-                              parseDataBlock: userParseBlock)
+                              parseDataBlock: authParseBlock)
     }
     
     
@@ -49,13 +49,27 @@ struct NetworkedUserApi: UserApi {
         let request = ApeRequestBuilder(endpoint: UserEndpoint.login)
             .setBody(json: ["username":username, "password":password])
             .build()
-        return Network().send(request) { try? unbox(data: $0) }
+        return Network().send(request) { try? unbox(data: $0)}
     }
     
     func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError> {
         let request = ApeRequestBuilder(endpoint: UserEndpoint.allUsers)
             .setAuthorizationHeader(token: KeychainManager.jwtToken() ?? "-" )
             .build()
-        return Network().send(request) { try? unbox(data: $0) }
+        return Network().send(request) { try? unbox(data: $0)}.handleUnauthorizedResponse()
+    }
+    
+    func getCurrentUser() -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
+        let request = ApeRequestBuilder(endpoint: UserEndpoint.currentUser)
+            .setAuthorizationHeader(token: KeychainManager.jwtToken() ?? "-" )
+            .build()
+        return Network().send(request) { try? unbox(data: $0)}.handleUnauthorizedResponse()
+    }
+    
+    func getUser(_ username: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
+        let request = ApeRequestBuilder(endpoint: UserEndpoint.user(username: username))
+            .setAuthorizationHeader(token: KeychainManager.jwtToken() ?? "-" )
+            .build()
+        return Network().send(request) { try? unbox(data: $0)}.handleUnauthorizedResponse()
     }
 }

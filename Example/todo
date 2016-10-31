@@ -1,9 +1,10 @@
 Remaining:
-- Replace Unbox.framework (that is built for device) with carthage when an official release is available
 - Wait for ReactiveSwift OFFICIAL (not alpha) 1.0 is released. Hopefully it will contain substitutes for the (now purged) legacy "rac_***" functions (https://github.com/ReactiveCocoa/ReactiveSwift/issues/37)
-- Fix all FIXMES
-
-
-- Reactify stuff, e.g. LoginViewController, etc.
-- MVVMify stuff, e.g. LoginViewController, UserListViewController
 - Fix all FIXMEs
+
+
+0) Connect scenes
+1) Error handling
+2) Improve MVVM + reactive
+2) Upload avatar url (PUT)
+3) Delete avatar (DELETE)

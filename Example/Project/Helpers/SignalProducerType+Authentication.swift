@@ -23,11 +23,10 @@ extension SignalProducerProtocol where Error == Network.OperationError {
         return on(failed: { (error: Network.OperationError) in
             if case let .unexpectedResponseCode(httpCode, data) = error, httpCode == .unauthorized {
                 print("Authentication required: '\(String(data: data ?? Data(), encoding: .utf8) ?? "")' - presenting login")
-                self.presentLoginViewController {
+                self.presentLoginViewController()
                     
-                    //FIXME: If the user is sucessful in authenticating the original signal should be restarted by calling 'self.start()'
-                    //Unfortunately 'self.start()' will perform an *identical* operation - no dynamism at all. This means that the old jwt token will still be used even though the LoginViewController will have retrieved and persisted a new one after it has successfully authenticated :(
-                }
+                //FIXME: If the user is sucessful in authenticating the original signal should be restarted by calling 'self.start()'
+                //Unfortunately 'self.start()' will perform an *identical* operation - no dynamism at all. This means that the old jwt token will still be used even though the LoginViewController will have retrieved and persisted a new one after it has successfully authenticated :(
             }
         })
     }
@@ -39,19 +38,15 @@ extension SignalProducerProtocol where Error == Network.OperationError {
      
      - parameter presentingViewController: The view controller to present the LoginViewController
      */
-    private func presentLoginViewController(completion: @escaping ()->()) {
-        let navCtrl = UIStoryboard(name: "Login", bundle: nil).instantiateInitialViewController() as! UINavigationController
-        let loginVc = navCtrl.topViewController as! LoginViewController
-        
-        loginVc.loginCompletionHandler = { [unowned loginVc] _authResponse in
-            DispatchQueue.main.async {
-                loginVc.dismiss(animated: true, completion: completion)
-            }
+    private func presentLoginViewController() {
+        guard let currentVc = UIApplication.shared.keyWindow?.rootViewController?.currentlyPresentedViewController(),
+            currentVc is LoginViewController == false else {
+                //LoginViewController is already presented
+                return
         }
-        
         DispatchQueue.main.async {
-            let presentingViewController = (UIApplication.shared.keyWindow?.rootViewController?.currentlyPresentedViewController())!
-            presentingViewController.present(navCtrl, animated: true, completion: nil)
+            let loginVc = UIStoryboard.loginScene.instantiateInitialViewController()!
+            currentVc.present(loginVc, animated: true, completion: nil)
         }
     }
 }

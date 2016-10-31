@@ -11,13 +11,23 @@ import APEReactiveNetworking
 
 // MARK: API Protocol
 protocol UserApi {
-    //TODO: Replace 'NetworkError' with a more general error 
-    //since data is not necessarilly fetched from the network 
-    //(e.g. canned data from file, from database, etc)
+    //TODO: Stop leaking details, i.e. replace 'NetworkError' with a more general error since data is not necessarilly
+    //fetched from the network (e.g. canned data from file, from database, etc)
 
-    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError>
+    ///Register a user
+    func register(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError>
+    
+    ///Authenticate a user
     func login(username: String, password: String) -> SignalProducer<NetworkDataResponse<AuthResponse>, Network.OperationError>
+    
+    ///Fetch a list of all users
     func getAllUsers() -> SignalProducer<NetworkDataResponse<[User]>, Network.OperationError>
+    
+    ///Fetch a detailed view of the currently logged in user
+    func getCurrentUser() -> SignalProducer<NetworkDataResponse<User>, Network.OperationError>
+    
+    ///Fetch a detailed view of the user with username 'username'
+    func getUser(_ username: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError>
 }
 
 

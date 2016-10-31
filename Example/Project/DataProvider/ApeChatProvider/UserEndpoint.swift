@@ -15,8 +15,9 @@ enum UserEndpoint: Endpoint {
     
     case register
     case login
-    case currentUser
+    case user(username: String)
     case allUsers
+    case currentUser
     
     //MARK: - Endpoint protocol conformance
     
@@ -32,17 +33,14 @@ enum UserEndpoint: Endpoint {
         
         let relativePath: String
         switch self {
-        case .register:
-            relativePath = "/register"
-        case .login:
-            relativePath = "/login"
-        case .currentUser:
-            relativePath = "/me"
-        case .allUsers:
-            relativePath = ""
+        case .register:             relativePath = "/register"
+        case .login:                relativePath = "/login"
+        case .user(let username):   relativePath = "/\(username)"
+        case .allUsers:             relativePath = ""
+        case .currentUser:          relativePath = "/me"
         }
         
-        return AppConfiguration.environment.baseUrl + userPath + relativePath
+        return AppConfiguration.environment.baseUrl + userPath + (relativePath.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed))!
     }
     
     var acceptedResponseCodes : [Http.StatusCode] {
