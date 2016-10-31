@@ -22,7 +22,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 - [x] 100% Swift 3
 - [x] Powering Swift Generics
 - [x] Reactive oriented, based on ReactiveSwift
-- [x] Automatic retry mechanism with possiblity to define max number of retries (exponential back-off strategy)
+- [x] Automatic retry mechanism (exponential back-off strategy)
 - [x] Deterministic response time (successful, error or timeout), i.e. abort after 'X' seconds
 - [x] Automatically updates the network activity indicator
 - [x] Possibility to add custom request headers
@@ -34,6 +34,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 - [ ] Code coverage at X % 
 
 ## Future improvements
+- [ ] Support for starting the retry mechanism from a custom value, e.g. reading the *Retry-After* header and starting from that value (retries are currently performed using an exponential backoff strategy between each retry, starting from 1)
 - [ ] Support for background download/upload by the OS
 - [ ] Async image downloads for cell updating (extension of UIImage?)
 - [ ] Add cookie support 
@@ -362,16 +363,6 @@ It is possible configure the network operation in the following ways:
   - Setting a max number of retries before aborting the operation
   - Setting a timeout limit before aborting the operation
   - Specifying a Scheduler to which the returned SignalProducer will forward events to
-
-##### Retries
-The default max number of retries is 10. It is possible to override this value by providing the `maxRetries` parameter in the `Network.send()` method.
-
-The retries are performed using an exponential backoff strategy between each retry, starting from 1 (it is currently not possible to start from custom values, which might be useful e.g. after reading the *Retry-After* response header).
-
-```swift
-let maxNumberOfRetries = 3
-Network().send(request, maxRetries: maxNumberOfRetries).start()
-```
 
 ##### Abort-after
 The default abort-after time is 10 seconds, i.e. no mather how many retries or sleep between each retry, the signal will abort after the specified number of seconds and return a `TimeOut` error. It is possible to override this value by providing the `abortAfter` parameter in the `Network.send()` method. 
