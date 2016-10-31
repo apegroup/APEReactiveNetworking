@@ -69,7 +69,6 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
       * [Response with data](#response-with-data)
       * [Error handling](#error-handling)
       * [Configuring the request operation](#configuring-the-request-operation)
-        * [Retries](#retries)
         * [Timeout](#timeout)
         * [Scheduler](#scheduler)
     * [Caching](#caching) 
@@ -360,7 +359,6 @@ signalProducer.on(failed: { (operationError: Network.OperationError) in
 
 ### Configuring the request operation
 It is possible configure the network operation in the following ways:
-  - Setting a max number of retries before aborting the operation
   - Setting a timeout limit before aborting the operation
   - Specifying a Scheduler to which the returned SignalProducer will forward events to
 
