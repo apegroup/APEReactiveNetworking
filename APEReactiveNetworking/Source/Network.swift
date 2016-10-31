@@ -26,20 +26,28 @@ public struct NetworkDataResponse<T> {
 public struct Network {
     
     /// The total number of seconds to wait before aborting the network operation
-    static let defaultOperationTimeoutSeconds: TimeInterval = 15
-    
-    /// The max number of retries before failing the network operation
-    static let defaultOperationMaxRetries = 3
+    static let defaultOperationTimeoutSeconds: TimeInterval = 10
     
     /// The URLSession to be used to send requests
     private let session: URLSession
     
     public enum OperationError : Error {
+        ///The response data could not be parsed to the expected model
         case parseFailure
+        
+        ///The expected response data was not returned
         case missingData
+        
+        ///The response was not of the expected type (i.e. of type 'HTTPURLResponse')
         case invalidResponseType
+        
+        ///The received response code mismatched with the expected response code
         case unexpectedResponseCode(httpCode: Http.StatusCode, data: Data?)
+        
+        ///A 'requestFailure' error indicates that the request could not be sent/a response was never received
         case requestFailure(error: Error)
+        
+        ///The request timed out
         case timedOut
     }
     
@@ -56,18 +64,15 @@ public struct Network {
      - parameter request:               The request to be sent
      - parameter scheduler:             The scheduler to which the returned SignalProducer will forward events to. Defaults to the UIScheduler.
      - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent. Defaults to 'defaultOperationTimeoutSeconds'
-     - parameter maxRetries:            Max number of retries before failing the operation. Implements an exponential backoff between each retry. Defaults to 'defaultOperationMaxRetries'
      
      - returns: A SignalProducer that will begin the network request when started. The 'next' event contains the Http.ResponseHeaders.
      */
     public func send(_ request: ApeURLRequest,
                      scheduler: SchedulerProtocol = UIScheduler(),
-                     abortAfter: TimeInterval = Network.defaultOperationTimeoutSeconds,
-                     maxRetries: Int = Network.defaultOperationMaxRetries) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
-        
+                     abortAfter: TimeInterval = Network.defaultOperationTimeoutSeconds) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
         return session
             .dataTaskHttpHeaderSignalProducer(request: request)
-            .retryWithExponentialBackoff(maxAttempts: maxRetries)
+            .retryWithExponentialBackoff()
             .timeout(after: abortAfter, raising: .timedOut, on: QueueScheduler())
             .injectNetworkActivityIndicatorSideEffect()
             .addLogging(request: request.urlRequest, abortAfter: abortAfter)
@@ -80,7 +85,6 @@ public struct Network {
      - parameter request:               The request to be sent
      - parameter scheduler:             The scheduler to which the returned SignalProducer will forward events to. Defaults to the UIScheduler.
      - parameter abortAfter:            Number of seconds to wait until the operation is aborted and a 'TimedOut' failure is sent. Defaults to 'defaultOperationTimeoutSeconds'
-     - parameter maxRetries:            Max number of retries before failing the operation. Implements an exponential backoff between each retry. Defaults to 'defaultOperationMaxRetries'
      - parameter parseDataBlock:        A block that accepts the response raw data as a means to parse the it to the expected data type.
      
      - returns: A SignalProducer that will begin the network request when started. The 'next' event contains the a NetworkResponse object, containing the Http.ResponseHeaders and the parsed data.
@@ -88,12 +92,10 @@ public struct Network {
     public func send<T>(_ request: ApeURLRequest,
                      scheduler: SchedulerProtocol = UIScheduler(),
                      abortAfter: TimeInterval = Network.defaultOperationTimeoutSeconds,
-                     maxRetries: Int = Network.defaultOperationMaxRetries,
                      parseDataBlock: @escaping ((Data) -> T?)) -> SignalProducer<NetworkDataResponse<T>, Network.OperationError> {
-        
         return session
             .dataTaskSignalProducer(request: request, parseDataBlock: parseDataBlock)
-            .retryWithExponentialBackoff(maxAttempts: maxRetries)
+            .retryWithExponentialBackoff()
             .timeout(after: abortAfter, raising: .timedOut, on: QueueScheduler())
             .injectNetworkActivityIndicatorSideEffect()
             .addLogging(request: request.urlRequest, abortAfter: abortAfter)

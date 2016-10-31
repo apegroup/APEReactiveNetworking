@@ -9,39 +9,36 @@
 import Foundation
 import ReactiveSwift
 
-extension SignalProducerProtocol {
+extension SignalProducerProtocol where Error == Network.OperationError {
     
-    ///Retries the SignalProducer 'maxAttempts' number of times before failing. Implements an exponential backoff between each retry.
-    func retryWithExponentialBackoff(maxAttempts: Int) -> SignalProducer<Value, Error> {
-        return retry(backoffStrategy: ExponentialSequence(), attemptsLeft: maxAttempts)
+    ///Retries the SignalProducer. Implements an exponential backoff between each retry.
+    func retryWithExponentialBackoff() -> SignalProducer<Value, Error> {
+        return retry(backoffStrategy: ExponentialSequence())
     }
     
-    private func retry<S: Sequence>(backoffStrategy strategy: S, attemptsLeft: Int)
-        -> SignalProducer<Value, Error> where S.Iterator.Element == TimeInterval {
-            
-            guard attemptsLeft > 0 else {
-                return self.producer.on(failed: { error in
-                    print("\t\(Date()): Received error: '\(error)'. No attempts left - aborting.\n")
-                })
+    private func retry<S: Sequence>(backoffStrategy strategy: S) -> SignalProducer<Value, Error> where S.Iterator.Element == TimeInterval {
+        var delayIterator = strategy.makeIterator()
+        guard let delay = delayIterator.next() else {
+            return self.producer.on(failed: { error in
+                print("\t\(Date()): Received error: '\(error)'. No next timeout generated - aborting.\n")
+            })
+        }
+        
+        return self.flatMapError { error -> SignalProducer<Value, Error> in
+            //Only retry when receiving a 'requestFailure' error (meaning that the request could not be sent/a response was not received)
+            guard case let .requestFailure(reason) = error else {
+                return self.producer
             }
             
-            var delayIterator = strategy.makeIterator()
-            guard let delay = delayIterator.next() else {
-                return self.producer.on(failed: { error in
-                    print("\t\(Date()): Received error: '\(error)'. No next timeout generated - aborting.\n")
-                })
-            }
+            print("\t\(Date()): Received error: '\(reason.localizedDescription)'.\n\tRetrying in: '\(delay)' seconds\n")
             
-            // If an error occurs we catch it and map it to a new concatenated SignalProducer which will:
-            //  - Create an inner SignalProducer that will wait 'timout' seconds
-            //  - Replay the original SignalProducer when the previously delayed signal has completed
-            return self.flatMapError { error -> SignalProducer<Value, Error> in
-                print("\t\(Date()): Received error: '\(error)'. Retrying in: '\(delay)' seconds\n")
-                return SignalProducer.empty
-                    .delay(delay, on: QueueScheduler())
-                    .concat(self.retry(backoffStrategy: IteratorSequence(delayIterator), attemptsLeft: attemptsLeft-1))
-                }.on (started: {
-                    print("\t\(Date()): Starting operation. Attempts left: \(attemptsLeft)")
-                })
+            /* Catch the 'requestFailure' and map it to a new concatenated SignalProducer which will:
+             - Create an inner SignalProducer that will wait 'timout' seconds
+             - Replay the original SignalProducer when the previously delayed signal has completed
+             */
+            return SignalProducer.empty
+                .delay(delay, on: QueueScheduler())
+                .concat(self.retry(backoffStrategy: IteratorSequence(delayIterator)))
+            }
     }
 }
