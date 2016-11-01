@@ -31,7 +31,7 @@ public struct Network {
     /// The URLSession to be used to send requests
     private let session: URLSession
     
-    public enum OperationError : Error {
+    public enum OperationError : Error, CustomStringConvertible {
         ///The response data could not be parsed to the expected model
         case parseFailure
         
@@ -49,6 +49,21 @@ public struct Network {
         
         ///The request timed out
         case timedOut
+
+        //MARK: - CustomStringConvertible
+        
+        public var description: String {
+            switch self {
+            case .parseFailure: return "The response data could not be parsed to the expected model"
+            case .missingData: return "The expected response data was not returned"
+            case .invalidResponseType: return "The response was not of the expected type (i.e. of type 'HTTPURLResponse')"
+            case .timedOut: return "The request timed out"
+            case let .requestFailure(error): return error.localizedDescription
+            case let .unexpectedResponseCode(httpCode, maybeData):
+                let reason = String(data: maybeData ?? Data(), encoding: .utf8) ?? "---"
+                return "The received response code '\(httpCode.rawValue) \(httpCode)' mismatched with the expected response code: '\(reason)'"
+            }
+        }
     }
     
     /// The URLSession to be used to send requests. Defaults to the shared session
