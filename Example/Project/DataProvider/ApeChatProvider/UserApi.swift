@@ -28,6 +28,9 @@ protocol UserApi {
     
     ///Fetch a detailed view of the user with username 'username'
     func getUser(_ username: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError>
+    
+    ///Update the avatar of the currently logged in user
+    func updateAvatar(image: UIImage) -> SignalProducer<Http.ResponseHeaders, Network.OperationError>
 }
 
 

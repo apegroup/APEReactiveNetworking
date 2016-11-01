@@ -21,7 +21,7 @@ final class UserDetailViewController: UIViewController {
     
     private lazy var mediaPresenter: MediaPresenter = {
         return MediaPresenter { [weak self] image in
-            self?.avatarImageView.image = image
+            self?.viewModel.updateAvatar(image: image)
         }
     }()
     
@@ -39,6 +39,11 @@ final class UserDetailViewController: UIViewController {
     }
     
     private func bindUIWithSignals() {
+        viewModel.imageData.producer.on(value: { [weak self] data in
+            self?.avatarImageView.image = UIImage(data: data)
+            
+        }).observe(on: UIScheduler()).start()
+        
         usernameLabel.rac_text <~ viewModel.username
         
         viewModel.isCameraVisible.producer.on(value: { [weak self] visible in

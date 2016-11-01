@@ -66,6 +66,15 @@ struct NetworkedUserApi: UserApi {
         return Network().send(request) { try? unbox(data: $0)}.handleUnauthorizedResponse()
     }
     
+    func updateAvatar(image: UIImage) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
+        let base64Data = UIImagePNGRepresentation(image)!.base64EncodedData()
+        let request = ApeRequestBuilder(endpoint: UserEndpoint.updateAvatar)
+            .setAuthorizationHeader(token: KeychainManager.jwtToken() ?? "-")
+            .setBody(data: base64Data, contentType: .imagePng)
+            .build()
+        return Network().send(request)
+    }
+    
     func getUser(_ username: String) -> SignalProducer<NetworkDataResponse<User>, Network.OperationError> {
         let request = ApeRequestBuilder(endpoint: UserEndpoint.user(username: username))
             .setAuthorizationHeader(token: KeychainManager.jwtToken() ?? "-" )

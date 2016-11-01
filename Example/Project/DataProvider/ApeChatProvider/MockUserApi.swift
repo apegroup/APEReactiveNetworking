@@ -37,11 +37,18 @@ struct MockUserApi: UserApi {
         return signalProducer()
     }
     
+    func updateAvatar(image: UIImage) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
+        return signalProducer()
+    }
+    
     
     //MARK: Private
     
+    private func signalProducer() -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
+        return signalProducer()
+    }
+    
     private func signalProducer<T: Unboxable>() -> SignalProducer<NetworkDataResponse<[T]>, Network.OperationError> {
-        
         return signalProducer()
     }
     

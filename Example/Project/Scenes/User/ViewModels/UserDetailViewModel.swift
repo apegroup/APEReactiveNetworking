@@ -17,10 +17,12 @@ struct UserDetailViewModel: ViewModel {
     }
     
     //MARK: - Properties
+    
     private let userApi = UserApiFactory.make()
     
     let username = MutableProperty<String>("")
     let isCameraVisible = MutableProperty<Bool>(false)
+    let imageData = MutableProperty<Data>(Data())
     
     var viewState = ViewState.currentUser {
         didSet {
@@ -36,6 +38,17 @@ struct UserDetailViewModel: ViewModel {
         }}
     }
     
+    //MARK: - Public
+    
+    func updateAvatar(image: UIImage) {
+        let imageSize: CGFloat = 300
+        let scaledImage = image.resized(to: imageSize)
+        userApi.updateAvatar(image: scaledImage).startWithCompleted {
+            self.fetchUser()
+        }
+    }
+
+    
     //MARK: - Private
     
     private func fetchUser() {
@@ -48,6 +61,7 @@ struct UserDetailViewModel: ViewModel {
         signal.on(value: { response in
             let user = response.parsedData
             self.username.value = user.username
+            self.imageData.value = user.avatar ?? Data()
         }, failed: { error in
             print("users failed fetching: \(error)")
         }).start()

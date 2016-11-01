@@ -31,6 +31,7 @@
 		5F2ABC9A1DC8E6BA00CB5EED /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABC991DC8E6BA00CB5EED /* ViewModel.swift */; };
 		5F2ABC9D1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABC9C1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift */; };
 		5F2ABC9F1DC8F03E00CB5EED /* MediaPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABC9E1DC8F03E00CB5EED /* MediaPresenter.swift */; };
+		5F2ABCA11DC922AD00CB5EED /* UIImage+Resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F2ABCA01DC922AD00CB5EED /* UIImage+Resize.swift */; };
 		5F5FC27B1DC0A9310094A592 /* Unbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F9748551DA3D01500D3D49A /* Unbox.framework */; };
 		5F5FC27F1DC0A9310094A592 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7841D9A8B8E0006E076 /* Result.framework */; };
 		5F5FC2811DC0A9310094A592 /* Wrap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FCDC7851D9A8B8E0006E076 /* Wrap.framework */; };
@@ -135,6 +136,7 @@
 		5F2ABC991DC8E6BA00CB5EED /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		5F2ABC9C1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+Scenes.swift"; sourceTree = "<group>"; };
 		5F2ABC9E1DC8F03E00CB5EED /* MediaPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaPresenter.swift; sourceTree = "<group>"; };
+		5F2ABCA01DC922AD00CB5EED /* UIImage+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Resize.swift"; sourceTree = "<group>"; };
 		5F86D5D41D133F3E005859CF /* DataValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataValidator.swift; sourceTree = "<group>"; };
 		5F8E78F81D100B9700D2A5EA /* SignalProducerType+Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SignalProducerType+Authentication.swift"; sourceTree = "<group>"; };
 		5F8E79011D1094CA00D2A5EA /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				5FC27ED61DC64F1D00E16295 /* KeychainManager.swift */,
 				5FD6DACD1DC7892400E4826A /* UIKit+ReactiveExtensions.swift */,
 				5F2ABC9C1DC8E8D200CB5EED /* UIStoryboard+Scenes.swift */,
+				5F2ABCA01DC922AD00CB5EED /* UIImage+Resize.swift */,
 			);
 			name = Helpers;
 			path = Project/Helpers;
@@ -673,6 +676,7 @@
 				5F10A5E81CFC312B00D14ADC /* LoginViewController.swift in Sources */,
 				5FD6DACE1DC7892400E4826A /* UIKit+ReactiveExtensions.swift in Sources */,
 				9522313C1CEDF06E005B085D /* MockUserApi.swift in Sources */,
+				5F2ABCA11DC922AD00CB5EED /* UIImage+Resize.swift in Sources */,
 				5F25CB1B1D119ED0005A1D3F /* UIViewController+Presentation.swift in Sources */,
 				952231391CEDF06E005B085D /* UserApi.swift in Sources */,
 				5F10A5F11CFC326700D14ADC /* User.swift in Sources */,
