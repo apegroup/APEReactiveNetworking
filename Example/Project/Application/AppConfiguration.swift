@@ -57,7 +57,7 @@ enum Environment: String {
     var baseUrl: String {
         let baseUrl: String
         switch self {
-        case .debug:            baseUrl = "localhost:8080"
+        case .debug:            baseUrl = "104.199.21.38:8080" //deployed on google container engine
         default:                baseUrl = "private-05732-apechat.apiary-mock.com"
         }
         return urlProtocol + baseUrl + apiVersion
