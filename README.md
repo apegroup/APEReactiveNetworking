@@ -409,7 +409,7 @@ URLCache.setSharedURLCache(URLCache)
 Here is a trivial example, for more elaborate example take a look at the included example project.
 
 ```swift
-func updateUserProfile(userId: String, firstname: String, completion: @escaping (Void) -> Void) {
+func updateUserProfile(userId: String, firstname: String) -> SignalProducer<Http.ResponseHeaders, Network.OperationError> {
   let endpoint = UserAPI.updateUser(id: userId)
 
   let jsonBody: [String : Any] = ["firstname": firstname]
@@ -419,19 +419,7 @@ func updateUserProfile(userId: String, firstname: String, completion: @escaping 
                  .setBody(json: jsonBody)
                  .build()
 
-  let network = Network()
-
-  let signalProducer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = network.send(request)
-
-  signalProducer
-            .on(
-              failed: { (error: Network.OperationError) in
-                print("Network operation failed with error: \(error)")
-              }, completed: {
-                print("Successfully sent a request!")
-                completion()
-              })
-            .start()
+  return Network().send(request)
 }
 ```
 
