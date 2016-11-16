@@ -30,7 +30,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
 - [x] Automatically adds device info, such as OS-version, as a few X-headers in all requests
 - [x] PUT, POST, DELETE, GET, PATCH operations
 - [x] Possibility to customize response code validation (default implementation accepts 200-299 codes)
-- [ ] Example project available
+- [x] Example project available
 - [ ] Code coverage at X % 
 
 ## Future improvements
@@ -72,6 +72,7 @@ It's reactive based because we built it on top of [ReactiveSwift](https://github
         * [Timeout](#timeout)
         * [Scheduler](#scheduler)
     * [Caching](#caching) 
+  * [Example](#example)  
   * [Author](#author)
   * [Constribution](#contribution)
   * [License](#license)
@@ -169,7 +170,7 @@ public protocol HttpRequestBuilder {
 `ApeRequestBuilder`, a type conforming to the 'HttpRequestBuilder' protocol, is provided by the framework:
 
 ```swift
-let endpoint = ApegroupEndpoint()
+let endpoint = UserAPI.getUsers
 let requestBuilder: HttpRequestBuilder = ApeRequestBuilder(endpoint: endpoint)
 let request: ApeURLRequest = requestBuilder.build()
 ```
@@ -188,7 +189,7 @@ When using the built-in `ApeRequestBuilder` the following http headers will be i
 To authenticate using [basic authentication](http://www.w3.org/Protocols/HTTP/1.0/spec.html#BasicAA) with a username **"ape"** and password **"group"** you only need to do this:
 
 ```swift
-let endpoint = ApegroupEndpoint()
+let endpoint = UserAPI.getUsers
 let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(username: "ape", password: "group")
 ```
 #### Bearer token
@@ -196,7 +197,7 @@ let requestBuilder = try ApeRequestBuilder(endpoint: endpoint).setAuthorizationH
 To authenticate using a [bearer token](https://tools.ietf.org/html/rfc6750) **"ASDFASDFASDF12345"** you only need to do this:
 
 ```swift
-let endpoint = ApegroupEndpoint()
+let endpoint = UserAPI.getUsers
 let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(token: "ASDFASDFASDF12345")
 ```
 
@@ -204,7 +205,7 @@ let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeade
 To authenticate using a custom authentication header, for example **"Token token=ASDFASDFASDF12345"** you would need to set the following header field: `Authorization: Token token=ASDFASDFASDF12345`. Simply do this:
 
 ```swift
-let endpoint = ApegroupEndpoint()
+let endpoint = UserAPI.getUsers
 let requestBuilder = ApeRequestBuilder(endpoint: endpoint).setAuthorizationHeader(headerValue: "Token token=ASDFASDFASDF12345")
 ```
 
@@ -262,7 +263,7 @@ To send a request, simply create a request operation (i.e. a SignalProducer), by
 ```swift
 import ReactiveSwift
 
-let endpoint = ApegroupEndpoint()
+let endpoint = UserAPI.getUsers
 let requestBuilder = ApeRequestBuilder(endpoint: endpoint)
 let request = requestBuilder.build()
 let network = Network()
@@ -277,7 +278,7 @@ Response handling is performed in a reactive manner by providing closures to the
 ```swift
 import ReactiveSwift
 
-let endpoint = ApegroupEndpoint()
+let endpoint = UserAPI.getUsers
 let requestBuilder = ApeRequestBuilder(endpoint: endpoint)
 let request = requestBuilder.build()
 let network = Network()
@@ -404,6 +405,35 @@ URLCache.setSharedURLCache(URLCache)
   let network = Network(session: urlSession)
 ```
 
+## Example
+Here is a trivial example, for more elaborate example take a look at the included example project.
+
+```swift
+func updateUserProfile(userId: String, firstname: String, completion: @escaping (Void) -> Void) {
+  let endpoint = UserAPI.updateUser(id: userId)
+
+  let jsonBody: [String : Any] = ["firstname": firstname]
+
+  let request = ApeRequestBuilder(endpoint: endpoint)
+                 .setAuthorizationHeader(token: "<my secret auth token>")
+                 .setBody(json: jsonBody)
+                 .build()
+
+  let network = Network()
+
+  let signalProducer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = network.send(request)
+
+  signalProducer
+            .on(
+              failed: { (error: Network.OperationError) in
+                print("Network operation failed with error: \(error)")
+              }, completed: {
+                print("Successfully sent a request!")
+                completion()
+              })
+            .start()
+}
+```
 
 
 ### Author
