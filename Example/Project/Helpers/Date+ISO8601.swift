@@ -1,5 +1,5 @@
 //
-//  NSDateExtension.swift
+//  DateExtension.swift
 //  app-architecture
 //
 //  Created by Dennis Korkchi on 2016-05-23.
@@ -9,17 +9,17 @@
 import Foundation
 
 
-extension NSDate  {
+extension Date  {
 
-    static func iso8601DateFormatter () -> NSDateFormatter {
-        let dateFormatter = NSDateFormatter()
-        let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
+    static var iso8601DateFormatter: DateFormatter {
+        let dateFormatter = DateFormatter()
+        let enUSPosixLocale = Locale(identifier: "en_US_POSIX")
         dateFormatter.locale = enUSPosixLocale
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         return dateFormatter
     }
     
     func iso8601string() -> String {
-        return NSDate.iso8601DateFormatter().stringFromDate(self)
+        return Date.iso8601DateFormatter.string(from: self)
     }
 }

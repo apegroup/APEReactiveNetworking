@@ -11,26 +11,20 @@ import Unbox
 import Wrap
 
 struct User {
-    let userId : String
-    let firstName: String
-    let lastName: String
-    let gender: String //Enum?
-    let createdAt: NSDate
-    let birthYear: Int //Date?
-    let avatarUrl: String
+    let username: String
+    var avatar: Data?
 }
 
 //MARK: Unboxable
 
 extension User: Unboxable {
-    init(unboxer: Unboxer) {
-        self.userId = unboxer.unbox("userId")
-        self.firstName = unboxer.unbox("firstname")
-        self.lastName = unboxer.unbox("lastname")
-        self.gender = unboxer.unbox("gender")
-        self.createdAt = unboxer.unbox("createdAt", formatter: NSDate.iso8601DateFormatter())
-        self.birthYear = unboxer.unbox("birthyear")
-        self.avatarUrl = unboxer.unbox("avatarUrl")
+    init(unboxer: Unboxer) throws {
+        username = try unboxer.unbox(key: "username")
+        
+        if let base64Encoded: String = unboxer.unbox(key: "avatar"),
+            let decodedAvatar = Data(base64Encoded: base64Encoded) {
+            avatar = decodedAvatar
+        }
     }
 }
 
@@ -39,14 +33,8 @@ extension User: Unboxable {
 extension User: WrapCustomizable {
     func keyForWrappingPropertyNamed(propertyName: String) -> String {
         switch propertyName {
-        case "firstName":
-            return "firstname"
-        case "lastName":
-            return "lastname"
-        case "birthYear":
-            return "birthyear"
-        default:
-            return propertyName
+        case "username":        return "username"
+        default:                return propertyName
         }
     }
 }

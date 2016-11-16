@@ -1,0 +1,7 @@
+Remaining:
+- Wait for ReactiveSwift OFFICIAL (not alpha) 1.0 is released. Hopefully it will contain substitutes for the (now purged) legacy "rac_***" functions (https://github.com/ReactiveCocoa/ReactiveSwift/issues/37)
+- Fix all FIXMEs
+
+1) Error handling
+2) Delete avatar (DELETE)
+3) Improve MVVM + reactive

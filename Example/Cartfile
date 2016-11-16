@@ -1,3 +1,4 @@
 github "johnsundell/unbox"
 github "johnsundell/wrap"
-github "ReactiveCocoa/ReactiveCocoa" == 4.2.0
+github "matthewpalmer/Locksmith"
+github "ReactiveCocoa/ReactiveSwift"

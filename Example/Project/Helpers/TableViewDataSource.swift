@@ -17,7 +17,7 @@ class TableViewDataSource<Element, Cell: UITableViewCell>: NSObject, UITableView
     let configureCell: ConfigureCellBlock
     
     
-    init(elements: [Element], templateCell: Cell, configureCell: ConfigureCellBlock) {
+    init(elements: [Element], templateCell: Cell, configureCell: @escaping ConfigureCellBlock) {
         assert(templateCell.reuseIdentifier != nil, "Template cell must have a reuse identifier")
         self.templateCell = templateCell
         self.configureCell = configureCell
@@ -25,12 +25,12 @@ class TableViewDataSource<Element, Cell: UITableViewCell>: NSObject, UITableView
         super.init()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return elements.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(templateCell.reuseIdentifier!) as! Cell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: templateCell.reuseIdentifier!) as! Cell
         let element = elements[indexPath.row]
         configureCell(cell, element)
         return cell

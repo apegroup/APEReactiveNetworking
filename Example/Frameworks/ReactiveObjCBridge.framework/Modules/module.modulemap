@@ -1,0 +1,10 @@
+framework module ReactiveObjCBridge {
+  umbrella header "ReactiveObjCBridge.h"
+
+  export *
+  module * { export * }
+}
+
+module ReactiveObjCBridge.Swift {
+    header "ReactiveObjCBridge-Swift.h"
+}

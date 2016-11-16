@@ -11,6 +11,6 @@ import UIKit
 class UserCell: UITableViewCell {
     
     override var reuseIdentifier: String? {
-        return "\(self.dynamicType)"
+        return "\(type(of: self))"
     }
 }
