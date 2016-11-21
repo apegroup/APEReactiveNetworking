@@ -34,6 +34,7 @@ public struct Http {
         case textPlain
         case imageJpeg
         case imagePng
+        case custom(String)
         
         public var description : String {
             switch self {
@@ -45,6 +46,8 @@ public struct Http {
                 return "image/jpeg"
             case .imagePng:
                 return "image/png"
+            case let .custom(value):
+                return value
             }
         }
     }
