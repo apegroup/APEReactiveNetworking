@@ -428,8 +428,7 @@ func updateUserProfile(userId: String, firstname: String) -> SignalProducer<Http
 [Apegroup AB](http://www.apegroup.com), Stockholm, Sweden
 
 ### Contribution
-All people are welcome to contribute. See [CONTRIBUTING](https://github.com/apegroup/APEReactiveNetworking/blob/master/CONTRIBUTING) for details.
+All people are welcome to contribute. See [CONTRIBUTING](https://github.com/apegroup/APEReactiveNetworking/blob/master/CONTRIBUTING.md) for details.
 
 ### License
 APEReactiveNetworking is released under the MIT license. See [LICENSE](https://github.com/apegroup/APEReactiveNetworking/blob/master/LICENSE) for details.
-
