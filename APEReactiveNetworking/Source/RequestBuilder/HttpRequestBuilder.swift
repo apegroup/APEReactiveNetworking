@@ -75,11 +75,11 @@ public extension HttpRequestBuilder {
     
     //MARK: - Body
 
-    public func setBody(json: [String:Any]) -> HttpRequestBuilder {
+    public func setBody(json: [String:Any], vendor: String? = nil) -> HttpRequestBuilder {
         guard let rawData = try? JSONSerialization.data(withJSONObject: json, options: []) else {
             preconditionFailure("Json dictionary could not be converted to Data")
         }
-        return setBody(data: rawData, contentType: .applicationJson)
+        return setBody(data: rawData, contentType: .applicationJson(vendor: vendor))
     }
 
     public func setBody(text: String) -> HttpRequestBuilder {
