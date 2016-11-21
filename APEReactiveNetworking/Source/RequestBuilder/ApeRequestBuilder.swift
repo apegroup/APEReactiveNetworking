@@ -42,7 +42,7 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
     // MARK: Private
 
     private func makeHeaders() -> Http.RequestHeaders {
-        var headers: Http.RequestHeaders = [:]
+        var headers = self.additionalHeaders
         headers["Content-Type"] = contentTypeHeader.description
         
         let device = UIDevice.current
@@ -50,13 +50,11 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
         headers["X-Client-OS-Version"] = device.systemVersion
         headers["X-Client-Device-Type"] = device.modelName
         headers["X-Client-Device-VendorId"] = device.identifierForVendor?.uuidString ?? "unknown"
+        
         //FIXME: Fix headers below
         //headers["X-Apegroup-Client-App-Version"] = "0.1"
         //headers["Accept-Language"] = "sv-SE"
-        
-        for (_, element) in self.additionalHeaders.enumerated() {
-            headers[element.key] = element.value
-        }
+
         return headers
     }
 
