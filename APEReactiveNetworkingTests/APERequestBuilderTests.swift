@@ -99,4 +99,14 @@ class APERequestBuilderTests: XCTestCase {
         XCTAssertTrue(headers[key4] == value4)
         XCTAssertTrue(headers[key5] == value5)
     }
+
+    func testContentTypeApplicationJson() {
+        let applicationJson = Http.ContentType.applicationJson(vendor: nil)
+        XCTAssert(applicationJson.description == "application/json; charset=utf-8", "Unexpceted Content-Type value")
+    }
+
+    func testContentTypeApplicationJsonWithVendor() {
+        let applicationJsonWithVendor = Http.ContentType.applicationJson(vendor: "vnd.apegroup.com")
+        XCTAssert(applicationJsonWithVendor.description == "application/vnd.apegroup.com+json; charset=utf-8", "Unexpceted Content-Type value")
+    }
 }

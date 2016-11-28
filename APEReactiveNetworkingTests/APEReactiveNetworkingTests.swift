@@ -59,7 +59,7 @@ class APEReactiveNetworkingTests: XCTestCase {
         let expect = expectation(description: "Expected status \(endpoint.acceptedResponseCodes) within \(maxSecondsPermitted) seconds")
         
         let request = ApeRequestBuilder(endpoint: endpoint).build()
-        let producer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = Network().send(request, abortAfter: 10)
+        let producer: SignalProducer<Http.ResponseHeaders, Network.OperationError> = Network().send(request, abortAfter: maxSecondsPermitted)
         producer.startWithFailed { (operationError: Network.OperationError) in
             guard case let .unexpectedResponseCode(httpCode, _) = operationError,
                 !endpoint.acceptedResponseCodes.contains(httpCode) else {

@@ -11,7 +11,7 @@ import Foundation
 public final class ApeRequestBuilder: HttpRequestBuilder {
     
     private let endpoint: Endpoint
-    private var contentTypeHeader = Http.ContentType.applicationJson
+    private var contentTypeHeader : Http.ContentType?
     private var additionalHeaders: Http.RequestHeaders = [:]
     private var bodyData: Data?
 
@@ -43,7 +43,10 @@ public final class ApeRequestBuilder: HttpRequestBuilder {
 
     private func makeHeaders() -> Http.RequestHeaders {
         var headers = self.additionalHeaders
-        headers["Content-Type"] = contentTypeHeader.description
+
+        if let contentTypeHeader = contentTypeHeader {
+            headers["Content-Type"] = contentTypeHeader.description
+        }
         
         let device = UIDevice.current
         headers["X-Client-OS"] = device.systemName

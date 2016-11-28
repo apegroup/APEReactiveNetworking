@@ -30,7 +30,7 @@ public struct Http {
     }
     
     public enum ContentType: CustomStringConvertible {
-        case applicationJson
+        case applicationJson (vendor: String?)
         case textPlain
         case imageJpeg
         case imagePng
@@ -38,8 +38,8 @@ public struct Http {
         
         public var description : String {
             switch self {
-            case .applicationJson:
-                return "application/json; charset=utf-8"
+            case let .applicationJson (vendor):
+                return "application/" + (vendor==nil ? "json" : "\(vendor!)+json") + "; charset=utf-8"
             case .textPlain:
                 return "text/plain; charset=utf-8"
             case .imageJpeg:
