@@ -1,2 +1,2 @@
 # External dependencies
-github "ReactiveCocoa/ReactiveSwift"
+github "ReactiveCocoa/ReactiveSwift" == 1.1.5
